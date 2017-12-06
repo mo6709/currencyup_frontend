@@ -1,5 +1,5 @@
 export default function investmentsReducer(state = {
-    loading: false, all = []
+    loading: false, all: []
 }, action){
     switch (action.type) {
         case 'LOADING_INVESTMENTS':  

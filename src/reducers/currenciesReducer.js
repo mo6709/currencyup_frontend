@@ -1,5 +1,5 @@
 export default function currenciesReducer(state = {
-    loading: false, all = []
+    loading: false, all: []
 }, action){
     switch (action.type) {
         case 'LOADING_CURRENCIES':  
