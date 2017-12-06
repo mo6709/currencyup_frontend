@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom';
 
 class App extends Component {
   render() {
@@ -13,6 +14,15 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <Router>
+          <div>
+            <div style={{ borderBottom: '2px solid black', paddingBottom: '10px', marginBottom: '12px' }}>
+              <NavLink style={{ marginRight: '10px' }} to="/">See All The Currencies!</NavLink>
+              <NavLink style={{ marginRight: '10px' }} to="/">Login</NavLink> 
+            </div>
+            <Route exact path="/" render={() => <h3>Welcome to currencyUP</h3>} />
+          </div>  
+        </Router>  
       </div>
     );
   }
