@@ -3,9 +3,9 @@ export default function currenciesReducer(state = {
 }, action){
     switch (action.type) {
         case 'LOADING_CURRENCIES':  
-            return Object({}, state, { loading: true });
+            return Object.assign({}, state, { loading: true });
         case 'FETCH_CURRENCIES':    
-            return Object({}, state, { loading: false, all: action.payload });
+            return Object.assign({}, state, { loading: false, all: action.payload });
         default:
             return state;
     }
