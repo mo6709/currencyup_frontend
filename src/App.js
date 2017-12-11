@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom';
 import CurrenciesPage from './containers/currencies/CurrenciesPage';
+import LoginForm from './containers/session/LoginForm'
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
             </div>
             <Route exact path="/" render={() => <h3>Welcome to currencyUP</h3>} />
             <Route exact path="/currencies" component={CurrenciesPage} />
+            <Route exact path="/login" component={LoginForm} />
           </div>  
         </Router>  
       </div>

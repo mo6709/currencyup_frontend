@@ -1,18 +1,25 @@
 import fetch from 'isomorphic-fetch';
 
 
-export function accountSignup(){
+export function SignupUser(){
     
 }
     
-export function accountSignin(){
-    
+export function LoginUser(credentials){
+    fetch('api/v1/corporation_auth/sign_in', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials)   
+    })
+    .then(response => response.json())
+    .then(responseJSON => {
+        console.log(responseJSON)
+    })
+    .catch(error => {
+        console.log(error)
+    })
 }
 
-export function accountLogout(){
-    
-}
-
-export function accountUpdate(){
+export function LogoutUser(){
     
 }

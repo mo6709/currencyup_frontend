@@ -1,10 +1,10 @@
 export default function sessionReducer(state = {}, action){
     switch (action.type) {
-        case 'ACCOUNT_SIGNUP':
+        case 'SIGNUP_USER':
             return ;
-        case 'ACCOUNT_SIGNIN':
+        case 'SIGNIN_USER':
             return ;
-        case 'ACCOUNT_LOGOUT':
+        case 'LOGOUT_USER':
             return ;  
         default:
             return state;
