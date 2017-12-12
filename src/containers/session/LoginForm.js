@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import * as accountActions from './actions/accouActntions'
+import { bindActionCreators } from 'redux';
+import * as sessionActions from '../../actions/sessionActions';
 
 class LoginForm extends Component{
     
@@ -15,25 +16,9 @@ class LoginForm extends Component{
         }
     }
 
-    handelSigninSubmit = (event) => {
-        //make a post request to api/v1/corporation_auth
-        //send this peremeter in the body 
-        //wait for response
-        //save the token in local storage 
-        //send the user to update the account
+    handelSigninSubmit = (event) => {      
         event.preventDefault();
-        fetch('api/v1/corporation_auth/sign_in', {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify(this.state.credentials)   
-        })
-        .then(response => response.json())
-        .then(responseJSON => {
-            console.log(responseJSON)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        this.props.sessionActions.loginAccount(this.state.credentials)
     }
 
     handelInputChange = (event) => {
@@ -61,29 +46,16 @@ class LoginForm extends Component{
                     placeholder="Enter password"
                     value={this.state.credentials.password}
                     onChange={this.handelInputChange}/>
-
-                    {/* <input type="password"
-                    name="password_confirmation"
-                    label="Password Confirmation"
-                    placeholder="Enter password again"
-                    value={this.state.password_confirmation}
-                    onChange={this.handelInputChange}/>
-
-                    <input type="text"
-                    name="name"
-                    label="Name"
-                    placeholder="Enter name"
-                    value={this.state.name}
-                    onChange={this.handelInputChange}/> */}
                     
-                    <input type="submit" />
-                    {/* <button>
-                        onClick={this.handelSigninClick}
-                    </button>     */}
+                    <input type="submit" value="Login"/>
                 </form>     
             </div>    
         )
     }
 }
 
-export default LoginForm;
+const mapDispatchToProps = (dispatch) => {
+    return { sessionActions: bindActionCreators(sessionActions, dispatch) }
+}
+
+export default connect(null, mapDispatchToProps)(LoginForm);
