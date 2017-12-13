@@ -1,10 +1,12 @@
-export default function sessionReducer(state = {}, action){
+
+export default function sessionReducer(state = {
+     session: !!localStorage.getItem('access-token')
+    }, action){
     switch (action.type) {
         case 'SIGNUP_ACCOUNT':
             return ;
         case 'LOGIN_SUCCESS':
-            debugger;
-            return;    
+            return { session: !!localStorage.getItem('access-token') }   
         case 'LOGOUT_ACCOUNT':
             return ;  
         default:
