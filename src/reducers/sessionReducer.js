@@ -6,7 +6,8 @@ export default function sessionReducer(state = {
         case 'SIGNUP_ACCOUNT':
             return ;
         case 'LOGIN_SUCCESS':
-            return { session: !!localStorage.getItem('access-token') }   
+            //push up the browser history (url) to /
+            return { session: !!localStorage.getItem('token') }   
         case 'LOGOUT_ACCOUNT':
             return ;  
         default:
