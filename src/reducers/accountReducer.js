@@ -1,9 +1,12 @@
 export default function accountReducer(state = {
-    loading: false, account: {}
+    accountType: '' , info: {}
 }, action){
     switch (action.type) {     
-        case 'ACCOUNT_UPDATE':
-            return Object.assign({}, state, {});        
+        case "SET_ACCOUNT":
+            return Object.assign({}, state, { 
+                accountType: action.payload.accountType, 
+                info: action.payload.info 
+            })
         default:
           return state;
   }
