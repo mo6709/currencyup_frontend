@@ -11,7 +11,8 @@ class LoginForm extends Component{
         this.state = { 
             credentials: {
                 email: '', 
-                password: ''
+                password: '', 
+                accountType: ''      
             } 
         }
     }
@@ -46,7 +47,30 @@ class LoginForm extends Component{
                     placeholder="Enter password"
                     value={this.state.credentials.password}
                     onChange={this.handelInputChange}/>
-                    
+
+                    <div>
+                        <h3>Please select account type.</h3>
+                        <div className="radio">
+                            <label>
+                                <input type="radio"
+                                name="accountType"
+                                value="investor" 
+                                checked={this.state.credentials.accountType === "investor"}
+                                onChange={this.handelInputChange}/>
+                                Investor
+                            </label>
+                        </div>
+                        <div className="radio">
+                            <label>
+                                <input type="radio"
+                                name="accountType" 
+                                value="corporation" 
+                                checked={this.state.credentials.accountType === "corporation"}
+                                onChange={this.handelInputChange}/>
+                                Corporation
+                            </label>
+                        </div>
+                    </div>    
                     <input type="submit" value="Login"/>
                 </form>     
             </div>    
