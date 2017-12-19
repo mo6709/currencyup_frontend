@@ -17,7 +17,7 @@ export function loginAccount(credentials){
         .then(responseJSON => {    
             localStorage.setItem('token', responseJSON.token);
             localStorage.setItem('account_id', responseJSON.account_id);
-
+            
             const account_uri = `api/v1/${credentials["accountType"]}s/${localStorage.account_id}`
             fetch(account_uri, {
                 method: 'GET',
@@ -35,9 +35,12 @@ export function loginAccount(credentials){
                         } 
                     }
                 )
+                dispatch(loginSuccess(responseJSON));
             })
-
-            dispatch(loginSuccess(responseJSON));
+            .catch(error => {
+                throw(error)
+            })
+            
         })
         .catch(error => {
             throw(error);
