@@ -32,7 +32,7 @@ class LoginForm extends Component{
     render() {
         return(
             <div header='Register by Email' bsStyle='info' >
-                <h2>Signin by Email</h2>
+                <h2>Login by Email</h2>
                 <form onSubmit={event => this.handelSigninSubmit(event) } >
                   <input type="email"
                     name="email"
