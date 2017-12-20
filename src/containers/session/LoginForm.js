@@ -31,7 +31,7 @@ class LoginForm extends Component{
 
     render() {
         return(
-            <div header='Register by Email' bsStyle='info' >
+            <div>
                 <h2>Login by Email</h2>
                 <form onSubmit={event => this.handelSigninSubmit(event) } >
                   <input type="email"
