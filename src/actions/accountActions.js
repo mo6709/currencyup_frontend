@@ -16,7 +16,7 @@ export function signupAccount(credentials){
     const { email, password, accountType } = credentials;
     return function(dispatch){
         const dispatcher = dispatch
-        const paramters =  { corporation: { email: email, password: password } } 
+        const paramters =  { [accountType]: { email: email, password: password } } 
         const uri = `api/v1/${accountType}_signup`
         return fetch(uri, { 
             method: 'POST',
