@@ -1,13 +1,13 @@
 
 export default function sessionReducer(state = {
-     session: !!localStorage.getItem('access-token')
+     loggedIn: !!localStorage.getItem('token')
     }, action){
     switch (action.type) {
         case 'SIGNUP_ACCOUNT':
             return ;
         case 'LOGIN_SUCCESS':
             //push up the browser history (url) to /
-            return { session: !!localStorage.getItem('token') }   
+            return { loggedIn: !!localStorage.getItem('token') }   
         case 'LOGOUT_ACCOUNT':
             return ;  
         default:
