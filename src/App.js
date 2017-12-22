@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import CurrenciesPage from './containers/currencies/CurrenciesPage';
 import LoginForm from './containers/session/LoginForm'
 import SignupForm from './containers/account/SignupForm'
+import AccountShow from './containers/account/AccountShow'
 
 class App extends Component {
   render() {
+    const { loggedIn } = this.props
     return (
       <div className="App">
         <header className="App-header">
@@ -27,7 +32,8 @@ class App extends Component {
             <Route exact path="/" render={() => <h3>Welcome to currencyUP</h3>} />
             <Route exact path="/currencies" component={CurrenciesPage} />
             <Route exact path="/login" component={LoginForm} />
-            <Route exact path="/signup" component={SignupForm} />
+            <Route exact path="/signup" component={SignupForm} /> 
+            <Route exact path="/account" component={AccountShow}/> 
           </div>  
         </Router>  
       </div>
@@ -35,4 +41,9 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return { loggedIn: state.session.loggedIn }
+}
+
+
+export default connect(mapStateToProps)(App);

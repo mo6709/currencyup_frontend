@@ -19,7 +19,8 @@ class LoginForm extends Component{
 
     handelSigninSubmit = (event) => {      
         event.preventDefault();
-        this.props.sessionActions.loginAccount(this.state.credentials)
+        this.props.sessionActions.loginAccount(this.state.credentials);
+        this.props.history.push('/account');
     }
 
     handelInputChange = (event) => {

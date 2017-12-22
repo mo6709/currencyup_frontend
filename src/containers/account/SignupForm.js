@@ -8,7 +8,9 @@ class SignupForm extends Component {
         super(props)
 
         this.state = {
+            errors: null,
             credentials: {
+                name: '',
                 email: '',
                 password: '',
                 passwordConfirmation: '',
@@ -19,11 +21,14 @@ class SignupForm extends Component {
     }
     
     handelSignupSubmit = (event) => { 
-        const { password, passwordConfirmation } = this.state.credentials    
         event.preventDefault();
-        if (password === passwordConfirmation){
+        if (this.formValidation(this.state.credentials)){
+            this.state.errors = false;
             this.props.signupAccount(this.state.credentials)
-        } 
+            this.props.history.push('/account');
+        }else{
+            this.state.errors = true; 
+        }
     }
 
     handelInputChange = (event) => {
@@ -33,9 +38,23 @@ class SignupForm extends Component {
         this.setState({ credentials: credentials });
     }
 
+    formValidation = (credentials) => {
+       const { password, passwordConfirmation, name, email, accountType } = credentials 
+       if(password !== "" &&
+          passwordConfirmation === password &&
+          name !== "" &&
+          email !== "" &&
+          accountType !==""){
+           return true;
+       }else{
+           false
+       }
+    }
+
     render(){
         return(
             <div>
+                {this.state.errors === true ? <p>Please fill out all the fields currenctly</p> : null}
                 <h2>Signup by Email</h2>
                 <form onSubmit={event => this.handelSignupSubmit(event) } >
                   <input type="email"
@@ -43,6 +62,13 @@ class SignupForm extends Component {
                     label="Email"
                     placeholder="Enter email"
                     value={this.state.credentials.email}
+                    onChange={this.handelInputChange}/>
+
+                  <input type="text"
+                    name="name"
+                    label="Name"
+                    placeholder="Enter name"
+                    value={this.state.credentials.name}
                     onChange={this.handelInputChange}/>
 
                   <input type="password"
@@ -89,9 +115,9 @@ class SignupForm extends Component {
     }
 }
 
+
 const mapDispatchToprops = (dispatch) => {
   return { signupAccount: bindActionCreators(signupAccount, dispatch) }
 }
 
 export default connect(null, mapDispatchToprops)(SignupForm)
-

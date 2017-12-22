@@ -15,5 +15,8 @@ state = {
     corporation: []  
  }
 
- 1) fix the catch login error
- 
+ 1) fix the catch login and signup error
+ 2)implement switch for all nested routes
+ 3)implement onEnter for secure routes
+4)fix the errors display in signupForm to display the the errors properly
+5)implement all the backend api calls inside of ApiServise component    
