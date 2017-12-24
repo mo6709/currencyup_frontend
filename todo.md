@@ -19,4 +19,5 @@ state = {
  2)implement switch for all nested routes
  3)implement onEnter for secure routes
 4)fix the errors display in signupForm to display the the errors properly
-5)implement all the backend api calls inside of ApiServise component    
+5)implement all the backend api calls inside of ApiServise component
+6)implement authorization for component that require authrization with componeent lifeCycle  componenetWillMount() only if autherized check the local storage
