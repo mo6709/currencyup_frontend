@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 
 import CurrenciesPage from './containers/currencies/CurrenciesPage';
 import LoginForm from './containers/session/LoginForm'
-import SignupForm from './containers/account/SignupForm'
+import AccountSignupForm from './containers/account/AccountSignupForm'
 import AccountShow from './containers/account/AccountShow'
 
 class App extends Component {
@@ -31,9 +31,10 @@ class App extends Component {
             </div>
             <Route exact path="/" render={() => <h3>Welcome to currencyUP</h3>} />
             <Route exact path="/currencies" component={CurrenciesPage} />
+            <Route exact path="/currencies/new" component={CurrenciesPage} />
             <Route exact path="/login" component={LoginForm} />
-            <Route exact path="/signup" component={SignupForm} /> 
-            <Route exact path="/account" component={AccountShow}/> 
+            <Route exact path="/signup" component={AccountSignupForm} /> 
+            <Route path="/account" component={AccountShow}/> 
           </div>  
         </Router>  
       </div>
