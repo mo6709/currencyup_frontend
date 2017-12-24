@@ -13,10 +13,10 @@ export function getAndSetAccountInfo(dispatchAction, type){
 }
 
 export function signupAccount(credentials){
-    const { name, email, password, accountType } = credentials;
+    const { name, email, password, accountType, title } = credentials;
     return function(dispatch){
         const dispatcher = dispatch
-        const paramters =  { [accountType]: { name: name, email: email, password: password } } 
+        const paramters =  { [accountType]: { name: name, email: email, password: password, title } } 
         const uri = `api/v1/${accountType}_signup`
         return fetch(uri, { 
             method: 'POST',
