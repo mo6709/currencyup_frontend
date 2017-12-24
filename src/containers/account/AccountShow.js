@@ -4,7 +4,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import CorporationInfo from '../../components/account/CorporationInfo';
 import InvestorInfo from '../../components/account/InvestorInfo';
-import AccountEdit from './AccountEdit'
+import AccountEditForm from './AccountEditForm'
 
 class AccountShow extends Component{
     constructor(){
@@ -14,22 +14,22 @@ class AccountShow extends Component{
     }
 
     render(){
+        const { account } = this.props;
         
-        // const { account } = this.props;
-        
-        // let infoComponenet = null;
-        // if (account.accountType === "corporation"){ 
-        //     infoComponenet = <CorporationInfo accountInfo={account}/>;
-        // }else if(account.accountType === "investor"){
-        //     infoComponenet = <InvestorInfo accountInfo={account}/>;
-        // }
+        let infoComponenet = null;
+        if (account.accountType === "corporation"){ 
+            infoComponenet = <CorporationInfo accountInfo={account}/>;
+        }else if(account.accountType === "investor"){
+            infoComponenet = <InvestorInfo accountInfo={account}/>;
+        }
 
         return(
             <div>
-             <Route path={`${this.props.match.url}/new`} component={AccountEdit}/>
+             <Route path={`${this.props.match.url}/${account.info.id}/Edit`} component={AccountEditForm}/>
              <div>
-                <p>Hello from AccountShow samrt Container</p>
-                <Link to={`${this.props.match.url}/new`}>New Account</Link>
+                <p>Hello from AccountShow smart Container</p>
+                {infoComponenet}
+                <Link to={`${this.props.match.url}/${account.info.id}/Edit`}>Edit Account</Link>
              </div>
                 
              {/* <div> <InvestorsList investors={}/> </div>
