@@ -41,7 +41,7 @@ class AccountEditForm extends Component{
 
     handleSelectChange = (value) => {        
         const newState = Object.assign({}, this.state);
-        newState.select.value = value.split(",") 
+        newState.account.regions_array = value.split(",") 
         this.setState(newState);
     }
 
@@ -51,7 +51,8 @@ class AccountEditForm extends Component{
 
 
     render(){
-        const { disabled, stayOpen, value } = this.state.select;
+        const { disabled, stayOpen } = this.state.select;
+        const { email, name, title, regions_array, investment_period } = this.state.account
         let regions = this.props.currencies.map((currency) => {
             return { label: currency.region, value: currency.region }
         });
@@ -65,7 +66,7 @@ class AccountEditForm extends Component{
                         <input type="email"
                             name="email"
                             placeholder="Enter email"
-                            value={this.state.account.email}
+                            value={email}
                             onChange={this.handelInputChange}/>
                     </label><br/>
 
@@ -73,7 +74,7 @@ class AccountEditForm extends Component{
                         <input type="text"
                             name="name"
                             placeholder="Enter name"
-                            value={this.state.account.name}
+                            value={name}
                             onChange={this.handelInputChange}/>
                     </label><br/>
 
@@ -81,7 +82,7 @@ class AccountEditForm extends Component{
                         <input type="text"
                             name="title"
                             placeholder="Enter Title"
-                            value={this.state.account.title}
+                            value={title}
                             onChange={this.handelInputChange}/>
                     </label><br/>
 
@@ -97,7 +98,7 @@ class AccountEditForm extends Component{
                         removeSelected={this.state.select.removeSelected}
                         rtl={this.state.select.rtl}
                         simpleValue
-                        value={value}/>
+                        value={regions_array}/>
                   </div>
                    
 
@@ -106,7 +107,7 @@ class AccountEditForm extends Component{
                             <input type="radio"
                                 name="investment_period"
                                 value="6" 
-                                checked={this.state.account.investment_period === 6 }
+                                checked={investment_period === 6 }
                                 onChange={this.handelInputChange}/>
                         </label><br/>
                         
@@ -114,7 +115,7 @@ class AccountEditForm extends Component{
                             <input type="radio"
                                 name="investment_period"
                                 value="3" 
-                                checked={this.state.account.investment_period === 3 }
+                                checked={investment_period === 3 }
                                 onChange={this.handelInputChange}/>
                         </label><br/>
                         
@@ -122,7 +123,7 @@ class AccountEditForm extends Component{
                             <input type="radio"
                                 name="investment_period" 
                                 value="2"
-                                checked={this.state.account.investment_period === 2 }
+                                checked={investment_period === 2 }
                                 onChange={this.handelInputChange}/>
                         </label><br/>
                     </div>
