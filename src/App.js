@@ -9,8 +9,15 @@ import CurrenciesPage from './containers/currencies/CurrenciesPage';
 import LoginForm from './containers/session/LoginForm'
 import AccountSignupForm from './containers/account/AccountSignupForm'
 import AccountShow from './containers/account/AccountShow'
+import * as currencyActions from './actions/currencyActions';
+
 
 class App extends Component {
+  componentWillMount(){
+      if(this.props.currencies.length === 0){
+        this.props.currencyActions.fetchCurrencies()
+      }
+  }
   render() {
     const { loggedIn } = this.props
     return (
@@ -43,8 +50,17 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { loggedIn: state.session.loggedIn }
+  return { 
+    loggedIn: state.session.loggedIn, 
+    currencies: state.currencies.all 
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { 
+    currencyActions: bindActionCreators(currencyActions, dispatch)
+  }
 }
 
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
