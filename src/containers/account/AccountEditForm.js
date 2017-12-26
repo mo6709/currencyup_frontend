@@ -1,8 +1,6 @@
 import 'react-select/dist/react-select.css';
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
 import Select from 'react-select';
 
 const divStyle = {
@@ -19,17 +17,17 @@ class AccountEditForm extends Component{
                 removeSelected: true,
                 disabled: false,
                 stayOpen: false,
-                value: [],
-                rtl: false,
             }      
         }
     }
 
 
     componentWillMount(){
+        const { info, accountType } = this.props.account;
         const newState = Object.assign({}, this.state);
-        newState.account = this.props.account;
-        newState.select.value = this.props.account.regions_array
+        newState.account = info;
+        newState.account["accountType"] = accountType
+        newState.select.value = info.regions_array
         this.setState(newState);
     }
 
@@ -137,7 +135,7 @@ class AccountEditForm extends Component{
 
 const MapStateToProps = (state) => {
     return { 
-        account: state.account.info, 
+        account: state.account, 
         currencies: state.currencies.all 
     }
 }
