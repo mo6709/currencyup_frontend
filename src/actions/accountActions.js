@@ -12,12 +12,12 @@ export function getAndSetAccountInfo(dispatchAction, type){
     })           
 }
 
-export function signupAccount(credentials){
-    const { name, email, password, accountType, title } = credentials;
+export function signupAccount(accountCredentials){
+    const { name, email, password, accountType, title } = accountCredentials;
     return function(dispatch){
-        const dispatcher = dispatch
-        const paramters =  { [accountType]: { name: name, email: email, password: password, title } } 
-        const uri = `api/v1/${accountType}_signup`
+        const dispatcher = dispatch;
+        const paramters =  { [accountType]: { name: name, email: email, password: password, title } };
+        const uri = `api/v1/${accountType}_signup`;
         return fetch(uri, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -30,6 +30,24 @@ export function signupAccount(credentials){
             dispatcher({ type: "LOGIN_SUCCESS" });
             getAndSetAccountInfo(dispatcher, accountType);
         }).catch(error => { throw(error) })
+    }
+}
+
+export function updateAndSetAccountInfo(accountInfo){
+    const { type, id } = accountInfo;
+    return function(dispatch){
+        const uri = `api/v1/${type}s/${id}`;
+        var paramters = { [type]: accountInfo }
+        return fetch(uri, {
+            method: 'PUT',
+            headers: { 'AUTHORIZATION': `${localStorage.token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(paramters)
+        })
+        .then(response => response.json())
+        .then(responseJSON => {
+            dispatch(setAccount(type, responseJSON))
+        })
+        .catch( error => { throw(error) })
     }
 }
 

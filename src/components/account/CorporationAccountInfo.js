@@ -1,15 +1,15 @@
 import React from 'react';
 
-const CorporationInfo = ({ accountInfo }) => {
+const CorporationAccountInfo = ({ accountInfo }) => {
     const { id, name, title } = accountInfo.info;
     return(
-        <div>
+        <div style={{border: '10px'}}>
             <p>Hello form CorporationInfo smart container</p>
-            <p>Id: {id}</p>
             <h1>Corporation Name:{name}</h1>
+            <p>Id: {id}</p>
             <h2>Title: {title}</h2>
         </div>
     )
 }
 
-export default CorporationInfo;
+export default CorporationAccountInfo;

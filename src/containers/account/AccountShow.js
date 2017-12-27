@@ -2,38 +2,47 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import CorporationInfo from '../../components/account/CorporationInfo';
-import InvestorInfo from '../../components/account/InvestorInfo';
-import AccountEditForm from './AccountEditForm'
+import CorporationAccountInfo from '../../components/account/CorporationAccountInfo';
+import InvestorAccountInfo from '../../components/account/InvestorAccountInfo';
+import InvestorsList from '../../components/investors/InvestorsList'
+import AccountEditForm from './AccountEditForm';
 
 class AccountShow extends Component{
     constructor(){
-      super();
+        super();
 
-      this.state = {}
+        this.state = {
+            infoComponenet: null,
+            investorsList: null,
+        }
+    }
+    
+    componentWillMount(){
+        const { account } = this.props;
+        if (account.accountType === "corporation"){ 
+            this.setState({ infoComponenet: <CorporationAccountInfo accountInfo={account}/> })
+            this.setState({ investorsList: <InvestorsList investorsInfo={account.info.investors}/> })
+        }else if(account.accountType === "investor"){
+            this.setState({ infoComponenet: <InvestorAccountInfo accountInfo={account}/> })
+        }
     }
 
     render(){
         const { account } = this.props;
-        
-        let infoComponenet = null;
-        if (account.accountType === "corporation"){ 
-            infoComponenet = <CorporationInfo accountInfo={account}/>;
-        }else if(account.accountType === "investor"){
-            infoComponenet = <InvestorInfo accountInfo={account}/>;
-        }
-
         return(
             <div>
-             <Route path={`${this.props.match.url}/${account.info.id}/Edit`} component={AccountEditForm}/>
+             <Switch>
+              <Route path={`${this.props.match.url}/${account.info.id}/Edit`} component={AccountEditForm}/>
+             </Switch> 
              <div>
                 <p>Hello from AccountShow smart Container</p>
-                {infoComponenet}
                 <Link to={`${this.props.match.url}/${account.info.id}/Edit`}>Edit Account</Link>
+                {this.state.infoComponenet}
+                {this.state.investorsList}
              </div>
                 
-             {/* <div> <InvestorsList investors={}/> </div>
-             <div> <FundsLists funds={} /> </div>
+             {/* 
+             <div> <FundsList funds={} /> </div>
              <div> <InvestmentsList investments={}/> </div>
              <div> <TransactionsList transactions={}/> </div>
              <div> <InvestmentsGeneratorButton> </div>

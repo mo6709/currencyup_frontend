@@ -1,7 +1,10 @@
 import 'react-select/dist/react-select.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Select from 'react-select';
+import { updateAndSetAccountInfo } from '../../actions/accountActions';
+import fetch from 'isomorphic-fetch';
 
 const divStyle = {
   margin: '40px',
@@ -26,13 +29,13 @@ class AccountEditForm extends Component{
         const { info, accountType } = this.props.account;
         const newState = Object.assign({}, this.state);
         newState.account = info;
-        newState.account["accountType"] = accountType
+        newState.account["type"] = accountType
         newState.select.value = info.regions_array
         this.setState(newState);
     }
 
     handelInputChange = (event) => {
-        const { name ,value } =  event.target;
+        const { name, value } =  event.target;
         const parstValue = name === "investment_period" ? parseInt(value) : value
         this.setState({ account: Object.assign({}, this.state.account, { [name]: parstValue }) })
     }
@@ -44,7 +47,9 @@ class AccountEditForm extends Component{
     }
 
     handelEditSubmit = (event) => {
-        debugger;
+        event.preventDefault();
+        this.props.updateAndSetAccountInfo(this.state.account)
+        // push history this.props.history.push('/');
     }
 
 
@@ -133,14 +138,20 @@ class AccountEditForm extends Component{
     }
 }
 
-const MapStateToProps = (state) => {
+const mapStateToProps = (state) => {
     return { 
         account: state.account, 
         currencies: state.currencies.all 
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateAndSetAccountInfo: bindActionCreators(updateAndSetAccountInfo, dispatch)
+    }
+}
 
-export default connect(MapStateToProps)(AccountEditForm);
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountEditForm);
 
 

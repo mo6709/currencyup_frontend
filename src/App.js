@@ -13,11 +13,13 @@ import * as currencyActions from './actions/currencyActions';
 
 
 class App extends Component {
+  
   componentWillMount(){
       if(this.props.currencies.length === 0){
         this.props.currencyActions.fetchCurrencies()
       }
   }
+
   render() {
     const { loggedIn } = this.props
     return (

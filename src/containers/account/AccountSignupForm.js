@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { signupAccount } from '../../actions/accountActions'
 
+
 class AccountSignupForm extends Component {
     constructor(props){
         super(props)
@@ -16,8 +17,7 @@ class AccountSignupForm extends Component {
                 passwordConfirmation: '',
                 accountType: '',
                 title: ''
-            }
-            
+            }     
         }
     }
     
@@ -59,6 +59,27 @@ class AccountSignupForm extends Component {
                 {this.state.errors === true ? <p>Please fill out all the fields currenctly</p> : ""}
 
                 <form onSubmit={event => this.handelSignupSubmit(event) } >
+                    <div>
+                        {"Are you "}
+                        <label>
+                            <input type="radio"
+                            name="accountType"
+                            value="investor" 
+                            checked={this.state.credentials.accountType === "investor"}
+                            onChange={this.handelInputChange}/>
+                            Investor
+                        </label>
+                        {" or "}
+                        <label>
+                            <input type="radio"
+                            name="accountType" 
+                            value="corporation" 
+                            checked={this.state.credentials.accountType === "corporation"}
+                            onChange={this.handelInputChange}/>
+                            Corporation
+                        </label> 
+                    </div> 
+
                     <label>Email: 
                         <input type="email"
                             name="email"
@@ -73,15 +94,7 @@ class AccountSignupForm extends Component {
                             placeholder="Enter name"
                             value={this.state.credentials.name}
                             onChange={this.handelInputChange}/>
-                    </label><br/>
-
-                    <label>Title:      
-                        <input type="text"
-                            name="title"
-                            placeholder="Enter title"
-                            value={this.state.credentials.title}
-                            onChange={this.handelInputChange}/>
-                    </label><br/>
+                    </label><br/>  
 
                     <label>Password: 
                         <input type="password"
@@ -99,29 +112,15 @@ class AccountSignupForm extends Component {
                             onChange={this.handelInputChange}/>
                     </label><br/>
 
-                    <div>
-                        <h3>Please select account type.</h3>
-                        <div className="radio">
-                            <label>
-                                <input type="radio"
-                                name="accountType"
-                                value="investor" 
-                                checked={this.state.credentials.accountType === "investor"}
-                                onChange={this.handelInputChange}/>
-                                Investor
-                            </label>
-                        </div>
-                        <div className="radio">
-                            <label>
-                                <input type="radio"
-                                name="accountType" 
-                                value="corporation" 
-                                checked={this.state.credentials.accountType === "corporation"}
-                                onChange={this.handelInputChange}/>
-                                Corporation
-                            </label>
-                        </div>
-                    </div>    
+                    <label style={{display: this.state.credentials.accountType === 'corporation' ? 'block' : 'none'}}>
+                        Title:      
+                        <input type="text"
+                            name="title"
+                            placeholder="Enter title"
+                            value={this.state.credentials.title}
+                            onChange={this.handelInputChange}/>
+                    </label><br/>
+ 
                     <input type="submit" value="Create Account"/>
                 </form>     
             </div>     
@@ -130,8 +129,8 @@ class AccountSignupForm extends Component {
 }
 
 
-const mapDispatchToprops = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return { signupAccount: bindActionCreators(signupAccount, dispatch) }
 }
 
-export default connect(null, mapDispatchToprops)(AccountSignupForm)
+export default connect(null, mapDispatchToProps)(AccountSignupForm)

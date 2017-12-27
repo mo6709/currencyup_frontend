@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InvestorInfo = ({ accountInfo }) => {
+const InvestorAccountInfo = ({ accountInfo }) => {
     const { id, name } = accountInfo.info;
     return(
         <div>
@@ -10,4 +10,4 @@ const InvestorInfo = ({ accountInfo }) => {
     )
 }
 
-export default InvestorInfo;
+export default InvestorAccountInfo;
