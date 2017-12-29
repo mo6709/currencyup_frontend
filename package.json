@@ -2,7 +2,6 @@
   "name": "currencyup_frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3000/",
   "dependencies": {
     "react": "^16.2.0",
     "react-autocomplete": "^1.7.2",
