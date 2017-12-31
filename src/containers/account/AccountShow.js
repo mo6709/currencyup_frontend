@@ -19,7 +19,10 @@ class AccountShow extends Component{
         }
     }
     
-    componentWillMount(){
+    componentDidMount(){
+        // dispatch some async action data for  user to populate the state
+
+        // redirect to ligin form the session.loggedIn false and session.error has a message 
         const { account } = this.props;
         if (account.accountType === "corporation"){ 
             this.setState({ infoComponenet: <CorporationAccountInfo accountInfo={account}/> })
@@ -31,34 +34,60 @@ class AccountShow extends Component{
     }
 
     render(){
-        const { account } = this.props;
-        return(
-            <div>
-              <Route path={`${this.props.match.url}/:accountId/Edit`} component={AccountEditForm}/>
-             <div>
-                <p>Hello from AccountShow smart Container</p>
-                <Link to={ { pathname:`${this.props.match.url}/${account.info.id}/Edit` } }>Edit Account</Link>
-                {this.state.infoComponenet}
-                {this.state.investorsList}
-                {this.state.funds}
-             </div>
-                
-             {/* 
-             <div> <FundsList funds={} /> </div>
-             <div> <InvestmentsList investments={}/> </div>
-             <div> <TransactionsList transactions={}/> </div>
-             <div> <InvestmentsGeneratorButton> </div>
-             <swith>
-                <Route path={`${this.props.match.url}/investments`} component={InvestmentsPage} />
-                <Route path={`${this.props.match.url}/funds`} component={FundsPage} />
-             </switch>   */}
-           </div>   
-        )
+        const { account, session } = this.props;
+        if(account.loading){
+            return(
+                <div>
+                    <h3>Loading...</h3>
+                </div>
+            )
+        }
+        if(session.error !== ''){
+            return(
+                <div>
+                    <h3>{session.error}</h3>
+                    <Link to="/login">Try again</Link>
+                </div>
+            ) 
+        }else if(!session.loggedIn){
+            return(
+                <div>
+                    <h3>you must be logged in</h3>
+                    <Link to="/login">Login Here</Link>
+                </div>
+            )
+        }
+        else if(account.accountType === "corporation" || "investor"){
+            return(
+                <div>
+                  <Route path={`${this.props.match.url}/:accountId/Edit`} component={AccountEditForm}/>
+                 <div>
+                    <p>Hello from AccountShow smart Container</p>
+                    <Link to={ { pathname:`${this.props.match.url}/${account.info.id}/Edit` } }>Edit Account</Link>
+                    {this.state.infoComponenet}
+                    {this.state.investorsList}
+                    {this.state.funds}
+                 </div>
+                    
+                 {/* 
+                 <div> <InvestmentsList investments={}/> </div>
+                 <div> <TransactionsList transactions={}/> </div>
+                 <div> <InvestmentsGeneratorButton> </div>
+                 <swith>
+                    <Route path={`${this.props.match.url}/investments`} component={InvestmentsPage} />
+                    <Route path={`${this.props.match.url}/funds`} component={FundsPage} />
+                 </switch>   */}
+               </div>   
+            )
+        }
     }
 }
 
 const mapStateToProps = (state) => {
-    return { account: state.account }
+    return { 
+        account: state.account,
+        session: state.session
+    }
 }
 
 export default connect(mapStateToProps)(AccountShow)
