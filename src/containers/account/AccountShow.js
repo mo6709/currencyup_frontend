@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import CorporationAccountInfo from '../../components/account/CorporationAccountInfo';
 import InvestorAccountInfo from '../../components/account/InvestorAccountInfo';
 import InvestorsList from '../../components/investors/InvestorsList'
+import CorporationFunds from '../../components/corporations/CorporationFunds'
 import AccountEditForm from './AccountEditForm';
 
 class AccountShow extends Component{
@@ -14,6 +15,7 @@ class AccountShow extends Component{
         this.state = {
             infoComponenet: null,
             investorsList: null,
+            funds: null,
         }
     }
     
@@ -22,6 +24,7 @@ class AccountShow extends Component{
         if (account.accountType === "corporation"){ 
             this.setState({ infoComponenet: <CorporationAccountInfo accountInfo={account}/> })
             this.setState({ investorsList: <InvestorsList investorsInfo={account.info.investors}/> })
+            this.setState({ funds: <CorporationFunds currenciesInfo={account.info.currency_corporations}/> })
         }else if(account.accountType === "investor"){
             this.setState({ infoComponenet: <InvestorAccountInfo accountInfo={account}/> })
         }
@@ -31,14 +34,13 @@ class AccountShow extends Component{
         const { account } = this.props;
         return(
             <div>
-             <Switch>
-              <Route path={`${this.props.match.url}/${account.info.id}/Edit`} component={AccountEditForm}/>
-             </Switch> 
+              <Route path={`${this.props.match.url}/:accountId/Edit`} component={AccountEditForm}/>
              <div>
                 <p>Hello from AccountShow smart Container</p>
-                <Link to={`${this.props.match.url}/${account.info.id}/Edit`}>Edit Account</Link>
+                <Link to={ { pathname:`${this.props.match.url}/${account.info.id}/Edit` } }>Edit Account</Link>
                 {this.state.infoComponenet}
                 {this.state.investorsList}
+                {this.state.funds}
              </div>
                 
              {/* 

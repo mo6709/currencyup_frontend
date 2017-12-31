@@ -5,7 +5,7 @@ export function loginAccount(credentials){
     const { accountType } = credentials;
     return function(dispatch){
         const dispatcher = dispatch
-        const uri = `api/v1/${accountType}_login`
+        const uri = `http://localhost:3000/api/v1/${accountType}_login`
         return fetch(uri, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

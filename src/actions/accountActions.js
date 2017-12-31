@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 
 export function getAndSetAccountInfo(dispatchAction, type){
-    const account_uri = `api/v1/${type}s/${localStorage.account_id}`;
+    const account_uri = `http://localhost:3000/api/v1/${type}s/${localStorage.account_id}`;
     fetch(account_uri, {
         method: 'GET',
         headers: { 'AUTHORIZATION': `${localStorage.token}`, 'Content-Type': 'application/json' }
@@ -17,7 +17,7 @@ export function signupAccount(accountCredentials){
     return function(dispatch){
         const dispatcher = dispatch;
         const paramters =  { [accountType]: { name: name, email: email, password: password, title } };
-        const uri = `api/v1/${accountType}_signup`;
+        const uri = `http://localhost:3000/api/v1/${accountType}_signup`;
         return fetch(uri, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -25,18 +25,22 @@ export function signupAccount(accountCredentials){
         })
         .then(response => response.json())
         .then(responseJSON => {
+            debugger;
             localStorage.setItem('token', responseJSON.token);
             localStorage.setItem('account_id', responseJSON.account_id);
             dispatcher({ type: "LOGIN_SUCCESS" });
             getAndSetAccountInfo(dispatcher, accountType);
-        }).catch(error => { throw(error) })
+        }).catch(error => {
+            debugger; 
+            throw(error) 
+        })
     }
 }
 
 export function updateAndSetAccountInfo(accountInfo){
     const { type, id } = accountInfo;
     return function(dispatch){
-        const uri = `api/v1/${type}s/${id}`;
+        const uri = `http://localhost:3000/api/v1/${type}s/${id}`;
         var paramters = { [type]: accountInfo }
         return fetch(uri, {
             method: 'PUT',

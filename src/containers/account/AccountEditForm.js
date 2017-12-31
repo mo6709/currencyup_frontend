@@ -30,7 +30,6 @@ class AccountEditForm extends Component{
         const newState = Object.assign({}, this.state);
         newState.account = info;
         newState.account["type"] = accountType
-        newState.select.value = info.regions_array
         this.setState(newState);
     }
 
@@ -49,7 +48,6 @@ class AccountEditForm extends Component{
     handelEditSubmit = (event) => {
         event.preventDefault();
         this.props.updateAndSetAccountInfo(this.state.account)
-        // push history this.props.history.push('/');
     }
 
 
