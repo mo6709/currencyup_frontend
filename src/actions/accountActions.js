@@ -25,15 +25,11 @@ export function signupAccount(accountCredentials){
         })
         .then(response => response.json())
         .then(responseJSON => {
-            debugger;
             localStorage.setItem('token', responseJSON.token);
             localStorage.setItem('account_id', responseJSON.account_id);
             dispatcher({ type: "LOGIN_SUCCESS" });
             getAndSetAccountInfo(dispatcher, accountType);
-        }).catch(error => {
-            debugger; 
-            throw(error) 
-        })
+        }).catch(error => { throw(error) })
     }
 }
 
