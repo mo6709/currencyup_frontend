@@ -4,19 +4,24 @@ import { getAndSetAccountInfo } from './accountActions'
 export function loginAccount(credentials){
     const { accountType } = credentials;
     return function(dispatch){
-        const dispatcher = dispatch
-        const uri = `http://localhost:3000/api/v1/${accountType}_login`
+        const dispatcher = dispatch;
+        dispatcher({ type: "LOADIND" });
+        const uri = `http://localhost:3000/api/v1/${accountType}_login`;
         return fetch(uri, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials)   
         })
         .then(response => response.json())
-        .then(responseJSON => {    
-            localStorage.setItem('token', responseJSON.token);
-            localStorage.setItem('account_id', responseJSON.account_id);
-            dispatcher({ type: "LOGIN_SUCCESS" })
-            getAndSetAccountInfo(dispatcher, accountType)
+        .then(responseJSON => { 
+            if (responseJSON.status === "error"){
+                 dispatcher({ type: "LOGIN_FAILUR", message: responseJSON.message || 'Somthing went wrong.' })
+            }else{ 
+                localStorage.setItem('token', responseJSON.token);
+                localStorage.setItem('account_id', responseJSON.account_id);
+                dispatcher({ type: "LOGIN_SUCCESS" })
+                getAndSetAccountInfo(dispatcher, accountType)
+            }
         })
         .catch(error => { throw(error) })
     }
