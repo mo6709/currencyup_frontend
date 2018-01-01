@@ -1,18 +1,18 @@
-
 export default function sessionReducer(state = {
-     loggedIn: !!localStorage.getItem('token')
+     loggedIn: !!localStorage.getItem('token'),
+     error: '',
+     loading: false
     }, action){
     switch (action.type) {
-        case 'SIGNUP_ACCOUNT':
-            return ;
-        case 'LOGIN_SUCCESS':
-            //push up the browser history (url) to /
-            return { loggedIn: !!localStorage.getItem('token') }   
-        case 'LOGOUT_ACCOUNT':
+        case 'LOADING':
+            return Object.assign({}, state, { loading: true }) ;
+        case 'LOGIN_FAILUR':
+            return { loggedIn: false, error: action.message, loading: false }
+        case 'LOGIN_SUCCESS': 
+            return { loggedIn: !!localStorage.getItem('token'), error: "", loading: false }   
+        case 'LOGOUT_SUCCESS':
             return ;  
         default:
             return state;
     }
 }
-
-// seassion: { authenticated: false }
