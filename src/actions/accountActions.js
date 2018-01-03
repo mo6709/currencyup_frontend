@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-export function getAndSetAccountInfo(dispatchAction, type){
+export function getAndSetAccountInfo(dispatchAction, type, routerHistory){
     const account_uri = `http://localhost:3000/api/v1/${type}s/${localStorage.account_id}`;
     fetch(account_uri, {
         method: 'GET',
@@ -8,11 +8,12 @@ export function getAndSetAccountInfo(dispatchAction, type){
     })
     .then(response => response.json())
     .then(responseJSON => {
-        dispatchAction(setAccount(type, responseJSON))
+        dispatchAction(setAccount(type, responseJSON));
+        routerHistory.replace('/account');
     })           
 }
 
-export function signupAccount(accountCredentials){
+export function signupAccount(accountCredentials, routerHistory){
     const { name, email, password, accountType, title } = accountCredentials;
     return function(dispatch){
         const dispatcher = dispatch;
@@ -25,10 +26,14 @@ export function signupAccount(accountCredentials){
         })
         .then(response => response.json())
         .then(responseJSON => {
-            localStorage.setItem('token', responseJSON.token);
-            localStorage.setItem('account_id', responseJSON.account_id);
-            dispatcher({ type: "LOGIN_SUCCESS" });
-            getAndSetAccountInfo(dispatcher, accountType);
+            if( responseJSON.status === "error"){
+                dispatcher({ type: "ACCOUNT_SIGNUP_FAILUR", message: responseJSON.message || 'Somthing went wrong.' })
+            }else{
+                localStorage.setItem('token', responseJSON.token);
+                localStorage.setItem('account_id', responseJSON.account_id);
+                dispatcher({ type: "LOGIN_SUCCESS" });
+                getAndSetAccountInfo(dispatcher, accountType, routerHistory);
+            }
         }).catch(error => { throw(error) })
     }
 }
@@ -52,7 +57,7 @@ export function updateAndSetAccountInfo(accountInfo){
 }
 
 function setAccount(type, response) {
-    return { type: "SET_ACCOUNT", payload: { 
+    return { type: "ACCOUNT_SETUP", payload: { 
             accountType: type, 
             info: response 
         }
