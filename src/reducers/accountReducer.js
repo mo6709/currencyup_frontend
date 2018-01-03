@@ -12,6 +12,8 @@ export default function accountReducer(state = {
             });
         case "ACCOUNT_SIGNUP_FAILUR":
             return Object.assign({}, state, { errors: action.message });
+        case "ACCOUNT_UPDATE_FAILUR":
+            return Object.assign({}, state, { errors: action.message });
         default:
           return state;
   }
