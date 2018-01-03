@@ -38,7 +38,7 @@ export function signupAccount(accountCredentials, routerHistory){
     }
 }
 
-export function updateAndSetAccountInfo(accountInfo){
+export function updateAndSetAccountInfo(accountInfo, routerHistory){
     const { type, id } = accountInfo;
     return function(dispatch){
         const uri = `http://localhost:3000/api/v1/${type}s/${id}`;
@@ -50,7 +50,14 @@ export function updateAndSetAccountInfo(accountInfo){
         })
         .then(response => response.json())
         .then(responseJSON => {
-            dispatch(setAccount(type, responseJSON))
+            if(responseJSON.status === "error"){
+                let errors = "" 
+                for(let key in responseJSON["messages"]){ errors += `${key}: ${responseJSON["messages"][key]}\n`}
+                dispatch({ type: "ACCOUNT_UPDATE_FAILUR", message: errors })
+            }else{
+                dispatch(setAccount(type, responseJSON));
+                routerHistory.replace('/account')
+            }
         })
         .catch( error => { throw(error) })
     }
