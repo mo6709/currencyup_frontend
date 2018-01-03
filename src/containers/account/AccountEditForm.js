@@ -47,7 +47,7 @@ class AccountEditForm extends Component{
 
     handelEditSubmit = (event) => {
         event.preventDefault();
-        this.props.updateAndSetAccountInfo(this.state.account)
+        this.props.updateAndSetAccountInfo(this.state.account, this.props.history)
     }
 
 
@@ -57,11 +57,11 @@ class AccountEditForm extends Component{
         let regions = this.props.currencies.map((currency) => {
             return { label: currency.region, value: currency.region }
         });
-
+       
         return( 
             <div>
                 <p>Hello from AccountEdit smart Container</p>
-                 
+                {this.props.account.errors}
                 <form onSubmit={event => this.handelEditSubmit(event) }>
                     <label>Email:
                         <input type="email"
