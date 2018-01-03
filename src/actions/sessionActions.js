@@ -1,11 +1,11 @@
 import fetch from 'isomorphic-fetch';
-import { getAndSetAccountInfo } from './accountActions'
+import { getAndSetAccountInfo } from './accountActions';
     
-export function loginAccount(credentials){
+export function loginAccount(credentials, routerHistory){
     const { accountType } = credentials;
     return function(dispatch){
         const dispatcher = dispatch;
-        dispatcher({ type: "LOADIND" });
+        dispatcher({ type: "LOGIN_LOADING" });
         const uri = `http://localhost:3000/api/v1/${accountType}_login`;
         return fetch(uri, {
             method: 'POST',
@@ -19,8 +19,8 @@ export function loginAccount(credentials){
             }else{ 
                 localStorage.setItem('token', responseJSON.token);
                 localStorage.setItem('account_id', responseJSON.account_id);
-                dispatcher({ type: "LOGIN_SUCCESS" })
-                getAndSetAccountInfo(dispatcher, accountType)
+                dispatcher({ type: "LOGIN_SUCCESS" });
+                getAndSetAccountInfo(dispatcher, accountType, routerHistory);
             }
         })
         .catch(error => { throw(error) })
