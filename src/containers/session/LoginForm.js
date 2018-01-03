@@ -10,6 +10,7 @@ class LoginForm extends Component{
         super(props);
 
         this.state = { 
+            errors: '',
             credentials: {
                 email: '', 
                 password: '', 
@@ -18,10 +19,15 @@ class LoginForm extends Component{
         }
     }
 
-    handelSigninSubmit = (event) => {      
+    handelSigninSubmit = (event) => {
+        const { accountType, email, password } = this.state.credentials    
         event.preventDefault();
-        this.props.sessionActions.loginAccount(this.state.credentials);
-        this.props.history.push('/account');
+        if(accountType !== '' && email !== '' && password !== ''){
+            this.setState({ errors: '' });
+            this.props.sessionActions.loginAccount(this.state.credentials, this.props.history);
+        }else{
+            this.setState({ errors: 'Please fill out the form currectly, and choose account type' })
+        }
     }
 
     handelInputChange = (event) => {
@@ -32,22 +38,27 @@ class LoginForm extends Component{
     }
 
     render() {
+        const { email, password, accountType } = this.state.credentials;
+        const { errors } = this.props.session;
+        
         return(
             <div>
                 <h2>Login by Email</h2>
+                {errors}
+                <p>{this.state.errors}</p>
                 <form onSubmit={event => this.handelSigninSubmit(event) } >
                   <input type="email"
                     name="email"
                     label="Email"
                     placeholder="Enter email"
-                    value={this.state.credentials.email}
+                    value={email}
                     onChange={this.handelInputChange}/>
 
                     <input type="password"
                     name="password"
                     label="Password"
                     placeholder="Enter password"
-                    value={this.state.credentials.password}
+                    value={password}
                     onChange={this.handelInputChange}/>
 
                     <div>
@@ -57,7 +68,7 @@ class LoginForm extends Component{
                                 <input type="radio"
                                 name="accountType"
                                 value="investor" 
-                                checked={this.state.credentials.accountType === "investor"}
+                                checked={accountType === "investor"}
                                 onChange={this.handelInputChange}/>
                                 Investor
                             </label>
@@ -67,7 +78,7 @@ class LoginForm extends Component{
                                 <input type="radio"
                                 name="accountType" 
                                 value="corporation" 
-                                checked={this.state.credentials.accountType === "corporation"}
+                                checked={accountType === "corporation"}
                                 onChange={this.handelInputChange}/>
                                 Corporation
                             </label>
@@ -80,8 +91,12 @@ class LoginForm extends Component{
     }
 }
 
+const mapStateToProps = (state) => {
+    return { session: state.session }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return { sessionActions: bindActionCreators(sessionActions, dispatch) }
 }
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
