@@ -7,8 +7,10 @@ import InvestorAccountInfo from '../../components/account/InvestorAccountInfo';
 import InvestorsList from '../../components/investors/InvestorsList';
 import CorporationFunds from '../../components/corporations/CorporationFunds';
 import InvestmentsList from '../../components/investments/InvestmentsList';
+import TransactionsList from '../../components/transactions/TransactionsList';
 
 import AccountEditForm from './AccountEditForm';
+
 
 class AccountShow extends Component{
     constructor(){
@@ -18,17 +20,19 @@ class AccountShow extends Component{
             infoComponenet: null,
             investorsList: null,
             investorsList: null,
+            transactionsList: null,
             funds: null,
         }
     }
     
     componentWillMount(){
         // dispatch some async action data for  user to populate the state
-        const { account } = this.props;
+        const { account, currencies } = this.props;
         if (account.accountType === "corporation"){ 
             this.setState({ infoComponenet: <CorporationAccountInfo accountInfo={account}/> });
             this.setState({ investorsList: <InvestorsList investorsInfo={account.info.investors}/> });
             this.setState({ investmentsList: <InvestmentsList investmentsInfo={account.info.corporation_investments}/> });
+            this.setState({ transactionsList: <TransactionsList currencies={currencies} transactionsInfo={account.info.transactions}/> });
             this.setState({ funds: <CorporationFunds currenciesInfo={account.info.currency_corporations}/> });
             
         }else if(account.accountType === "investor"){
@@ -56,17 +60,17 @@ class AccountShow extends Component{
             return(
                 <div>
                   <Route path={`${this.props.match.url}/:accountId/Edit`} component={AccountEditForm}/>
-                 <div>
+                 <div className="DottedBox">
                     <p>Hello from AccountShow smart Container</p>
                     <Link to={ { pathname:`${this.props.match.url}/${account.info.id}/Edit` } }>Edit Account</Link>
                     {this.state.infoComponenet}
                     {this.state.investorsList}
                     {this.state.investmentsList}
+                    {this.state.transactionsList}
                     {this.state.funds}
                  </div>
                     
                  {/* 
-                 <div> <InvestmentsList investments={}/> </div>
                  <div> <TransactionsList transactions={}/> </div>
                  <div> <InvestmentsGeneratorButton> </div>
                  <swith>
@@ -82,7 +86,8 @@ class AccountShow extends Component{
 const mapStateToProps = (state) => {
     return { 
         account: state.account,
-        session: state.session
+        session: state.session,
+        currencies: state.currencies
     }
 }
 
