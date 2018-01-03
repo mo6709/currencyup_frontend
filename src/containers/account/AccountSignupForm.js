@@ -25,8 +25,7 @@ class AccountSignupForm extends Component {
         event.preventDefault();
         if (this.formValidation(this.state.credentials)){
             this.setState({errors: false}); 
-            this.props.signupAccount(this.state.credentials)
-            this.props.history.push('/account');
+            this.props.signupAccount(this.state.credentials, this.props.history)
         }else{
             this.setState({errors: true}); 
         }
@@ -57,10 +56,10 @@ class AccountSignupForm extends Component {
             <div>               
                 <h2>Signup by Email</h2>
                 {this.state.errors === true ? <p>Please fill out all the fields currenctly</p> : ""}
-
+                <p>{this.props.accountErrors ? this.props.accountErrors[0] : ''}</p>
                 <form onSubmit={event => this.handelSignupSubmit(event) } >
                     <div>
-                        {"Are you "}
+                        {"Are you an "}
                         <label>
                             <input type="radio"
                             name="accountType"
@@ -128,9 +127,14 @@ class AccountSignupForm extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        accountErrors: state.account.errors
+    }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return { signupAccount: bindActionCreators(signupAccount, dispatch) }
 }
 
-export default connect(null, mapDispatchToProps)(AccountSignupForm)
+export default connect(mapStateToProps, mapDispatchToProps)(AccountSignupForm)
