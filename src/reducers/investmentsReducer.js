@@ -6,6 +6,8 @@ export default function investmentsReducer(state = {
             return Object({}, state, { loading: true });
         case 'FETCH_INVESTMENTS':    
             return Object({}, state, { loading: false, all: action.payload });
+        case 'GENERATING_INVESTMENT':
+            return Object({}, state, { loading: true });
         default:
             return state;
     }
