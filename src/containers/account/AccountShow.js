@@ -62,7 +62,7 @@ class AccountShow extends Component{
                 <div>
                     <Switch> 
                         <Route path={`${this.props.match.url}/:accountId/Edit`} component={AccountEditForm}/>
-                        <Route exact path={`${this.props.match.url}/generateInvestment`} component={GenerateInvestmentForm} /> 
+                        <Route exact path={`${this.props.match.url}/corporationInvestments`} component={GenerateInvestmentForm} /> 
                     </Switch>
                     <div className="DottedBox">
                         <p>Hello from AccountShow smart Container</p>
@@ -72,7 +72,7 @@ class AccountShow extends Component{
                         {this.state.transactionsList}
                         {this.state.funds}
                         <button><Link to={ { pathname:`${this.props.match.url}/${account.info.id}/Edit` } }>Edit Account</Link></button>
-                        <button><Link to={`${this.props.match.url}/generateInvestment`}>Generate Investment</Link></button>
+                        <button><Link to={`${this.props.match.url}/corporationInvestments`}>Generate Investment</Link></button>
                     </div>
                         
                      {/* 
