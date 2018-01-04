@@ -6,10 +6,6 @@ import Select from 'react-select';
 import { updateAndSetAccountInfo } from '../../actions/accountActions';
 import fetch from 'isomorphic-fetch';
 
-const divStyle = {
-  margin: '40px',
-  border: '5px '
-};
 
 class AccountEditForm extends Component{
     constructor(props){
@@ -35,8 +31,8 @@ class AccountEditForm extends Component{
 
     handelInputChange = (event) => {
         const { name, value } =  event.target;
-        const parstValue = name === "investment_period" ? parseInt(value) : value
-        this.setState({ account: Object.assign({}, this.state.account, { [name]: parstValue }) })
+        const parsedValue = name === "investment_period" ? parseInt(value) : value
+        this.setState({ account: Object.assign({}, this.state.account, { [name]: parsedValue }) })
     }
 
     handleSelectChange = (value) => {        
@@ -87,19 +83,20 @@ class AccountEditForm extends Component{
                             onChange={this.handelInputChange}/>
                     </label><br/>
 
-                  <div style={divStyle}>
-                    Select Regions:
-                    <Select
-                        closeOnSelect={!stayOpen}
-                        disabled={disabled}
-                        multi
-                        onChange={this.handleSelectChange}
-                        options={regions}
-                        placeholder="Select investment regions"
-                        removeSelected={this.state.select.removeSelected}
-                        rtl={this.state.select.rtl}
-                        simpleValue
-                        value={regions_array}/>
+                  <div>
+                    <label style={{width: '280px'}}>Select Regions:
+                        <Select
+                            closeOnSelect={!stayOpen}
+                            disabled={disabled}
+                            multi
+                            onChange={this.handleSelectChange}
+                            options={regions}
+                            placeholder="Select investment regions"
+                            removeSelected={this.state.select.removeSelected}
+                            rtl={this.state.select.rtl}
+                            simpleValue
+                            value={regions_array}/>
+                    </label>
                   </div>
                    
 

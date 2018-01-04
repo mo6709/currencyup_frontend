@@ -10,7 +10,7 @@ const InvestorsList = ({ investorsInfo }) => {
     	)
     })	
 	return(
-		<div>
+		<div className="DottedBox">
 			<p>List of investors</p>
 			{investors}
 		</div>

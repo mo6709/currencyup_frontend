@@ -12,7 +12,7 @@ const CurrencyList = ({ CurrenciesData }) => {
     })
 
     return (
-        <div>
+        <div className="DottedBox">
             <h1>All Currencies</h1>
             {currencyDivs}
         </div>    

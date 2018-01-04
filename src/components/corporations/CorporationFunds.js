@@ -9,7 +9,7 @@ const CorporationFunds = ({ currenciesInfo }) => {
 		)
 	})
 	return(
-		<div>
+		<div className="DottedBox">
 		    <p>Corporations Funds</p>
 		    {funds}
 		</div>

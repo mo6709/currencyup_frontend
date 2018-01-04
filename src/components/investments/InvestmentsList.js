@@ -14,7 +14,7 @@ const InvestmentsList = ({ investmentsInfo }) => {
 		}
 	})
 	return(
-		<div className="investmentsList">
+		<div className="investmentsList DottedBox">
 		  <h3>Corporation Investmens Active Investments</h3>
 		  {investmentDivs}
 		</div>

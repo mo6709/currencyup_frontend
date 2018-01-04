@@ -10,6 +10,7 @@ import InvestmentsList from '../../components/investments/InvestmentsList';
 import TransactionsList from '../../components/transactions/TransactionsList';
 
 import AccountEditForm from './AccountEditForm';
+import GenerateInvestmentForm from '../corporations/GenerateInvestmentForm'
 
 
 class AccountShow extends Component{
@@ -59,24 +60,27 @@ class AccountShow extends Component{
         else if(account.accountType === "corporation" || "investor"){
             return(
                 <div>
-                  <Route path={`${this.props.match.url}/:accountId/Edit`} component={AccountEditForm}/>
-                 <div className="DottedBox">
-                    <p>Hello from AccountShow smart Container</p>
-                    <Link to={ { pathname:`${this.props.match.url}/${account.info.id}/Edit` } }>Edit Account</Link>
-                    {this.state.infoComponenet}
-                    {this.state.investorsList}
-                    {this.state.investmentsList}
-                    {this.state.transactionsList}
-                    {this.state.funds}
-                 </div>
-                    
-                 {/* 
-                 <div> <TransactionsList transactions={}/> </div>
-                 <div> <InvestmentsGeneratorButton> </div>
-                 <swith>
-                    <Route path={`${this.props.match.url}/investments`} component={InvestmentsPage} />
-                    <Route path={`${this.props.match.url}/funds`} component={FundsPage} />
-                 </switch>   */}
+                    <Switch> 
+                        <Route path={`${this.props.match.url}/:accountId/Edit`} component={AccountEditForm}/>
+                        <Route exact path={`${this.props.match.url}/generateInvestment`} component={GenerateInvestmentForm} /> 
+                    </Switch>
+                    <div className="DottedBox">
+                        <p>Hello from AccountShow smart Container</p>
+                        {this.state.infoComponenet}
+                        {this.state.investorsList}
+                        {this.state.investmentsList}
+                        {this.state.transactionsList}
+                        {this.state.funds}
+                        <button><Link to={ { pathname:`${this.props.match.url}/${account.info.id}/Edit` } }>Edit Account</Link></button>
+                        <button><Link to={`${this.props.match.url}/generateInvestment`}>Generate Investment</Link></button>
+                    </div>
+                        
+                     {/* 
+                     <div> <InvestmentsGeneratorButton> </div>
+                     <swith>
+                        <Route path={`${this.props.match.url}/investments`} component={InvestmentsPage} />
+                        <Route path={`${this.props.match.url}/funds`} component={FundsPage} />
+                     </switch>   */}
                </div>   
             )
         }
