@@ -28,7 +28,7 @@ class GenerateInvestmentForm extends Component{
 	            active: null
 	        },
         }
-	}
+	}-
 
 	handleInputChange = (event) => {
         const { name, value } = event.target;

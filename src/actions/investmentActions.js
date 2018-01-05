@@ -15,8 +15,8 @@ export function fetchInvestments() {
 export function generateInvestment(investmentInfo, routerHistory){
 	return function(dispatch){
 		dispatch({ type: 'GENERATING_INVESTMENT' });
-        const uri = `http://localhost:3000/api/v1/corporations/${investmentInfo.corporationId}/corporation_investments`;
-        
+		const id = investmentInfo.corporationId;
+        const uri = `http://localhost:3000/api/v1/corporations/${id}/corporation_investments`;
         const { currencyId, returnRate, investmentDate, active } = investmentInfo;
 		const parameters = { 
 			corporation_investment: {
@@ -39,7 +39,8 @@ export function generateInvestment(investmentInfo, routerHistory){
                 debugger;
                 // responseJSON.message || "Somthing went wrong"
 			}else{
-				debugger;
+				dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS', payload: responseJSON.data });
+				routerHistory.replace('/account');
 			}
 		})
 		.catch( error => { throw(error) })
