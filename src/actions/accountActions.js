@@ -14,10 +14,14 @@ export function getAndSetAccountInfo(dispatchAction, type, routerHistory){
 }
 
 export function signupAccount(accountCredentials, routerHistory){
-    const { name, email, password, accountType, title } = accountCredentials;
+    const { name, email, password, accountType, title, firstName, lastName } = accountCredentials;
     return function(dispatch){
         const dispatcher = dispatch;
-        const paramters =  { [accountType]: { name: name, email: email, password: password, title } };
+        const paramters =  { [accountType]: 
+            accountType === "corporation" ? 
+            { name, title, email, password } : 
+            { first_name: firstName, last_name: lastName, email, password } 
+        };
         const uri = `http://localhost:3000/api/v1/${accountType}_signup`;
         return fetch(uri, { 
             method: 'POST',
