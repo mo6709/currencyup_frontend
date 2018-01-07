@@ -14,35 +14,16 @@ import GenerateInvestmentForm from '../corporations/GenerateInvestmentForm'
 
 
 class AccountShow extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
 
-        this.state = {
-            infoComponenet: null,
-            investorsList: null,
-            investorsList: null,
-            transactionsList: null,
-            funds: null,
-        }
-    }
-    
-    componentWillMount(){
-        // dispatch some async action data for  user to populate the state
-        const { account, currencies } = this.props;
-        if (account.accountType === "corporation"){ 
-            this.setState({ infoComponenet: <CorporationAccountInfo accountInfo={account}/> });
-            this.setState({ investorsList: <InvestorsList investorsInfo={account.info.investors}/> });
-            this.setState({ investmentsList: <InvestmentsList investmentsInfo={account.info.corporation_investments}/> });
-            this.setState({ transactionsList: <TransactionsList currencies={currencies} transactionsInfo={account.info.transactions}/> });
-            this.setState({ funds: <CorporationFunds currenciesInfo={account.info.currency_corporations}/> });
-            
-        }else if(account.accountType === "investor"){
-            this.setState({ infoComponenet: <InvestorAccountInfo accountInfo={account}/> })
-        }
+        this.state = {};
     }
 
     render(){
         const { account, session } = this.props;
+        const { investors, corporation_investments, transactions, currency_corporations } = this.props.account.info;
+
         if(account.loading){
             return(
                 <div>
@@ -56,8 +37,7 @@ class AccountShow extends Component{
                     <Link to="/login">Login Here</Link>
                 </div>
             )
-        }
-        else if(account.accountType === "corporation" || "investor"){
+        }else if(account.accountType === "corporation"){
             return(
                 <div>
                     <Switch> 
@@ -65,12 +45,14 @@ class AccountShow extends Component{
                         <Route exact path={`${this.props.match.url}/corporationInvestments`} component={GenerateInvestmentForm} /> 
                     </Switch>
                     <div className="DottedBox">
-                        <p>Hello from AccountShow smart Container</p>
-                        {this.state.infoComponenet}
-                        {this.state.investorsList}
-                        {this.state.investmentsList}
-                        {this.state.transactionsList}
-                        {this.state.funds}
+                        <p>Hello from AccountShow smart Container for corporations</p>
+                        
+                        <CorporationAccountInfo accountInfo={account}/>
+                        <InvestorsList investorsInfo={investors}/>
+                        <InvestmentsList investmentsInfo={corporation_investments}/>
+                        <TransactionsList currencies={this.props.currencies} transactionsInfo={transactions}/>
+                        <CorporationFunds currenciesInfo={currency_corporations}/>
+                        
                         <button><Link to={ { pathname:`${this.props.match.url}/${account.info.id}/Edit` } }>Edit Account</Link></button>
                         <button><Link to={`${this.props.match.url}/corporationInvestments`}>Generate Investment</Link></button>
                     </div>
@@ -82,6 +64,12 @@ class AccountShow extends Component{
                         <Route path={`${this.props.match.url}/funds`} component={FundsPage} />
                      </switch>   */}
                </div>   
+            )
+        }else if(account.accountType === "investor"){
+            return(
+                <div>
+                    <p>Hello from AccountShow smart Container for investor</p>
+                </div>
             )
         }
     }
