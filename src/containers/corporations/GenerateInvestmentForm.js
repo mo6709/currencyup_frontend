@@ -21,14 +21,14 @@ class GenerateInvestmentForm extends Component{
                 stayOpen: false
             },
             investment: {
-            	corporationId: this.props.account.id,
+            	corporationId: this.props.account.info.id,
 	            currencyId: '',
 	            returnRate: '',
 	            investmentDate: new Date,
 	            active: null
 	        },
         }
-	}-
+	}
 
 	handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -62,26 +62,33 @@ class GenerateInvestmentForm extends Component{
         event.preventDefault();
         console.log(this.state.investment)
         if(this.formValidation()){
+        	this.setState({ errors: "" })
             this.props.investmentActions.generateInvestment(this.state.investment, this.props.history)
         }else{
-            this.setState({ errors: "Please fill out all areas"})
+            this.setState({ errors: "Please fill out all areas" })
         }
     }
 
     render(){
     	const { stayOpen, disabled, removeSelected } = this.state.select;
     	const { currencyId, returnRate, investmentDate, active } = this.state.investment;
-    	const dateObject = new Date(investmentDate);
-    	const currencies = this.props.account.currencies.map((currency) => {
+        const { account } = this.props;
+    	
+    	const currencies = account.info.currencies.map((currency) => {
     		return { label: `${currency.name} - ${currency.acronym}`, value: currency.id }
     	});
+
+    	const dateObject = new Date(investmentDate);
         const date = new Date;
         const lastWeek = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7);
         
         return(
         	<div className="DottedBox">
         	  <h4>Generate Investment Form</h4>
+
         	  {this.state.errors}
+        	  {account.errors}
+
         	    <form onSubmit={this.handleInvestmentSubmit}>
 		        	<div>
 	                    <label style={{width: '280px'}}>Currency:
@@ -149,7 +156,7 @@ class GenerateInvestmentForm extends Component{
 
 const mapStateToProps = (state) => {
     return{
-    	account: state.account.info
+    	account: state.account
     }
 }
 
