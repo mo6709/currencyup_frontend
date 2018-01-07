@@ -27,7 +27,7 @@ export function signupAccount(accountCredentials, routerHistory){
         .then(response => response.json())
         .then(responseJSON => {
             if( responseJSON.status === "error"){
-                dispatcher({ type: "ACCOUNT_SIGNUP_FAILUR", message: responseJSON.message || 'Somthing went wrong.' })
+                dispatcher({ type: "ACCOUNT_SIGNUP_FAILUR", messages: responseJSON.message || 'Somthing went wrong.' })
             }else{
                 localStorage.setItem('token', responseJSON.token);
                 localStorage.setItem('account_id', responseJSON.account_id);
@@ -53,7 +53,7 @@ export function updateAndSetAccountInfo(accountInfo, routerHistory){
             if(responseJSON.status === "error"){
                 let errors = "" 
                 for(let key in responseJSON["messages"]){ errors += `${key}: ${responseJSON["messages"][key]}\n`}
-                dispatch({ type: "ACCOUNT_UPDATE_FAILUR", message: errors })
+                dispatch({ type: "ACCOUNT_UPDATE_FAILUR", messages: errors })
             }else{
                 dispatch(setAccount(type, responseJSON));
                 routerHistory.replace('/account')
