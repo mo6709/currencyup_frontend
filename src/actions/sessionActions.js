@@ -15,7 +15,7 @@ export function loginAccount(credentials, routerHistory){
         .then(response => response.json())
         .then(responseJSON => { 
             if (responseJSON.status === "error"){
-                 dispatcher({ type: "LOGIN_FAILUR", message: responseJSON.message || 'Somthing went wrong.' })
+                 dispatcher({ type: "LOGIN_FAILUR", messages: responseJSON.message || 'Somthing went wrong.' })
             }else{ 
                 localStorage.setItem('token', responseJSON.token);
                 localStorage.setItem('account_id', responseJSON.account_id);
