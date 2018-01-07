@@ -11,14 +11,17 @@ export default function accountReducer(state = {
                 errors: ''
             });
         case "ACCOUNT_SIGNUP_FAILUR":
-            return Object.assign({}, state, { errors: action.message });
+            return Object.assign({}, state, { errors: action.messages });
         case "ACCOUNT_UPDATE_FAILUR":
-            return Object.assign({}, state, { errors: action.message });
-        case "FETCH_CORPORSTION_INVESTMENTS":
+            return Object.assign({}, state, { errors: action.messages });
+        case "FETCH_CORPORSTION_INVESTMENTS_SUCCESS":
             debugger;
             var newInfo = Object.assign({}, state.info);
             newInfo.corporation_investments = action.payload;
             return Object.assign({}, state,  { info: newInfo });
+        case "FETCH_CORPORSTION_INVESTMENTS_FAILUR":
+            debugger;
+            return Object.assign({}, state, { errors: action.messages });
         default:
           return state;
   }
