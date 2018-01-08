@@ -23,7 +23,7 @@ export function generateInvestment(investmentInfo, routerHistory){
 	            currency_id: currencyId, 
 	            return_rate: parseFloat(returnRate), 
 	            investment_date: investmentDate,
-	            active: active   
+	            active: active 
 			}
 	    };
 		return fetch(uri ,{
@@ -38,8 +38,8 @@ export function generateInvestment(investmentInfo, routerHistory){
 			if(responseJSON.status === 'error'){
                 dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS_FAILUR', messages: responseJSON.messages || "Somthing went wrong" })
 			}else{
-				dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS_SUCCESSS', payload: responseJSON.data });
-				routerHistory.replace('/account');
+				dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS_SUCCESS', payload: responseJSON.data });
+				routerHistory.replace(`/account/corporations/${id}`);
 			}
 		})
 		.catch( error => { throw(error) })

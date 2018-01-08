@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import CorporationAccountInfo from '../../components/account/CorporationAccountInfo';
-import InvestorAccountInfo from '../../components/account/InvestorAccountInfo';
-import InvestorsList from '../../components/investors/InvestorsList';
-import CorporationFunds from '../../components/corporations/CorporationFunds';
-import InvestmentsList from '../../components/investments/InvestmentsList';
-import TransactionsList from '../../components/transactions/TransactionsList';
+import AccountInvestorInfo from '../../../components/account/AccountInvestorInfo';
+import AccountInvestorEditForm from './AccountInvestorEditForm';
 
-import AccountEditForm from './AccountEditForm';
-import GenerateInvestmentForm from '../corporations/GenerateInvestmentForm'
+// import InvestorsList from '../../components/investors/InvestorsList';
+// import CorporationFunds from '../../components/corporations/CorporationFunds';
+// import InvestmentsList from '../../components/investments/InvestmentsList';
+// import TransactionsList from '../../components/transactions/TransactionsList';
+
+// import GenerateInvestmentForm from '../corporations/GenerateInvestmentForm'
 
 
-class AccountShow extends Component{
+class AccountInvestorShow extends Component{
     constructor(props){
         super(props);
 
@@ -22,7 +22,6 @@ class AccountShow extends Component{
 
     render(){
         const { account, session } = this.props;
-        const { investors, corporation_investments, transactions, currency_corporations } = this.props.account.info;
 
         if(account.loading){
             return(
@@ -37,24 +36,24 @@ class AccountShow extends Component{
                     <Link to="/login">Login Here</Link>
                 </div>
             )
-        }else if(account.accountType === "corporation"){
+        }else if(account.accountType === "investor"){
             return(
                 <div>
-                    <Switch> 
-                        <Route path={`${this.props.match.url}/:accountId/Edit`} component={AccountEditForm}/>
-                        <Route exact path={`${this.props.match.url}/corporationInvestments`} component={GenerateInvestmentForm} /> 
-                    </Switch>
+                   { <Switch> 
+	                  <Route path={`${this.props.match.url}/Edit`} component={AccountInvestorEditForm}/>
+	               </Switch>}
                     <div className="DottedBox">
-                        <p>Hello from AccountShow smart Container for corporations</p>
+                        <p>Hello from AccountInvestorShow smart Container</p>
+                        <AccountInvestorInfo accountInfo={account}/>
+                        <button><Link to={ { pathname:`${account.info.id}/Edit` } }>Edit Account</Link></button>
                         
-                        <CorporationAccountInfo accountInfo={account}/>
+                        {/*
                         <InvestorsList investorsInfo={investors}/>
                         <InvestmentsList investmentsInfo={corporation_investments}/>
                         <TransactionsList currencies={this.props.currencies} transactionsInfo={transactions}/>
                         <CorporationFunds currenciesInfo={currency_corporations}/>
                         
-                        <button><Link to={ { pathname:`${this.props.match.url}/${account.info.id}/Edit` } }>Edit Account</Link></button>
-                        <button><Link to={`${this.props.match.url}/corporationInvestments`}>Generate Investment</Link></button>
+                        <button><Link to={`${this.props.match.url}/corporationInvestments`}>Generate Investment</Link></button>*/}
                     </div>
                         
                      {/* 
@@ -83,4 +82,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(AccountShow)
+export default connect(mapStateToProps)(AccountInvestorShow)

@@ -2,7 +2,7 @@ import React from 'react';
 
 const TransactionsList = ({ transactionsInfo, currencies }) => {
 	const transactionDivs = transactionsInfo.map((transaction) => {
-		const CurrencyName = currencies.all.find((c) => c.id == transaction.currency_id).name;
+		const CurrencyName = currencies.all.find((c) => c.id === transaction.currency_id).name;
 		const transactionType = transaction.t_type.split("_").join(" ");
         return(
         	<div>

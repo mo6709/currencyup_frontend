@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Select from 'react-select';
-import { updateAndSetAccountInfo } from '../../actions/accountActions';
+import { updateAndSetAccountInfo } from '../../../actions/accountActions';
 import fetch from 'isomorphic-fetch';
 
 
-class AccountEditForm extends Component{
+class AccountCorporationEditForm extends Component{
     constructor(props){
         super(props);
 
@@ -29,7 +29,7 @@ class AccountEditForm extends Component{
         this.setState(newState);
     }
 
-    handelInputChange = (event) => {
+    handleInputChange = (event) => {
         const { name, value } =  event.target;
         const parsedValue = name === "investment_period" ? parseInt(value) : value
         this.setState({ account: Object.assign({}, this.state.account, { [name]: parsedValue }) })
@@ -41,7 +41,7 @@ class AccountEditForm extends Component{
         this.setState(newState);
     }
 
-    handelEditSubmit = (event) => {
+    handleEditSubmit = (event) => {
         event.preventDefault();
         this.props.updateAndSetAccountInfo(this.state.account, this.props.history)
     }
@@ -58,13 +58,13 @@ class AccountEditForm extends Component{
             <div>
                 <p>Hello from AccountEdit smart Container</p>
                 {this.props.account.errors}
-                <form onSubmit={event => this.handelEditSubmit(event) }>
+                <form onSubmit={event => this.handleEditSubmit(event) }>
                     <label>Email:
                         <input type="email"
                             name="email"
                             placeholder="Enter email"
                             value={email}
-                            onChange={this.handelInputChange}/>
+                            onChange={this.handleInputChange}/>
                     </label><br/>
 
                     <label>Name
@@ -72,7 +72,7 @@ class AccountEditForm extends Component{
                             name="name"
                             placeholder="Enter name"
                             value={name}
-                            onChange={this.handelInputChange}/>
+                            onChange={this.handleInputChange}/>
                     </label><br/>
 
                     <label>Title
@@ -80,7 +80,7 @@ class AccountEditForm extends Component{
                             name="title"
                             placeholder="Enter Title"
                             value={title}
-                            onChange={this.handelInputChange}/>
+                            onChange={this.handleInputChange}/>
                     </label><br/>
 
                   <div>
@@ -106,7 +106,7 @@ class AccountEditForm extends Component{
                                 name="investment_period"
                                 value="6" 
                                 checked={investment_period === 6 }
-                                onChange={this.handelInputChange}/>
+                                onChange={this.handleInputChange}/>
                         </label><br/>
                         
                         <label>3 months period
@@ -114,7 +114,7 @@ class AccountEditForm extends Component{
                                 name="investment_period"
                                 value="3" 
                                 checked={investment_period === 3 }
-                                onChange={this.handelInputChange}/>
+                                onChange={this.handleInputChange}/>
                         </label><br/>
                         
                         <label>2 months period    
@@ -122,7 +122,7 @@ class AccountEditForm extends Component{
                                 name="investment_period" 
                                 value="2"
                                 checked={investment_period === 2 }
-                                onChange={this.handelInputChange}/>
+                                onChange={this.handleInputChange}/>
                         </label><br/>
                     </div>
 
@@ -147,6 +147,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountEditForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountCorporationEditForm);
 
 

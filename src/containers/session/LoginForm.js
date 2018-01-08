@@ -19,7 +19,7 @@ class LoginForm extends Component{
         }
     }
 
-    handelSigninSubmit = (event) => {
+    handleSigninSubmit = (event) => {
         const { accountType, email, password } = this.state.credentials    
         event.preventDefault();
         if(accountType !== '' && email !== '' && password !== ''){
@@ -30,7 +30,7 @@ class LoginForm extends Component{
         }
     }
 
-    handelInputChange = (event) => {
+    handleInputChange = (event) => {
         const field = event.target.name;
         const credentials = this.state.credentials;
         credentials[field] = event.target.value;
@@ -46,20 +46,20 @@ class LoginForm extends Component{
                 <h2>Login by Email</h2>
                 {errors}
                 <p>{this.state.errors}</p>
-                <form onSubmit={event => this.handelSigninSubmit(event) } >
+                <form onSubmit={event => this.handleSigninSubmit(event) } >
                   <input type="email"
                     name="email"
                     label="Email"
                     placeholder="Enter email"
                     value={email}
-                    onChange={this.handelInputChange}/>
+                    onChange={this.handleInputChange}/>
 
                     <input type="password"
                     name="password"
                     label="Password"
                     placeholder="Enter password"
                     value={password}
-                    onChange={this.handelInputChange}/>
+                    onChange={this.handleInputChange}/>
 
                     <div>
                         <h3>Please select account type.</h3>
@@ -69,7 +69,7 @@ class LoginForm extends Component{
                                 name="accountType"
                                 value="investor" 
                                 checked={accountType === "investor"}
-                                onChange={this.handelInputChange}/>
+                                onChange={this.handleInputChange}/>
                                 Investor
                             </label>
                         </div>
@@ -79,7 +79,7 @@ class LoginForm extends Component{
                                 name="accountType" 
                                 value="corporation" 
                                 checked={accountType === "corporation"}
-                                onChange={this.handelInputChange}/>
+                                onChange={this.handleInputChange}/>
                                 Corporation
                             </label>
                         </div>

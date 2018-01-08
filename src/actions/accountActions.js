@@ -1,15 +1,17 @@
 import fetch from 'isomorphic-fetch'
 
 export function getAndSetAccountInfo(dispatchAction, type, routerHistory){
-    const account_uri = `http://localhost:3000/api/v1/${type}s/${localStorage.account_id}`;
+    const { account_id, token } = localStorage;
+    const account_uri = `http://localhost:3000/api/v1/${type}s/${account_id}`;
     fetch(account_uri, {
         method: 'GET',
-        headers: { 'AUTHORIZATION': `${localStorage.token}`, 'Content-Type': 'application/json' }
+        headers: { 'AUTHORIZATION': `${token}`, 'Content-Type': 'application/json' }
     })
     .then(response => response.json())
     .then(responseJSON => {
+        debugger;
         dispatchAction(setAccount(type, responseJSON));
-        routerHistory.replace('/account');
+        routerHistory.replace(`/account/${type}s/${account_id}`);
     })           
 }
 
@@ -17,11 +19,18 @@ export function signupAccount(accountCredentials, routerHistory){
     const { name, email, password, accountType, title, firstName, lastName } = accountCredentials;
     return function(dispatch){
         const dispatcher = dispatch;
-        const paramters =  { [accountType]: 
-            accountType === "corporation" ? 
-            { name, title, email, password } : 
-            { first_name: firstName, last_name: lastName, email, password } 
-        };
+
+        let accountInfo = null;
+        if(accountType === "corporation"){
+            accountInfo = { name: name, title: title , email: email, password: password }
+        }else if(accountType === "investor"){
+            accountInfo = { first_name: firstName, last_name: lastName, email: email, password: password }
+        }
+
+        var paramters = { [accountType]: accountInfo };
+        console.log(accountCredentials);
+        console.log(accountInfo);
+        debugger;
         const uri = `http://localhost:3000/api/v1/${accountType}_signup`;
         return fetch(uri, { 
             method: 'POST',
@@ -60,7 +69,7 @@ export function updateAndSetAccountInfo(accountInfo, routerHistory){
                 dispatch({ type: "ACCOUNT_UPDATE_FAILUR", messages: errors })
             }else{
                 dispatch(setAccount(type, responseJSON));
-                routerHistory.replace('/account')
+                routerHistory.replace(`/account/${type}s/${id}`);
             }
         })
         .catch( error => { throw(error) })

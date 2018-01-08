@@ -7,10 +7,10 @@ import { bindActionCreators } from 'redux';
 
 import CurrenciesPage from './containers/currencies/CurrenciesPage';
 import LoginForm from './containers/session/LoginForm'
-import AccountSignupForm from './containers/account/AccountSignupForm'
-import AccountShow from './containers/account/AccountShow'
+import AccountSignupForm from './containers/accounts/AccountSignupForm'
+import AccountCorporationShow from './containers/accounts/corporation/AccountCorporationShow'
+import AccountInvestorShow from './containers/accounts/investor/AccountInvestorShow'
 import * as currencyActions from './actions/currencyActions';
-import AccountEditForm from './containers/account/AccountEditForm'
 
 
 class App extends Component {
@@ -44,7 +44,8 @@ class App extends Component {
               <Route exact path="/currencies" component={CurrenciesPage} />
               <Route exact path="/login" component={LoginForm} />
               <Route exact path="/signup" component={AccountSignupForm} /> 
-              <Route path="/account" component={AccountShow}/> 
+              <Route path="/account/corporations/:corporationId" component={AccountCorporationShow}/>
+              <Route path="/account/investors/:investorId" component={AccountInvestorShow}/> 
             </Switch>
           </div>  
         </Router>  

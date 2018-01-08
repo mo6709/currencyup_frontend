@@ -24,7 +24,7 @@ class GenerateInvestmentForm extends Component{
             	corporationId: this.props.account.info.id,
 	            currencyId: '',
 	            returnRate: '',
-	            investmentDate: new Date,
+	            investmentDate: new Date(),
 	            active: null
 	        },
         }
@@ -50,7 +50,7 @@ class GenerateInvestmentForm extends Component{
     }
 
     formValidation = () => {
-        const { currencyId, returnRate, investmentDate, active } = this.state.investment;
+        const { currencyId, returnRate, active } = this.state.investment;
         if(currencyId !== '' && returnRate !== '' && active !== null){ 
             return true;
         }else{
@@ -79,7 +79,7 @@ class GenerateInvestmentForm extends Component{
     	});
 
     	const dateObject = new Date(investmentDate);
-        const date = new Date;
+        const date = new Date();
         const lastWeek = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7);
         
         return(

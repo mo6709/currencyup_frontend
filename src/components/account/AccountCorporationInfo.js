@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CorporationAccountInfo = ({ accountInfo }) => {
+const AccountCorporationInfo = ({ accountInfo }) => {
     const { id, name, title } = accountInfo.info;
     return(
         <div className="DottedBox">
@@ -12,4 +12,5 @@ const CorporationAccountInfo = ({ accountInfo }) => {
     )
 }
 
-export default CorporationAccountInfo;
+export default AccountCorporationInfo
+;

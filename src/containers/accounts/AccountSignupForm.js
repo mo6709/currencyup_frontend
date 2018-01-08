@@ -16,12 +16,12 @@ class AccountSignupForm extends Component {
             passwordConfirmation: '',
             accountType: '',
             title: '',
-            first_name: '',
-            last_name: '',
+            firstName: '',
+            lastName: '',
         }
     }
     
-    handelSignupSubmit = (event) => { 
+    handleSignupSubmit = (event) => { 
         event.preventDefault();
         if (this.formValidation()){
             this.setState({errors: false}); 
@@ -31,19 +31,21 @@ class AccountSignupForm extends Component {
         }
     }
 
-    handelInputChange = (event) => {
+    handleInputChange = (event) => {
         const { name, value } = event.target;
         this.setState({ [name]: value });
     }
 
     formValidation = () => {
-        const { password, passwordConfirmation, name, email, accountType, title, first_name, last_name } = this.state; 
+        const { password, passwordConfirmation, name, email, accountType, title, firstName, lastName } = this.state; 
         if(password !== "" && passwordConfirmation === password && email !== "" && accountType !==""){
             switch(accountType){
                 case "corporation":
                     return (name !== "" && title !== "");
                 case "investor":
-                    return (first_name !== "" && last_name !== ""); 
+                    return (firstName !== "" && lastName !== "");
+                default:
+                    return false; 
             }      
         }else{
            return false;
@@ -51,7 +53,7 @@ class AccountSignupForm extends Component {
     }
 
     render(){
-        const { accountType, email, password, passwordConfirmation, name, title, first_name, last_name } = this.state; 
+        const { accountType, email, password, passwordConfirmation, name, title, firstName, lastName } = this.state; 
         return(
             <div>               
                 <h2>Signup by Email</h2>
@@ -59,7 +61,7 @@ class AccountSignupForm extends Component {
                 {this.state.errors === true ? <p>Please fill out all the fields currenctly</p> : ""}
                 <p>{this.props.accountErrors ? this.props.accountErrors[0] : ''}</p>
                 
-                <form onSubmit={event => this.handelSignupSubmit(event) } >
+                <form onSubmit={event => this.handleSignupSubmit(event) } >
                     <div>
                         {"Are you an "}
                         <label>
@@ -67,7 +69,7 @@ class AccountSignupForm extends Component {
                             name="accountType"
                             value="investor" 
                             checked={accountType === "investor"}
-                            onChange={this.handelInputChange}/>
+                            onChange={this.handleInputChange}/>
                             Investor
                         </label>
                         {" or "}
@@ -76,7 +78,7 @@ class AccountSignupForm extends Component {
                             name="accountType" 
                             value="corporation" 
                             checked={accountType === "corporation"}
-                            onChange={this.handelInputChange}/>
+                            onChange={this.handleInputChange}/>
                             Corporation
                         </label> 
                     </div> 
@@ -86,7 +88,7 @@ class AccountSignupForm extends Component {
                             name="email"
                             placeholder="Enter email"
                             value={email}
-                            onChange={this.handelInputChange}/>
+                            onChange={this.handleInputChange}/>
                     </label><br/>
 
                     <label>Password: 
@@ -94,7 +96,7 @@ class AccountSignupForm extends Component {
                             name="password"
                             placeholder="Enter password"
                             value={password}
-                            onChange={this.handelInputChange}/>
+                            onChange={this.handleInputChange}/>
                     </label><br/>
 
                     <label>Password Confirmation: 
@@ -102,7 +104,7 @@ class AccountSignupForm extends Component {
                             name="passwordConfirmation"
                             placeholder="Confirm password"
                             value={passwordConfirmation}
-                            onChange={this.handelInputChange}/>
+                            onChange={this.handleInputChange}/>
                     </label><br/>
                     
                     <div style={{ display: accountType === 'corporation' ? 'block' : 'none' }}> 
@@ -111,7 +113,7 @@ class AccountSignupForm extends Component {
                                 name="name"
                                 placeholder="Enter name"
                                 value={name}
-                                onChange={this.handelInputChange}/>
+                                onChange={this.handleInputChange}/>
                         </label><br/> 
 
                         <label> Title:      
@@ -119,25 +121,25 @@ class AccountSignupForm extends Component {
                                 name="title"
                                 placeholder="Enter title"
                                 value={title}
-                                onChange={this.handelInputChange}/>
+                                onChange={this.handleInputChange}/>
                         </label><br/>
                     </div>
 
                     <div style={{ display: accountType === 'investor' ? 'block' : 'none' }}>
                         <label> First Name: 
                             <input type="text"
-                                name="first_name"
+                                name="firstName"
                                 placeholder="Enter first name"
-                                value={first_name}
-                                onChange={this.handelInputChange}/>
+                                value={firstName}
+                                onChange={this.handleInputChange}/>
                         </label><br/> 
 
                         <label> Last Name:      
                             <input type="text"
-                                name="last_name"
+                                name="lastName"
                                 placeholder="Enter last name"
-                                value={last_name}
-                                onChange={this.handelInputChange}/>
+                                value={lastName}
+                                onChange={this.handleInputChange}/>
                         </label><br/>
                     </div>
  

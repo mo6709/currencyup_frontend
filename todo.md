@@ -21,3 +21,5 @@ state = {
 4)fix the errors display in signupForm to display the the errors properly
 5)implement all the backend api calls inside of ApiServise component
 6)implement authorization for component that require authrization with componeent lifeCycle  componenetWillMount() only if autherized check the local storage
+
+7)redux localstorage middleware: redux hot loader, redux-localstorage-simple 
