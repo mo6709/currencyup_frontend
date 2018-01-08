@@ -26,11 +26,8 @@ export function signupAccount(accountCredentials, routerHistory){
         }else if(accountType === "investor"){
             accountInfo = { first_name: firstName, last_name: lastName, email: email, password: password }
         }
-
         var paramters = { [accountType]: accountInfo };
-        console.log(accountCredentials);
-        console.log(accountInfo);
-        debugger;
+
         const uri = `http://localhost:3000/api/v1/${accountType}_signup`;
         return fetch(uri, { 
             method: 'POST',
@@ -40,7 +37,7 @@ export function signupAccount(accountCredentials, routerHistory){
         .then(response => response.json())
         .then(responseJSON => {
             if( responseJSON.status === "error"){
-                dispatcher({ type: "ACCOUNT_SIGNUP_FAILUR", messages: responseJSON.message || 'Somthing went wrong.' })
+                dispatcher({ type: "ACCOUNT_SIGNUP_FAILUR", messages: responseJSON.messages || 'Somthing went wrong.' })
             }else{
                 localStorage.setItem('token', responseJSON.token);
                 localStorage.setItem('account_id', responseJSON.account_id);
@@ -52,20 +49,33 @@ export function signupAccount(accountCredentials, routerHistory){
 }
 
 export function updateAndSetAccountInfo(accountInfo, routerHistory){
-    const { type, id } = accountInfo;
+    const { type, id, email, name, title, firstName, lastName, region, regions_array , investment_period } = accountInfo;
     return function(dispatch){
         const uri = `http://localhost:3000/api/v1/${type}s/${id}`;
-        var paramters = { [type]: accountInfo }
+        
+        let paramters = null;
+        if(type === "corporation"){
+            paramters = { email, name, title, regions_array, investment_period }
+        }else if(type === "investor"){
+            paramters = { email: email, first_name: firstName, last_name: lastName, region: region }
+        }
+        var accountParamters = { [type]: paramters };
+
         return fetch(uri, {
             method: 'PUT',
             headers: { 'AUTHORIZATION': `${localStorage.token}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify(paramters)
+            body: JSON.stringify(accountParamters)
         })
         .then(response => response.json())
         .then(responseJSON => {
             if(responseJSON.status === "error"){
-                let errors = "" 
-                for(let key in responseJSON["messages"]){ errors += `${key}: ${responseJSON["messages"][key]}\n`}
+                let errors = "";
+                if(typeof responseJSON.messages === 'string' || responseJSON.messages instanceof String){
+                    errors = responseJSON.messages 
+                }else{ 
+                    for(let key in responseJSON["messages"]){ errors += `${key}: ${responseJSON["messages"][key]}\n`}
+                }
+                
                 dispatch({ type: "ACCOUNT_UPDATE_FAILUR", messages: errors })
             }else{
                 dispatch(setAccount(type, responseJSON));

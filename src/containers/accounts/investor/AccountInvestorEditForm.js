@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Select from 'react-select';
+import { updateAndSetAccountInfo } from '../../../actions/accountActions'
 
 class AccountInvestorEditForm extends Component{
     constructor(props){
     	super(props);
         
-        const { first_name, last_name } = this.props.account.info;
+        const { id, email, first_name, last_name, region } = this.props.account.info;
 
     	this.state = {
     		select: {
@@ -17,10 +18,13 @@ class AccountInvestorEditForm extends Component{
                 stayOpen: false
             },
             account: {
+            	type: this.props.account.accountType,
+            	id: id,
+            	email: email,
             	firstName: first_name,
 	    		lastName: last_name,
-	    		region: null 
-    	    }	
+	    		region: region 
+	    	}	
     	}
     }
     
@@ -39,11 +43,12 @@ class AccountInvestorEditForm extends Component{
 
     handleUpdateSubmit = (event) => {
     	event.preventDefault();
+    	this.props.updateAccount(this.state.account, this.props.history)
     }
 
 
     render(){
-    	const { firstName, lastName, region } = this.state.account;
+    	const { email, firstName, lastName, region } = this.state.account;
     	const { removeSelected, disabled, stayOpen } = this.state.select;
     	const regions = this.props.currencies.map((currency) => {
             return { label: currency.region, value: currency.region }
@@ -51,8 +56,17 @@ class AccountInvestorEditForm extends Component{
 
     	return(
     		<div>
-    		    <h3>Edit account info</h3>
+    		    <h3>Edit Account Info</h3>
+    		    {this.props.account.errors}
     		    <form onSubmit={this.handleUpdateSubmit}>
+    		        <label>Email:
+                        <input type="email"
+                            placeholder="Enter Email"
+                            name="email"
+                            value={email}
+                            onChange={this.handleInpuChange}/>
+                    </label><br/>
+
                     <label>First Name:
                         <input type="text"
                             placeholder="Enter First Name"
@@ -96,7 +110,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-	return{}
+	return{
+		updateAccount: bindActionCreators(updateAndSetAccountInfo, dispatch)
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountInvestorEditForm);
