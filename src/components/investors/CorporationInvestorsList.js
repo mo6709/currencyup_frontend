@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InvestorsList = ({ investorsInfo }) => {
+const CorporationInvestorsList = ({ investorsInfo }) => {
     let investors = investorsInfo.map((investor) => {
     	return(
 	    	<div key={investor.id}>
@@ -17,4 +17,4 @@ const InvestorsList = ({ investorsInfo }) => {
 	)	
 }
 
-export default InvestorsList;
+export default CorporationInvestorsList;

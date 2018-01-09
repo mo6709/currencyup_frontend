@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Route, Switch, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import AccountCorporationInfo from '../../../components/account/AccountCorporationInfo';
-import InvestorsList from '../../../components/investors/InvestorsList';
+import CorporationInvestorsList from '../../../components/investors/CorporationInvestorsList';
 import CorporationFunds from '../../../components/corporations/CorporationFunds';
-import InvestmentsList from '../../../components/investments/InvestmentsList';
-import TransactionsList from '../../../components/transactions/TransactionsList';
+import CorporationInvestmentsList from '../../../components/investments/CorporationInvestmentsList';
+import CorporationTransactionsList from '../../../components/transactions/CorporationTransactionsList';
 
 import AccountCorporationEditForm from './AccountCorporationEditForm';
 import GenerateInvestmentForm from '../../corporations/GenerateInvestmentForm'
@@ -47,9 +47,9 @@ class AccountCorporationShow extends Component{
                         <p>Hello from AccountShow smart Container for corporations</p>
                         
                         <AccountCorporationInfo accountInfo={account}/>
-                        <InvestorsList investorsInfo={investors}/>
-                        <InvestmentsList investmentsInfo={corporation_investments}/>
-                        <TransactionsList currencies={this.props.currencies} transactionsInfo={transactions}/>
+                        <CorporationInvestorsList investorsInfo={investors}/>
+                        <CorporationInvestmentsList investmentsInfo={corporation_investments}/>
+                        <CorporationTransactionsList currenciesData={this.props.currencies} transactionsData={transactions}/>
                         <CorporationFunds currenciesInfo={currency_corporations}/>
                         
                         <button><Link to={ { pathname: `${id}/Edit` } }>Edit Account</Link></button>

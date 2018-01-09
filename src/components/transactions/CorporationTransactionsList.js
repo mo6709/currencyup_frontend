@@ -1,14 +1,15 @@
 import React from 'react';
 
-const TransactionsList = ({ transactionsInfo, currencies }) => {
-	const transactionDivs = transactionsInfo.map((transaction) => {
-		const CurrencyName = currencies.all.find((c) => c.id === transaction.currency_id).name;
+const CorporationTransactionsList = ({ transactionsData, currenciesData }) => {
+	debugger;
+	const transactionDivs = transactionsData.map((transaction) => {
+		const currency = currenciesData.all.find((c) => c.id === transaction.currency_id)
 		const transactionType = transaction.t_type.split("_").join(" ");
         return(
         	<div>
         	    <p>
                 Investor: {transaction.investor.first_name} {transaction.investor.last_name} , 
-                Currency: {CurrencyName} ,
+                Currency: {currency.name} ,
                 Transaction Type: {transactionType} ,
                 Amount: {transaction.total_amount} , 
                 Return Rate: {transaction.return_rate} , 
@@ -26,4 +27,4 @@ const TransactionsList = ({ transactionsInfo, currencies }) => {
 	)
 }
 
-export default TransactionsList;
+export default CorporationTransactionsList;

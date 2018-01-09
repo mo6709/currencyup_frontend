@@ -4,11 +4,11 @@ import { Route, Switch, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import AccountInvestorInfo from '../../../components/account/AccountInvestorInfo';
 import AccountInvestorEditForm from './AccountInvestorEditForm';
-
-// import InvestorsList from '../../components/investors/InvestorsList';
+import InvestorInvestmentsList from '../../../components/investments/InvestorInvestmentsList';
+import InvestorTransactionsList from '../../../components/transactions/InvestorTransactionsList';
 // import CorporationFunds from '../../components/corporations/CorporationFunds';
 // import InvestmentsList from '../../components/investments/InvestmentsList';
-// import TransactionsList from '../../components/transactions/TransactionsList';
+
 
 // import GenerateInvestmentForm from '../corporations/GenerateInvestmentForm'
 
@@ -21,7 +21,7 @@ class AccountInvestorShow extends Component{
     }
 
     render(){
-        const { account, session } = this.props;
+        const { account, session, currencies } = this.props;
 
         if(account.loading){
             return(
@@ -45,12 +45,14 @@ class AccountInvestorShow extends Component{
                     <div className="DottedBox">
                         <p>Hello from AccountInvestorShow smart Container</p>
                         <AccountInvestorInfo accountInfo={account}/>
+                        <InvestorInvestmentsList currenciesData={currencies} transactionsData={account.info.transactions}/>
+                        <InvestorTransactionsList currenciesData={currencies} transactionsData={account.info.transactions}/>
+
                         <button><Link to={ { pathname:`${account.info.id}/Edit` } }>Edit Account</Link></button>
                         
                         {/*
-                        <InvestorsList investorsInfo={investors}/>
-                        <InvestmentsList investmentsInfo={corporation_investments}/>
-                        <TransactionsList currencies={this.props.currencies} transactionsInfo={transactions}/>
+                        
+                        
                         <CorporationFunds currenciesInfo={currency_corporations}/>
                         
                         <button><Link to={`${this.props.match.url}/corporationInvestments`}>Generate Investment</Link></button>*/}

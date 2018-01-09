@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InvestmentsList = ({ investmentsInfo }) => {
+const CorporationInvestmentsList = ({ investmentsInfo }) => {
 	debugger;
 	const investmentDivs = investmentsInfo.map((investment) => {
 		if(investment.active){
@@ -23,4 +23,4 @@ const InvestmentsList = ({ investmentsInfo }) => {
 	)
 }
 
-export default InvestmentsList;
+export default CorporationInvestmentsList;
