@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch';
 
 export function fetchInvestments() {
     return function(dispatch){
@@ -8,13 +8,15 @@ export function fetchInvestments() {
         .then(response => response.json())
         .then( currenciesJSON => {
             dispatch({ type: 'FETCH_INVESTMENTS', payload: currenciesJSON.data })
-        });
+        })
+        .catch( error => { throw(error) })
     }
 }
 
 export function generateInvestment(investmentInfo, routerHistory){
 	return function(dispatch){
 		dispatch({ type: 'GENERATING_INVESTMENT' });
+
 		const id = investmentInfo.corporationId;
         const uri = `http://localhost:3000/api/v1/corporations/${id}/corporation_investments`;
         const { currencyId, returnRate, investmentDate, active } = investmentInfo;

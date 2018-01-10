@@ -41,22 +41,18 @@ class AccountInvestorShow extends Component{
                 <div>
                     <Switch> 
 	                  <Route path={`${this.props.match.url}/Edit`} component={AccountInvestorEditForm}/>
-	                </Switch>}
+	                </Switch>
                     <div className="DottedBox">
                         <p>Hello from AccountInvestorShow smart Container</p>
                         <AccountInvestorInfo accountInfo={account}/>
                         <InvestorInvestmentsList currenciesData={currencies} transactionsData={account.info.transactions}/>
                         <InvestorTransactionsList currenciesData={currencies} transactionsData={account.info.transactions}/>
                         <InvestorFunds currenciesData={account.info.currency_investors}/>
-                        <button><Link to={ { pathname:`${account.info.id}/Edit` } }>Edit Account</Link></button>                        
+
+                        <button><Link to={ { pathname:`${account.info.id}/Edit` } }>Edit Account</Link></button>
+                        <button><Link to="/investments">Start to Invest</Link></button>                        
                     </div>
                </div>   
-            )
-        }else if(account.accountType === "investor"){
-            return(
-                <div>
-                    <p>Hello from AccountShow smart Container for investor</p>
-                </div>
             )
         }
     }

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Select from 'react-select';
 import { updateAndSetAccountInfo } from '../../../actions/accountActions';
-import fetch from 'isomorphic-fetch';
 
 
 class AccountCorporationEditForm extends Component{

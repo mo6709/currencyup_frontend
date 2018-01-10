@@ -12,7 +12,7 @@ const InvestorFunds = ({ currenciesData }) => {
 
 	return(
 		<div className="DottedBox">
-		    <p>Funds</p>
+		    <h3>Funds</h3>
             {fundDivs}
 		</div>
 	)
