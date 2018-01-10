@@ -6,7 +6,7 @@ import AccountInvestorInfo from '../../../components/account/AccountInvestorInfo
 import AccountInvestorEditForm from './AccountInvestorEditForm';
 import InvestorInvestmentsList from '../../../components/investments/InvestorInvestmentsList';
 import InvestorTransactionsList from '../../../components/transactions/InvestorTransactionsList';
-// import CorporationFunds from '../../components/corporations/CorporationFunds';
+import InvestorFunds from '../../../components/investors/InvestorFunds';
 // import InvestmentsList from '../../components/investments/InvestmentsList';
 
 
@@ -39,31 +39,17 @@ class AccountInvestorShow extends Component{
         }else if(account.accountType === "investor"){
             return(
                 <div>
-                   { <Switch> 
+                    <Switch> 
 	                  <Route path={`${this.props.match.url}/Edit`} component={AccountInvestorEditForm}/>
-	               </Switch>}
+	                </Switch>}
                     <div className="DottedBox">
                         <p>Hello from AccountInvestorShow smart Container</p>
                         <AccountInvestorInfo accountInfo={account}/>
                         <InvestorInvestmentsList currenciesData={currencies} transactionsData={account.info.transactions}/>
                         <InvestorTransactionsList currenciesData={currencies} transactionsData={account.info.transactions}/>
-
-                        <button><Link to={ { pathname:`${account.info.id}/Edit` } }>Edit Account</Link></button>
-                        
-                        {/*
-                        
-                        
-                        <CorporationFunds currenciesInfo={currency_corporations}/>
-                        
-                        <button><Link to={`${this.props.match.url}/corporationInvestments`}>Generate Investment</Link></button>*/}
+                        <InvestorFunds currenciesData={account.info.currency_investors}/>
+                        <button><Link to={ { pathname:`${account.info.id}/Edit` } }>Edit Account</Link></button>                        
                     </div>
-                        
-                     {/* 
-                     <div> <InvestmentsGeneratorButton> </div>
-                     <swith>
-                        <Route path={`${this.props.match.url}/investments`} component={InvestmentsPage} />
-                        <Route path={`${this.props.match.url}/funds`} component={FundsPage} />
-                     </switch>   */}
                </div>   
             )
         }else if(account.accountType === "investor"){

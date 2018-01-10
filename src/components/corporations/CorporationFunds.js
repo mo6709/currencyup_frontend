@@ -1,17 +1,17 @@
 import React from 'react';
 
 const CorporationFunds = ({ currenciesInfo }) => {
-	let funds = currenciesInfo.map((currency) => {
+	let fundDivs = currenciesInfo.map((fund) => {
 		return(
 			<div>
-			  <p>ammount: {currency.total_amount} {currency.currency.name}</p>
+			  <p>ammount: {fund.total_amount} {fund.currency.name}</p>
 			</div>
 		)
 	})
 	return(
 		<div className="DottedBox">
 		    <p>Corporations Funds</p>
-		    {funds}
+		    {fundDivs}
 		</div>
 	)
 }
