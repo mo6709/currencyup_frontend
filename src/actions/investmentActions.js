@@ -19,13 +19,14 @@ export function generateInvestment(investmentInfo, routerHistory){
 
 		const id = investmentInfo.corporationId;
         const uri = `http://localhost:3000/api/v1/corporations/${id}/corporation_investments`;
-        const { currencyId, returnRate, investmentDate, active } = investmentInfo;
+        const { currencyId, returnRate, investmentDate, active, region } = investmentInfo;
 		const parameters = { 
 			corporation_investment: {
 	            currency_id: currencyId, 
 	            return_rate: parseFloat(returnRate), 
 	            investment_date: investmentDate,
-	            active: active 
+	            active: active,
+	            region: region 
 			}
 	    };
 		return fetch(uri ,{

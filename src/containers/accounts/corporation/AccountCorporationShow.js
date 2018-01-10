@@ -9,7 +9,7 @@ import CorporationInvestmentsList from '../../../components/investments/Corporat
 import CorporationTransactionsList from '../../../components/transactions/CorporationTransactionsList';
 
 import AccountCorporationEditForm from './AccountCorporationEditForm';
-import GenerateInvestmentForm from '../../corporations/GenerateInvestmentForm'
+import GenerateInvestmentForm from './GenerateInvestmentForm'
 
 
 class AccountCorporationShow extends Component{
@@ -44,8 +44,6 @@ class AccountCorporationShow extends Component{
                         <Route exact path={`${this.props.match.url}/corporationInvestments`} component={GenerateInvestmentForm} /> 
                     </Switch>
                     <div className="DottedBox">
-                        <p>Hello from AccountShow smart Container for corporations</p>
-                        
                         <AccountCorporationInfo accountInfo={account}/>
                         <CorporationInvestorsList investorsInfo={investors}/>
                         <CorporationInvestmentsList investmentsInfo={corporation_investments}/>
@@ -55,8 +53,8 @@ class AccountCorporationShow extends Component{
                         <button><Link to={ { pathname: `${id}/Edit` } }>Edit Account</Link></button>
                         <button><Link to={`${id}/corporationInvestments`}>Generate Investment</Link></button>
                     </div>    
-                     {/* 
-                     <div> <InvestmentsGeneratorButton> </div>
+                    {/* 
+                     <div><InvestmentsGeneratorButton></div>
                      <swith>
                         <Route path={`${this.props.match.url}/investments`} component={InvestmentsPage} />
                         <Route path={`${this.props.match.url}/funds`} component={FundsPage} />

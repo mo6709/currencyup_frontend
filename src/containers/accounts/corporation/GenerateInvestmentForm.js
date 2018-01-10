@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { bindActionCreators } from 'redux';
-import * as investmentActions from '../../actions/investmentActions';
+import * as investmentActions from '../../../actions/investmentActions';
 
 import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
@@ -21,6 +21,7 @@ class GenerateInvestmentForm extends Component{
                 stayOpen: false
             },
             investment: {
+                region: '',
             	corporationId: this.props.account.info.id,
 	            currencyId: '',
 	            returnRate: '',
@@ -37,9 +38,15 @@ class GenerateInvestmentForm extends Component{
         this.setState({ investment: Object.assign({}, this.state.investment, { [name]: parsedVal }) })
 	}
     
-    handleSelectChange = (value) => { 
+    handleCurrencySelectChange = (value) => {
         const newState = Object.assign({}, this.state);
-        newState.investment.currencyId = value
+        newState.investment.currencyId = value;
+        this.setState(newState);
+    }
+
+    handleRegionSelectChange = (value) => {
+        const newState = Object.assign({}, this.state);
+        newState.investment.region = value;
         this.setState(newState);
     }
 
@@ -71,12 +78,16 @@ class GenerateInvestmentForm extends Component{
 
     render(){
     	const { stayOpen, disabled, removeSelected } = this.state.select;
-    	const { currencyId, returnRate, investmentDate, active } = this.state.investment;
+    	const { currencyId, returnRate, investmentDate, active, region } = this.state.investment;
         const { account } = this.props;
     	
     	const currencies = account.info.currencies.map((currency) => {
     		return { label: `${currency.name} - ${currency.acronym}`, value: currency.id }
     	});
+
+        const regions = account.info.currencies.map(c => {
+            return { label: `${c.region}`, value: `${c.region.toLocaleLowerCase()}`}
+        })
 
     	const dateObject = new Date(investmentDate);
         const date = new Date();
@@ -93,9 +104,10 @@ class GenerateInvestmentForm extends Component{
 		        	<div>
 	                    <label style={{width: '280px'}}>Currency:
 		                    <Select
+                                name="currencyId"
 		                        closeOnSelect={!stayOpen}
 		                        disabled={disabled}
-		                        onChange={this.handleSelectChange}
+		                        onChange={this.handleCurrencySelectChange}
 		                        options={currencies}
 		                        placeholder="Select Currency"
 		                        removeSelected={removeSelected}
@@ -104,6 +116,21 @@ class GenerateInvestmentForm extends Component{
 	                    </label>    
                     </div><br/>
                     
+                    <div>
+                         <label style={{width: '280px'}}>Region:
+                            <Select
+                                name="region"
+                                closeOnSelect={!stayOpen}
+                                disabled={disabled}
+                                onChange={this.handleRegionSelectChange}
+                                options={regions}
+                                placeholder="Select Region"
+                                removeSelected={removeSelected}
+                                simpleValue
+                                value={region}/>
+                        </label>
+                    </div>
+
                     <div>
 	                    <label>Return Rate:
 	                        <input type="number"
