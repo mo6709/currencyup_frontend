@@ -9,7 +9,6 @@ export function getAndSetAccountInfo(dispatchAction, type, routerHistory){
     })
     .then(response => response.json())
     .then(responseJSON => {
-        debugger;
         dispatchAction(setAccount(type, responseJSON));
         routerHistory.replace(`/account/${type}s/${account_id}`);
     })           

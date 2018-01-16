@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
     corporations: corporationsReducer,
     investments: investmentsReducer,
     session: sessionReducer,
-    accountTransactions: accountTransactionReducer
+    accountTransaction: accountTransactionReducer
 })
 
 export default rootReducer;

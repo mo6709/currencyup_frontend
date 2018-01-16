@@ -1,7 +1,6 @@
 import React from 'react';
 
 const InvestorTransactionsList = ({ currenciesData, transactionsData }) => {
-	debugger;
 	const transactionDivs = transactionsData.map((transaction) => {
 		const totalAmount = transaction.total_amount;
 		const currency = currenciesData.all.find(c => c.id === transaction.currency_id);

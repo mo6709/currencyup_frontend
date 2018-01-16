@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 
-export function persistTransaction(transactionData, routerHistory){
+export function persistInvestorTransaction(transactionData){
 	return (dispatch) => {
 		dispatch({ type: 'TRANSACTION_PRESISTING' });
 		const params = { transaction: transactionData };
@@ -12,14 +12,11 @@ export function persistTransaction(transactionData, routerHistory){
 		})
 		.then(response => response.json())
 		.then( resopnseJSON => {
-			//dispatch transaction success and pass the data(transaction data)
-			//dispatch account setup
-			
 			if (resopnseJSON.status === "error" || resopnseJSON.status === 500){
 				dispatch({ type: 'TRANSACTION_PRESISTED_FAILUR' })
 			}else {
-				dispatch({ type: 'TRANSACTION_PRESISTED_SUCCESS', payload: resopnseJSON.data })
-                debugger;
+				dispatch({ type: 'TRANSACTION_PRESISTED_SUCCESS', payload: resopnseJSON.data.slice(-1)[0] });
+                dispatch({ type: 'ACCOUNT_TRANSACTIONS_UPDATE', payload: resopnseJSON.data })
 			}
 		})
 		.catch(error => { throw(error) })

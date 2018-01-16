@@ -1,7 +1,6 @@
 import React from 'react';
 
 const InvestorFunds = ({ currenciesData }) => {
-	debugger;
 	let fundDivs = currenciesData.map((fund) => {
 		return(
 			<div key={fund.id}>

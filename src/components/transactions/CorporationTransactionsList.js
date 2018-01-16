@@ -1,7 +1,6 @@
 import React from 'react';
 
 const CorporationTransactionsList = ({ transactionsData, currenciesData }) => {
-	debugger;
 	const transactionDivs = transactionsData.map((transaction) => {
 		const currency = currenciesData.all.find((c) => c.id === transaction.currency_id)
 		const transactionType = transaction.t_type.split("_").join(" ");

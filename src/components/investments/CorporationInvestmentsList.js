@@ -1,7 +1,6 @@
 import React from 'react';
 
 const CorporationInvestmentsList = ({ investmentsInfo }) => {
-	debugger;
 	const investmentDivs = investmentsInfo.map((investment) => {
 		if(investment.active){
 			const { region, currency, return_rate, investment_date, created_at } = investment 

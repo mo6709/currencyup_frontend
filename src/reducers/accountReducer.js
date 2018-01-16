@@ -20,6 +20,10 @@ export default function accountReducer(state = {
             return Object.assign({}, state,  { info: newInfo });
         case "FETCH_CORPORSTION_INVESTMENTS_FAILUR":
             return Object.assign({}, state, { errors: action.messages });
+        case "ACCOUNT_TRANSACTIONS_UPDATE":
+            const newInfo = Object.assign({}, state.info);
+            newInfo.transactions = action.payload;
+            return Object.assign({}, state, { info: newInfo });
         default:
           return state;
   }

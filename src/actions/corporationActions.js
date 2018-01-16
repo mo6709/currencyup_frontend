@@ -7,7 +7,6 @@ export function fetchCorporations(){
     	return fetch('http://localhost:3000/api/v1/corporations')
     	.then( response => response.json())
     	.then(responseJSON => {
-    		debugger;
     		dispatch({ type: 'FETCH_CORPORATIONS', payload: responseJSON.data })
     	})
     	.catch( error => { throw(error) })
