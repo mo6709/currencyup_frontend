@@ -4,13 +4,15 @@ import currenciesReducer from './currenciesReducer';
 import investmentsReducer from './investmentsReducer';
 import sessionReducer from './sessionReducer';
 import corporationsReducer from './corporationsReducer';
+import accountTransactionReducer from './accountTransactionReducer'
 
 const rootReducer = combineReducers({
     account: accountReducer,
     currencies: currenciesReducer,
     corporations: corporationsReducer,
     investments: investmentsReducer,
-    session: sessionReducer
+    session: sessionReducer,
+    accountTransactions: accountTransactionReducer
 })
 
 export default rootReducer;

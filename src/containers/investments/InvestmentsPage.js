@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import InvestmentsList from '../../components/investments/InvestmentsList';
+import InvestmentsList from './InvestmentsList';
 import * as investmentActions from '../../actions/investmentActions';
 import * as corporationActions from '../../actions/corporationActions';
 
@@ -29,17 +29,10 @@ class InvestmentsPage extends Component{
 				</div>
 			)
 		}else if(investments.all.length > 0 && corporations.all.length > 0){
-			let currentInvestments = null;
-			if(account.accountType === "investor"){
-	            currentInvestments = investments.all.filter(i => i.region === account.info.region)
-			}else{
-				currentInvestments = investments.all
-			}
-
 			return(
 				<div className="DottedBox">
 				    <h3>Investments Page</h3>
-	                <InvestmentsList investmentsData={currentInvestments} corporationsData={corporations.all}/>
+	                <InvestmentsList routerHistory={this.props.match}/>
 				</div>
 			)
 		}else{

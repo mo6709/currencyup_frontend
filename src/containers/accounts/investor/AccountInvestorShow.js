@@ -7,10 +7,7 @@ import AccountInvestorEditForm from './AccountInvestorEditForm';
 import InvestorInvestmentsList from '../../../components/investments/InvestorInvestmentsList';
 import InvestorTransactionsList from '../../../components/transactions/InvestorTransactionsList';
 import InvestorFunds from '../../../components/investors/InvestorFunds';
-// import InvestmentsList from '../../components/investments/InvestmentsList';
-
-
-// import GenerateInvestmentForm from '../corporations/GenerateInvestmentForm'
+import InvestmentsPage from '../../investments/InvestmentsPage'
 
 
 class AccountInvestorShow extends Component{
@@ -41,6 +38,7 @@ class AccountInvestorShow extends Component{
                 <div>
                     <Switch> 
 	                  <Route path={`${this.props.match.url}/Edit`} component={AccountInvestorEditForm}/>
+                      <Route path={`${this.props.match.url}/investments`} component={InvestmentsPage} />
 	                </Switch>
                     <div className="DottedBox">
                         <p>Hello from AccountInvestorShow smart Container</p>
@@ -49,8 +47,8 @@ class AccountInvestorShow extends Component{
                         <InvestorTransactionsList currenciesData={currencies} transactionsData={account.info.transactions}/>
                         <InvestorFunds currenciesData={account.info.currency_investors}/>
 
-                        <button><Link to={ { pathname:`${account.info.id}/Edit` } }>Edit Account</Link></button>
-                        <button><Link to="/investments">Start to Invest</Link></button>                        
+                        <button><Link to={{ pathname:`${account.info.id}/Edit` }}>Edit Account</Link></button>
+                        <button><Link to={{ pathname: `${this.props.match.url}/investments` }}>Start to Invest</Link></button>                        
                     </div>
                </div>   
             )

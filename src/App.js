@@ -13,6 +13,7 @@ import AccountInvestorShow from './containers/accounts/investor/AccountInvestorS
 import * as currencyActions from './actions/currencyActions';
 import InvestmentsPage from './containers/investments/InvestmentsPage'
 
+import { Button, Icon, Label } from 'semantic-ui-react';
 
 class App extends Component {
 
@@ -35,6 +36,9 @@ class App extends Component {
         </p>
         <Router>
           <div>
+
+           
+
             <div style={{ borderBottom: '2px solid black', paddingBottom: '10px', marginBottom: '12px' }}>
               <NavLink style={{ marginRight: '10px' }} to="/currencies">See All The Currencies!</NavLink>
               <NavLink style={{ marginRight: '10px' }} activeStyle={{ background: 'darkblue' }} exact to="/login">Login</NavLink> 
@@ -47,7 +51,7 @@ class App extends Component {
               <Route exact path="/signup" component={AccountSignupForm} /> 
               <Route path="/account/corporations/:corporationId" component={AccountCorporationShow}/>
               <Route path="/account/investors/:investorId" component={AccountInvestorShow}/>
-              <Route path="/investments" component={InvestmentsPage} /> 
+              <Route path="/investments" component={InvestmentsPage} />
             </Switch>
           </div>  
         </Router>  
