@@ -46,12 +46,12 @@ class AccountCorporationShow extends Component{
                     <div className="DottedBox">
                         <AccountCorporationInfo accountInfo={account}/>
                         <CorporationInvestorsList investorsInfo={investors}/>
-                        <CorporationInvestmentsList investmentsInfo={corporation_investments}/>
-                        <CorporationTransactionsList currenciesData={this.props.currencies} transactionsData={transactions}/>
-                        <CorporationFunds currenciesInfo={currency_corporations}/>
+                        <CorporationInvestmentsList investmentsData={corporation_investments} currenciesData={this.props.currencies}/>
+                        <CorporationTransactionsList transactionsData={transactions} currenciesData={this.props.currencies}/>
+                        <CorporationFunds currencyCorporationsData={currency_corporations} currenciesData={this.props.currencies}/>
                         
-                        <button><Link to={ { pathname: `${id}/Edit` } }>Edit Account</Link></button>
-                        <button><Link to={`${id}/corporationInvestments`}>Generate Investment</Link></button>
+                        <button><Link to={`${this.props.match.url}/Edit`}>Edit Account</Link></button>
+                        <button><Link to={`${this.props.match.url}/corporationInvestments`}>Generate Investment</Link></button>
                     </div>    
                     {/* 
                      <div><InvestmentsGeneratorButton></div>

@@ -83,7 +83,7 @@ class InvestmentsList extends Component{
         let investmentsData = null;
         if(account.accountType === "investor"){
             debugger;
-            investmentsData = investments.all.filter(i => i.region === account.info.region)
+            investmentsData = investments.all.filter(i => i.region === account.info.region.toLowerCase())
         }else{
             investmentsData = investments.all
         }

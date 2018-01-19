@@ -17,14 +17,40 @@ import { Button, Icon, Label } from 'semantic-ui-react';
 
 class App extends Component {
 
-  componentWillMount(){
-      if(this.props.currencies.length === 0){
-        this.props.currencyActions.fetchCurrencies()
-      }
-  }
+    componentWillMount(){
+        if(this.props.currencies.all.length === 0){
+            this.props.currencyActions.fetchCurrencies()
+        }
+    }
+  
+    componentDidMount(){
+        setInterval(() => {
+            this.props.currencyActions.fetchCurrencies(); 
+        }, 600000);
+    }
 
   render() {
-    const { loggedIn } = this.props
+    const { loggedIn, account } = this.props
+    
+    let navLinks = null;
+    if(account.accountType === "investor"){
+        navLinks = <div className="navLinks">
+            <NavLink style={{ marginRight: '10px' }} activeStyle={{ background: 'darkblue' }} exact to={`/account/investors/${account.info.id}`}>Account: {account.info.first_name}</NavLink>
+            <NavLink style={{ marginRight: '10px' }} activeStyle={{ background: 'darkblue' }} exact to="/account/logout">Logout</NavLink>
+        </div> 
+    }else if(account.accountType === "corporation"){
+        navLinks = <div className="navLinks">
+            <NavLink style={{ marginRight: '10px' }} activeStyle={{ background: 'darkblue' }} exact to={`/account/corporations/${account.info.id}`}>Account: {account.info.name}</NavLink>
+            <NavLink style={{ marginRight: '10px' }} activeStyle={{ background: 'darkblue' }} exact to="/account/logout">Logout</NavLink>
+        </div>
+    }else{
+        navLinks = <div className="navLinks">
+            <NavLink style={{ marginRight: '10px' }} activeStyle={{ background: 'darkblue' }} exact to="/login">Login</NavLink> 
+            <NavLink style={{ marginRight: '10px' }} activeStyle={{ background: 'darkblue' }} exact to="/signup">Signup</NavLink>
+        </div>
+    }
+     
+    
     return (
       <div className="App">
         <header className="App-header">
@@ -36,13 +62,9 @@ class App extends Component {
         </p>
         <Router>
           <div>
-
-           
-
             <div style={{ borderBottom: '2px solid black', paddingBottom: '10px', marginBottom: '12px' }}>
               <NavLink style={{ marginRight: '10px' }} to="/currencies">See All The Currencies!</NavLink>
-              <NavLink style={{ marginRight: '10px' }} activeStyle={{ background: 'darkblue' }} exact to="/login">Login</NavLink> 
-              <NavLink style={{ marginRight: '10px' }} activeStyle={{ background: 'darkblue' }} exact to="/signup">Signup</NavLink> 
+              {navLinks}
             </div>
             <Switch>
               <Route exact path="/" render={() => <h3>Welcome to currencyUP</h3>} />
@@ -61,14 +83,15 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { 
+  return {
+    account: state.account,
     loggedIn: state.session.loggedIn, 
-    currencies: state.currencies.all 
+    currencies: state.currencies
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return { 
+  return {
     currencyActions: bindActionCreators(currencyActions, dispatch)
   }
 }

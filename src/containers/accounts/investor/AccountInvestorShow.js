@@ -45,9 +45,9 @@ class AccountInvestorShow extends Component{
                         <AccountInvestorInfo accountInfo={account}/>
                         <InvestorInvestmentsList currenciesData={currencies} transactionsData={account.info.transactions}/>
                         <InvestorTransactionsList currenciesData={currencies} transactionsData={account.info.transactions}/>
-                        <InvestorFunds currenciesData={account.info.currency_investors}/>
+                        <InvestorFunds currenciesData={currencies} currencyInvestorsData={account.info.currency_investors}/>
 
-                        <button><Link to={{ pathname:`${account.info.id}/Edit` }}>Edit Account</Link></button>
+                        <button><Link to={{ pathname:`${this.props.match.url}/Edit` }}>Edit Account</Link></button>
                         <button><Link to={{ pathname: `${this.props.match.url}/investments` }}>Start to Invest</Link></button>                        
                     </div>
                </div>   

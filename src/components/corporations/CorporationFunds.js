@@ -1,10 +1,11 @@
 import React from 'react';
 
-const CorporationFunds = ({ currenciesInfo }) => {
-	let fundDivs = currenciesInfo.map((fund) => {
+const CorporationFunds = ({ currencyCorporationsData, currenciesData }) => {
+	let fundDivs = currencyCorporationsData.map((fund) => {
+		const currency = currenciesData.all.find(c => c.id === fund.currency_id)
 		return(
 			<div>
-			  <p>ammount: {fund.total_amount} {fund.currency.name}</p>
+			  <p>ammount: {fund.total_amount} {currency.name}</p>
 			</div>
 		)
 	})

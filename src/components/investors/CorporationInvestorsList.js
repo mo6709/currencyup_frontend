@@ -1,7 +1,17 @@
 import React from 'react';
 
 const CorporationInvestorsList = ({ investorsInfo }) => {
-    let investors = investorsInfo.map((investor) => {
+	let uuniqueIds = [];
+	const filteredInvestors = investorsInfo.filter(investor => { 
+		if(uuniqueIds.includes(investor.id)){ 
+			return false; 
+		}else{ 
+			uuniqueIds.push(investor.id); 
+			return true; 
+		} 
+	})
+
+    const investors = filteredInvestors.map((investor) => {
     	return(
 	    	<div key={investor.id}>
                 <p>Investor Id:{investor.id}</p>
