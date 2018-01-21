@@ -27,6 +27,12 @@ export function loginAccount(credentials, routerHistory){
     }
 }
 
-export function logoutAccount(){
-    
+export function logoutAccount(routerHistory){
+    return function(dispatch){
+        localStorage.removeItem('token');
+        localStorage.removeItem('account_id');
+        dispatch({ type: 'LOGOUT_SUCCESS' });
+        dispatch({ type: 'ACCOUNT_LOGOUT_SETUP' });
+        routerHistory.replace("/");
+    }
 }

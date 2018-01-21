@@ -4,7 +4,7 @@ export default function accountReducer(state = {
     errors: ''
 }, action){
     switch (action.type) {     
-        case "ACCOUNT_SETUP":
+        case "ACCOUNT_LOGIN_SETUP":
             return Object.assign({}, state, { 
                 accountType: action.payload.accountType, 
                 info: action.payload.info,
@@ -24,7 +24,10 @@ export default function accountReducer(state = {
             const newInfo = Object.assign({}, state.info);
             newInfo.transactions = action.payload;
             return Object.assign({}, state, { info: newInfo });
+        case "ACCOUNT_LOGOUT_SETUP":
+            return Object.assign({}, { accountType: '', info: {}, errors: '' });
         default:
           return state;
   }
 }
+

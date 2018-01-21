@@ -1,5 +1,5 @@
 export default function sessionReducer(state = {
-     loggedIn: !!localStorage.getItem('token'),
+     loggedIn: false,
      errors: '',
      loading: false
     }, action){
@@ -11,7 +11,7 @@ export default function sessionReducer(state = {
         case 'LOGIN_SUCCESS': 
             return { loggedIn: !!localStorage.getItem('token'), errors: "", loading: false }   
         case 'LOGOUT_SUCCESS':
-            return ;  
+            return { loggedIn: !!localStorage.getItem('token') } 
         default:
             return state;
     }

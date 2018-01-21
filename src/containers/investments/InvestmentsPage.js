@@ -12,7 +12,7 @@ class InvestmentsPage extends Component{
 	}
 
 	componentDidMount(){
-		if(this.props.investments.all.length === 0 || this.props.corporations.all.length === 0){
+		if(this.props.investments.all.length ===  0 || this.props.corporations.all.length === 0){
 			this.props.investmentActions.fetchInvestments();
 			this.props.corporationActions.fetchCorporations();
 		}

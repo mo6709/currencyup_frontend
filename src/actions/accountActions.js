@@ -86,7 +86,7 @@ export function updateAndSetAccountInfo(accountInfo, routerHistory){
 }
 
 function setAccount(type, response) {
-    return { type: "ACCOUNT_SETUP", payload: { 
+    return { type: "ACCOUNT_LOGIN_SETUP", payload: { 
             accountType: type, 
             info: response 
         }
