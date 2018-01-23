@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Button, Icon, Modal, Header } from 'semantic-ui-react';
 import * as accountTransactionActions from '../../actions/accountTransactionActions';
 import { Label, Input } from 'semantic-ui-react';
+import ErrorsDiv from '../../components/errors/ErrorsDiv';
 
 
 class InvestmentsList extends Component{
@@ -14,6 +15,7 @@ class InvestmentsList extends Component{
         this.state = {
             pickedTransaction: false,
             open: false,
+            moneyToInvest: this.props.account.info.currency_investors[0].total_amount,
             transaction: {
                 investor_id: '',
                 corporation_investment_id: '',
@@ -22,6 +24,14 @@ class InvestmentsList extends Component{
                 total_amount: '',
                 return_rate: '',
                 t_type: "to_corp",
+            },
+            investment: {
+                investmentCurrencyName: '',
+                investmentCurrencySymbol: '', 
+                investmentDate: '',
+                corporationName: '', 
+                returnRate: '',
+                investmentPeriod: '',
             },
         }
     }
@@ -34,27 +44,31 @@ class InvestmentsList extends Component{
     showModal = params => (event) => {
         const { account, investments } = this.props;
         const dimmer = params[0];
-        const investment = investments.all.find(i => i.id == params[1]);
-        const { id, currency_id, corporation_id, return_rate, investment_date } = investment;
+        const investmentShow = investments.all.find(i => i.id == params[1]);
+        const { id, currency_id, corporation_id, return_rate, investment_date } = investmentShow;
         const investmentCurrency = this.props.currencies.all.find(c => c.id === currency_id);
         const transaction = {
-                investor_id: account.info.id,
-                corporation_investment_id: id,
-                corporation_id,
-                currency_id,
-                return_rate,
-                total_amount: '',
-                t_type: "to_corp",
+            investor_id: account.info.id,
+            corporation_investment_id: id,
+            corporation_id,
+            currency_id,
+            return_rate,
+            total_amount: '',
+            t_type: "to_corp",
         }
-        this.setState({
-            transaction, 
-            dimmer,
-            open: true,
+        const investment = {
             investmentCurrencyName: investmentCurrency.name,
+            investmentCurrencySymbol:investmentCurrency.symbol, 
             investmentDate: investment_date,
             corporationName: params[2], 
             returnRate: params[3],
             investmentPeriod: params[4],
+        }
+        this.setState({
+            transaction,
+            investment, 
+            dimmer,
+            open: true,
         });
 
     };
@@ -66,9 +80,12 @@ class InvestmentsList extends Component{
     
     handelIputChange = (event) => {
         const { name, value } = event.target;
-        const newTransaction = Object.assign({}, this.state.transaction)
+        const newTransaction = Object.assign({}, this.state.transaction);
+        const amount = value === "" ? 0 : parseFloat(value);
+        const funds = this.props.account.info.currency_investors[0].total_amount;
+        const newMoneyToInvest = funds - amount;
         newTransaction.total_amount = parseFloat(value);
-        this.setState({ transaction: newTransaction });
+        this.setState({ transaction: newTransaction, moneyToInvest: newMoneyToInvest });
     } 
 
     handleInvestSubmition = (event) => {
@@ -78,11 +95,11 @@ class InvestmentsList extends Component{
 
     render(){
         const { routerHistory, account, investments, corporations, accountTransaction } = this.props;
-        const { open, dimmer, returnRate, investmentDate, investmentPeriod, transaction, corporationName } = this.state;
+        const { open, dimmer, transaction, pickedTransaction } = this.state;
+        const {investmentCurrencyName, investmentCurrencySymbol, investmentDate, corporationName, returnRate, investmentPeriod } = this.state.investment;
 
         let investmentsData = null;
         if(account.accountType === "investor"){
-            debugger;
             investmentsData = investments.all.filter(i => i.region === account.info.region.toLowerCase())
         }else{
             investmentsData = investments.all
@@ -92,39 +109,38 @@ class InvestmentsList extends Component{
             const { active, corporation_id, return_rate, investment_date } = investment;
             const corporation = corporations.all.find(c => c.id === corporation_id);
             let corpName = "";
-            let investmentPeriod = "";
+            let investment_period = "";
             if(corporation){
                 corpName = corporation.name;
-                investmentPeriod = corporation.investment_period;
+                investment_period = corporation.investment_period;
             }
             const id = investment.id
             const activation = active === true ? "Active" : "Not Active";
-            const returnRate = return_rate;
             const date = investment_date.slice(0, 10);
             return(
                 <div key={investment.id}>
-                    <p>{activation} | {corpName} | {returnRate} for | {investmentPeriod} months | investment date {date}</p>
-                    <Button onClick={ this.showModal(['blurring', id, corpName, returnRate, investmentPeriod]) }>Invest</Button>
+                    <p>{activation} | {corpName} | {return_rate} for | {investment_period} months | investment date {date}</p>
+                    {account.accountType === "investor" ? <Button onClick={ this.showModal(['blurring', id, corpName, return_rate, investment_period]) }>Invest</Button> : ""}
                 </div>
             )
         })
 
         let description = "";
-        if(this.state.pickedTransaction && accountTransaction.loading){
+        if(pickedTransaction && accountTransaction.loading){
             description = <p>loading one moment please we are submiting your investments</p>;
-        }else if(this.state.pickedTransaction && !!accountTransaction.response){
+        }else if(pickedTransaction && !!accountTransaction.response){
             if(accountTransaction.status === 'error'){
-                description = <p>{accountTransaction.response}</p>;
+                description = <ErrorsDiv messages={accountTransaction.response}/>
             }else if(accountTransaction.status === 'success'){
                 const amountCalculated = transaction.total_amount + (transaction.total_amount * returnRate/100);
                 let dueDate = new Date(investmentDate); 
-                dueDate.setMonth(+this.state.investmentPeriod);
+                dueDate.setMonth(+investmentPeriod);
                 description = <p>you invested in -
                     {corporationName} -
                     {transaction.total_amount} - 
-                    {this.state.investmentCurrencyName} your return for this transaction is -
+                    {investmentCurrencyName} your return for this transaction is -
                     {amountCalculated.toFixed(2)} - 
-                    {this.state.investmentCurrencyName} due at {dueDate.toDateString()}</p>;
+                    {investmentCurrencyName} due at {dueDate.toDateString()}</p>;
             }
         }else{
             description = <div>
@@ -136,10 +152,10 @@ class InvestmentsList extends Component{
                     <Input labelPosition='right' 
                         type='number'
                         name="total">
-                        <Label basic>make this field dinamic</Label>
+                        <Label basic>{investmentCurrencySymbol}</Label>
                         <input placeholder='Amount'
-                        value={transaction.total_amount}
-                        onChange={this.handelIputChange}/>
+                            value={transaction.total_amount}
+                            onChange={this.handelIputChange}/>
                         <Label>.00</Label>
                     </Input>
                 </label>
@@ -160,12 +176,13 @@ class InvestmentsList extends Component{
                     </Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
+                            <h3>You have {this.state.moneyToInvest} money to invest</h3>
                             {description}
                         </Modal.Description>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button disabled={this.state.pickedTransaction && accountTransaction.loading} color='black' onClick={this.close}>Back to Investments</Button>
-                        <Button disabled={this.state.pickedTransaction && !!accountTransaction.response} positive labelPosition='right' icon='checkmark' content='Invest' onClick={this.handleInvestSubmition}/>
+                        <Button disabled={pickedTransaction && accountTransaction.loading} color='black' onClick={this.close}>Back to Investments</Button>
+                        <Button disabled={pickedTransaction && !!accountTransaction.response} positive labelPosition='right' icon='checkmark' content='Invest' onClick={this.handleInvestSubmition}/>
                     </Modal.Actions>
                 </Modal>
 

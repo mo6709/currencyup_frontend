@@ -7,11 +7,11 @@ export default function sessionReducer(state = {
         case 'LOGIN_LOADING':
             return Object.assign({}, state, { loading: true }) ;
         case 'LOGIN_FAILUR':
-            return { loggedIn: false, errors: action.messages, loading: false }
+            return Object.assign({}, state, { loggedIn: false, errors: action.payload, loading: false })
         case 'LOGIN_SUCCESS': 
-            return { loggedIn: !!localStorage.getItem('token'), errors: "", loading: false }   
+            return Object.assign({}, state, { loggedIn: !!localStorage.getItem('token'), errors: "", loading: false })  
         case 'LOGOUT_SUCCESS':
-            return { loggedIn: !!localStorage.getItem('token') } 
+            return Object.assign({}, state, { loggedIn: !!localStorage.getItem('token') }) 
         default:
             return state;
     }

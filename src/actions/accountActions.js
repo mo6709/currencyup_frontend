@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-export function getAndSetAccountInfo(dispatchAction, type, routerHistory){
+export function getAndSetAccountInfo(dispatchAction, type, routerHistory = null){
     const { account_id, token } = localStorage;
     const account_uri = `http://localhost:3000/api/v1/${type}s/${account_id}`;
     fetch(account_uri, {
@@ -10,7 +10,7 @@ export function getAndSetAccountInfo(dispatchAction, type, routerHistory){
     .then(response => response.json())
     .then(responseJSON => {
         dispatchAction(setAccount(type, responseJSON));
-        routerHistory.replace(`/account/${type}s/${account_id}`);
+        !!routerHistory ? routerHistory.replace(`/account/${type}s/${account_id}`) : null
     })           
 }
 
@@ -36,7 +36,7 @@ export function signupAccount(accountCredentials, routerHistory){
         .then(response => response.json())
         .then(responseJSON => {
             if( responseJSON.status === "error"){
-                dispatcher({ type: "ACCOUNT_SIGNUP_FAILUR", messages: responseJSON.messages || 'Somthing went wrong.' })
+                dispatcher({ type: "ACCOUNT_SIGNUP_FAILUR", payload: responseJSON.messages || 'Somthing went wrong.' })
             }else{
                 localStorage.setItem('token', responseJSON.token);
                 localStorage.setItem('account_id', responseJSON.account_id);
@@ -68,14 +68,7 @@ export function updateAndSetAccountInfo(accountInfo, routerHistory){
         .then(response => response.json())
         .then(responseJSON => {
             if(responseJSON.status === "error"){
-                let errors = "";
-                if(typeof responseJSON.messages === 'string' || responseJSON.messages instanceof String){
-                    errors = responseJSON.messages 
-                }else{ 
-                    for(let key in responseJSON["messages"]){ errors += `${key}: ${responseJSON["messages"][key]}\n`}
-                }
-                
-                dispatch({ type: "ACCOUNT_UPDATE_FAILUR", messages: errors })
+                dispatch({ type: "ACCOUNT_UPDATE_FAILUR", payload: responseJSON.messages })
             }else{
                 dispatch(setAccount(type, responseJSON));
                 routerHistory.replace(`/account/${type}s/${id}`);
@@ -86,7 +79,7 @@ export function updateAndSetAccountInfo(accountInfo, routerHistory){
 }
 
 function setAccount(type, response) {
-    return { type: "ACCOUNT_LOGIN_SETUP", payload: { 
+    return { type: "ACCOUNT_SETUP", payload: { 
             accountType: type, 
             info: response 
         }

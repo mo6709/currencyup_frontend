@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { getAndSetAccountInfo } from './accountActions';
-    
+
 export function loginAccount(credentials, routerHistory){
     const { accountType } = credentials;
     return function(dispatch){
@@ -15,7 +15,7 @@ export function loginAccount(credentials, routerHistory){
         .then(response => response.json())
         .then(responseJSON => { 
             if (responseJSON.status === "error"){
-                 dispatcher({ type: "LOGIN_FAILUR", messages: responseJSON.messages || 'Somthing went wrong.' })
+                 dispatcher({ type: "LOGIN_FAILUR", payload: responseJSON.messages || 'Somthing went wrong.' })
             }else{ 
                 localStorage.setItem('token', responseJSON.token);
                 localStorage.setItem('account_id', responseJSON.account_id);
@@ -29,10 +29,13 @@ export function loginAccount(credentials, routerHistory){
 
 export function logoutAccount(routerHistory){
     return function(dispatch){
-        localStorage.removeItem('token');
-        localStorage.removeItem('account_id');
-        dispatch({ type: 'LOGOUT_SUCCESS' });
-        dispatch({ type: 'ACCOUNT_LOGOUT_SETUP' });
+        ['token', 'account_id', 'state'].forEach(item => {
+            localStorage.removeItem(item)
+        });
+
+        ['LOGOUT_SUCCESS', 'ACCOUNT_LOGOUT_SETUP'].forEach(type => {
+            dispatch({ type: type })
+        })
         routerHistory.replace("/");
     }
 }

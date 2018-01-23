@@ -8,7 +8,6 @@ import * as corporationActions from '../../actions/corporationActions';
 class InvestmentsPage extends Component{
 	constructor(props){
 		super(props);
-		this.state = {}
 	}
 
 	componentDidMount(){
@@ -19,7 +18,7 @@ class InvestmentsPage extends Component{
 	}
 
 	render(){
-		const { investments, corporations, account }= this.props;
+		const { investments, corporations, account } = this.props;
 
 		if(investments.loading || corporations.loading){
 			return(
@@ -32,6 +31,7 @@ class InvestmentsPage extends Component{
 			return(
 				<div className="DottedBox">
 				    <h3>Investments Page</h3>
+				    <h3>You have {this.props.account.info.currency_investors[0].total_amount} to invest</h3>
 	                <InvestmentsList routerHistory={this.props.match}/>
 				</div>
 			)

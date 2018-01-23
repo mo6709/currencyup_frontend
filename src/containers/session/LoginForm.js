@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as sessionActions from '../../actions/sessionActions';
 import fetch from 'isomorphic-fetch';
+import ErrorsDiv from '../../components/errors/ErrorsDiv';
 
 class LoginForm extends Component{
     
@@ -39,12 +40,11 @@ class LoginForm extends Component{
 
     render() {
         const { email, password, accountType } = this.state.credentials;
-        const { errors } = this.props.session;
-        
+        const { errors } = this.props.session
         return(
             <div>
                 <h2>Login by Email</h2>
-                {errors}
+                {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
                 <p>{this.state.errors}</p>
                 <form onSubmit={event => this.handleSigninSubmit(event) } >
                   <input type="email"
