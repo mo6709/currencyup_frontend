@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { bindActionCreators } from 'redux';
 import * as investmentActions from '../../../actions/investmentActions';
+import ErrorsDiv from '../../../components/errors/ErrorsDiv';
 
 import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
@@ -98,7 +99,7 @@ class GenerateInvestmentForm extends Component{
         	  <h4>Generate Investment Form</h4>
 
         	  {this.state.errors}
-        	  {account.errors}
+        	  {account.errors === "" ? "" : <ErrorsDiv messages={account.errors}/>}
 
         	    <form onSubmit={this.handleInvestmentSubmit}>
 		        	<div>

@@ -1,5 +1,5 @@
 export default function sessionReducer(state = {
-     loggedIn: false,
+     loggedIn: !!localStorage.getItem('token'),
      errors: '',
      loading: false
     }, action){

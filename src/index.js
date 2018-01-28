@@ -22,13 +22,8 @@ const store = createStore(
     )
 );
 
-// export default presistStorToLocalStorage(){
-//    saveState(store.getState())
-// }
-
-
 store.subscribe(throttle(() => {
-	const { account, currencies, corporations, investments, session, } = store.getState()
+	const { account, currencies, corporations, investments, session, } = store.getState();
     const storeToSave = { 
     	account: { accountType: account.accountType, info: account.info, errors: '' },
 	    currencies: { loading: false, all: currencies.all },

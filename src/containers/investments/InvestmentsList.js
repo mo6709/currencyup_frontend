@@ -176,7 +176,7 @@ class InvestmentsList extends Component{
                     </Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <h3>You have {this.state.moneyToInvest} money to invest</h3>
+                            <h3>You have {this.state.moneyToInvest.toFixed(4)} money to invest</h3>
                             {description}
                         </Modal.Description>
                     </Modal.Content>

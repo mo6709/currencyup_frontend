@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Select from 'react-select';
 import { updateAndSetAccountInfo } from '../../../actions/accountActions';
+import ErrorsDiv from '../../../components/errors/ErrorsDiv';
 
 
 class AccountCorporationEditForm extends Component{
@@ -48,15 +49,16 @@ class AccountCorporationEditForm extends Component{
 
     render(){
         const { disabled, stayOpen } = this.state.select;
-        const { email, name, title, regions_array, investment_period } = this.state.account
+        const { email, name, title, regions_array, investment_period } = this.state.account;
+        const { errors } = this.props.account;
         let regions = this.props.currencies.map((currency) => {
             return { label: currency.region, value: currency.region }
         });
        
         return( 
-            <div>
+            <div className="DottedBox">
                 <p>Hello from AccountEdit smart Container</p>
-                {this.props.account.errors}
+                {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
                 <form onSubmit={event => this.handleEditSubmit(event) }>
                     <label>Email:
                         <input type="email"

@@ -5,7 +5,7 @@ const InvestorFunds = ({ currencyInvestorsData, currenciesData }) => {
 		const currency = currenciesData.all.find(c => c.id === fund.currency_id);
 		return(
 			<div key={fund.id}>
-			    <p>amount: {fund.total_amount} {currency.name}</p>
+			    <p>amount: {fund.total_amount.toFixed(4)} {currency.name}</p>
 			</div>
 		)
 	})

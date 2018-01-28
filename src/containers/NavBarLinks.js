@@ -5,9 +5,12 @@ import { bindActionCreators } from 'redux';
 import * as currencyActions from '../actions/currencyActions';
 import { logoutAccount } from '../actions/sessionActions';
 
+
 class NavBarLinks extends Component{
 	constructor(props){
 		super(props);
+
+		this.state = {}
 	}
 
 	logOut = (event) => {

@@ -18,7 +18,7 @@ class InvestmentsPage extends Component{
 	}
 
 	render(){
-		const { investments, corporations, account } = this.props;
+		const { investments, corporations, account, session } = this.props;
 
 		if(investments.loading || corporations.loading){
 			return(
@@ -31,7 +31,7 @@ class InvestmentsPage extends Component{
 			return(
 				<div className="DottedBox">
 				    <h3>Investments Page</h3>
-				    <h3>You have {this.props.account.info.currency_investors[0].total_amount} to invest</h3>
+				    {session.loggedIn === true ? <h3>You have {account.info.currency_investors[0].total_amount.toFixed(4)} to invest</h3> : ""}
 	                <InvestmentsList routerHistory={this.props.match}/>
 				</div>
 			)
@@ -47,6 +47,7 @@ class InvestmentsPage extends Component{
 
 const mapStateToProps = (state) => {
     return{
+    	session: state.session,
     	account: state.account,
     	investments: state.investments,
     	corporations: state.corporations

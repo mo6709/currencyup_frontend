@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Select from 'react-select';
-import { updateAndSetAccountInfo } from '../../../actions/accountActions'
+import { updateAndSetAccountInfo } from '../../../actions/accountActions';
+import ErrorsDiv from '../../../components/errors/ErrorsDiv';
 
 class AccountInvestorEditForm extends Component{
     constructor(props){
@@ -50,14 +51,15 @@ class AccountInvestorEditForm extends Component{
     render(){
     	const { email, firstName, lastName, region } = this.state.account;
     	const { removeSelected, disabled, stayOpen } = this.state.select;
+        const { errors } = this.props.account;
     	const regions = this.props.currencies.map((currency) => {
             return { label: currency.region, value: currency.region }
         });
 
     	return(
-    		<div>
+    		<div className="DottedBox">
     		    <h3>Edit Account Info</h3>
-    		    {this.props.account.errors}
+    		    {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
     		    <form onSubmit={this.handleUpdateSubmit}>
     		        <label>Email:
                         <input type="email"

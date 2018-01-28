@@ -39,7 +39,7 @@ export function generateInvestment(investmentInfo, routerHistory){
 		.then(response => response.json())
 		.then((responseJSON) => { 
 			if(responseJSON.status === 'error'){
-                dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS_FAILUR', messages: responseJSON.messages || "Somthing went wrong" })
+                dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS_FAILUR', payload: responseJSON.messages || "Somthing went wrong" })
 			}else{
 				dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS_SUCCESS', payload: responseJSON.data });
 				routerHistory.replace(`/account/corporations/${id}`);
