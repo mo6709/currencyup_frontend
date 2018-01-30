@@ -36,6 +36,10 @@ class AccountSignupForm extends Component {
         this.setState({ [name]: value });
     }
 
+    componentDidMount(prevProps){
+        window.scrollTo(0, 720)
+    }
+
     formValidation = () => {
         const { password, passwordConfirmation, name, email, accountType, title, firstName, lastName } = this.state; 
         if(password !== "" && passwordConfirmation === password && email !== "" && accountType !==""){

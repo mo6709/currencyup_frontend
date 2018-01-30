@@ -38,6 +38,10 @@ class LoginForm extends Component{
         this.setState({ credentials: credentials });
     }
 
+    componentDidMount(prevProps){
+        window.scrollTo(0, 720)
+    }
+
     render() {
         const { email, password, accountType } = this.state.credentials;
         const { errors } = this.props.session

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import * as currencyActions from '../../actions/currencyActions';
 import CurrenciesList from '../../components/currencies/CurrenciesList';
+import CurrenciesTable from './CurrenciesTable';
 import { bindActionCreators } from 'redux';
 
 class CurrenciesPage extends Component {
@@ -22,7 +23,7 @@ class CurrenciesPage extends Component {
         return(
            <div>
              <h1>hello from CurrenciesPage smart container</h1>
-             <CurrenciesList CurrenciesData={this.props.currencies}/> 
+             <CurrenciesTable/> 
            </div>
         )
     }

@@ -30,31 +30,35 @@ class MenuBar extends Component {
         logoutAccount(history);
     }
 
+    goHome = (event) => {
+    	window.scrollTo(0, 720)
+    }
+
     render(){
     	const { loggedIn, account } = this.props
     
 	    let accountButtons = null;
 	    if(loggedIn && account.accountType === "investor"){
 	        accountButtons = <Menu.Item position='right'>
-				<Button as={ NavLink } to={`${this.props.match.url}account/investors/${account.info.id}`} name='account' inverted>{account.info.first_name}</Button>
-				<Button as={ NavLink } to={this.props.match.url} name='logout' onClick={this.logOut} inverted style={{ marginLeft: '0.5em' }}>Logout</Button>
+				<Button  as={ NavLink } to={`${this.props.match.url}account/investors/${account.info.id}`} name='account' inverted>{account.info.first_name}</Button>
+				<Button onClick={this.logOut} as={ NavLink } to={this.props.match.url} name='logout'  inverted style={{ marginLeft: '0.5em' }}>Logout</Button>
 			</Menu.Item> 
 	    }else if(loggedIn && loggedIn && account.accountType === "corporation"){
 	        accountButtons = <Menu.Item position='right'>
-				<Button as={ NavLink } to={`${this.props.match.url}account/corporations/${account.info.id}`} name='account' inverted>{account.info.name}</Button>
+				<Button  as={ NavLink } to={`${this.props.match.url}account/corporations/${account.info.id}`} name='account' inverted>{account.info.name}</Button>
 				<Button as={ NavLink } to={this.props.match.url} name='logout' onClick={this.logOut} inverted style={{ marginLeft: '0.5em' }}>Logout</Button>
 			</Menu.Item>
 	    }else{
 	        accountButtons = <Menu.Item position='right'>
-				<Button as={ NavLink } to='login' name='login' inverted>Log in</Button>
-				<Button as={ NavLink } to='signup' name='signup' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+				<Button   as={ NavLink } to='login' name='login' inverted>Log in</Button>
+				<Button  as={ NavLink } to='signup' name='signup' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
 			</Menu.Item>
 	    }
 
     	return(
-    		<Menu inverted pointing secondary size='large'>
-    		    <Menu.Item exact as={ NavLink } to='/' name='home' >Home</Menu.Item>
-    		    <Menu.Item as={ NavLink } to='/currencies' name='currencies' >Currencies</Menu.Item>
+    		<Menu inverted pointing secondary size='large'> 
+    		    <Menu.Item as={ NavLink } to='/' onClick={this.goHome} exact >Home</Menu.Item>
+    		    <Menu.Item as={ NavLink } to='/currencies' onClick={this.goHome} >Currencies</Menu.Item>
 				<Menu.Item as={ NavLink } to='/corporations' name='corporation'>Corporations</Menu.Item>
 				<Menu.Item as={ NavLink } to='/investments' name='investments'>Investments</Menu.Item>
 			    {accountButtons}
