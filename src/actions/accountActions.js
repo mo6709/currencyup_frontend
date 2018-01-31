@@ -11,7 +11,8 @@ export function getAndSetAccountInfo(dispatchAction, type, routerHistory = null)
     .then(responseJSON => {
         dispatchAction(setAccount(type, responseJSON));
         !!routerHistory ? routerHistory.replace(`/account/${type}s/${account_id}`) : null
-    })           
+    })
+    .catch(error => { throw(error)} )           
 }
 
 export function signupAccount(accountCredentials, routerHistory){
@@ -36,7 +37,7 @@ export function signupAccount(accountCredentials, routerHistory){
         .then(response => response.json())
         .then(responseJSON => {
             if( responseJSON.status === "error"){
-                dispatcher({ type: "ACCOUNT_SIGNUP_FAILUR", payload: responseJSON.messages || 'Somthing went wrong.' })
+                dispatcher({ type: "ACCOUNT_SIGNUP_FAILUR", payload: responseJSON.messages || { error: 'Somthing went wrong.'} })
             }else{
                 localStorage.setItem('token', responseJSON.token);
                 localStorage.setItem('account_id', responseJSON.account_id);
@@ -68,7 +69,7 @@ export function updateAndSetAccountInfo(accountInfo, routerHistory){
         .then(response => response.json())
         .then(responseJSON => {
             if(responseJSON.status === "error"){
-                dispatch({ type: "ACCOUNT_UPDATE_FAILUR", payload: responseJSON.messages })
+                dispatch({ type: "ACCOUNT_UPDATE_FAILUR", payload: responseJSON.messages || { error: 'Somthing went wrong.' } })
             }else{
                 dispatch(setAccount(type, responseJSON));
                 routerHistory.replace(`/account/${type}s/${id}`);

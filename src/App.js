@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, NavLink, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -22,6 +22,9 @@ import AccountSignupForm from './containers/accounts/AccountSignupForm';
 import AccountCorporationShow from './containers/accounts/corporation/AccountCorporationShow';
 import AccountInvestorShow from './containers/accounts/investor/AccountInvestorShow';
 import * as currencyActions from './actions/currencyActions';
+import * as corporationActions from './actions/corporationActions';
+import * as investmentActions from './actions/investmentActions';
+
 import InvestmentsPage from './containers/investments/InvestmentsPage';
 import MenuBar from './containers/MenuBar';
 import FixedMenuBar from './containers/FixedMenuBar';
@@ -35,9 +38,16 @@ class App extends Component {
     }
 
     componentWillMount(){
-        if(this.props.currencies.all.length === 0){
-            this.props.currencyActions.fetchCurrencies()
+        const { currencies, currencyActions, corporations, corporationActions, investments, investmentActions} = this.props;
+        if(currencies.all.length === 0){
+            currencyActions.fetchCurrencies()
         }
+        if(investments.all.length === 0){
+            investmentActions.fetchInvestments()
+        }
+        if(corporations.all.length === 0){
+            corporationActions.fetchCorporations()
+        } 
     }
   
     componentDidMount(){
@@ -50,8 +60,8 @@ class App extends Component {
     showFixedMenu = () => this.setState({ visible: true })
 
     render() {
-        const { visible } = this.state
-
+        const { visible } = this.state;
+        const { loggedIn } = this.props;
         return (
             <div className="App"> 
                 <Router>
@@ -87,8 +97,8 @@ class App extends Component {
                                     inverted
                                     style={{ fontSize: '1.7em', fontWeight: 'normal' }}
                                     />
-                                    <Button primary size='huge'>
-                                        Get Started
+                                    <Button  size='huge'>
+                                        {loggedIn ?<Link to="/investments">Investments</Link> : <Link to="/login">Get Started</Link>}
                                         <Icon name='right arrow' />
                                     </Button>
                                 </Container>
@@ -146,13 +156,17 @@ const mapStateToProps = (state) => {
     return {
         account: state.account,
         loggedIn: state.session.loggedIn, 
-        currencies: state.currencies
+        currencies: state.currencies,
+        investments: state.investments,
+        corporations: state.corporations
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        currencyActions: bindActionCreators(currencyActions, dispatch)
+        corporationActions: bindActionCreators(corporationActions, dispatch),
+        currencyActions: bindActionCreators(currencyActions, dispatch),
+        investmentActions: bindActionCreators(investmentActions, dispatch)
     }
 }
 

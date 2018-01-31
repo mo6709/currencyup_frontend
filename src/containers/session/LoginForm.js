@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import * as sessionActions from '../../actions/sessionActions';
 import fetch from 'isomorphic-fetch';
 import ErrorsDiv from '../../components/errors/ErrorsDiv';
+import { Label, Icon, Input, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 
 class LoginForm extends Component{
     
@@ -20,6 +22,19 @@ class LoginForm extends Component{
         }
     }
 
+    handleInputChange = (event) => {
+        event.preventDefault();
+        const field = event.target.name;
+        const credentials = this.state.credentials;
+        credentials[field] = event.target.value;
+        this.setState({ credentials: credentials }, console.log(this.state));
+
+    }
+
+    componentDidMount(prevProps){
+        window.scrollTo(0, 720)
+    } 
+
     handleSigninSubmit = (event) => {
         const { accountType, email, password } = this.state.credentials    
         event.preventDefault();
@@ -31,66 +46,78 @@ class LoginForm extends Component{
         }
     }
 
-    handleInputChange = (event) => {
-        const field = event.target.name;
-        const credentials = this.state.credentials;
-        credentials[field] = event.target.value;
-        this.setState({ credentials: credentials });
-    }
-
-    componentDidMount(prevProps){
-        window.scrollTo(0, 720)
-    }
-
     render() {
         const { email, password, accountType } = this.state.credentials;
-        const { errors } = this.props.session
+        const { errors } = this.props.session;
+        
         return(
-            <div>
-                <h2>Login by Email</h2>
-                {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
-                <p>{this.state.errors}</p>
-                <form onSubmit={event => this.handleSigninSubmit(event) } >
-                  <input type="email"
-                    name="email"
-                    label="Email"
-                    placeholder="Enter email"
-                    value={email}
-                    onChange={this.handleInputChange}/>
+            <div className='login-form'>
+                <style>{`
+                    body > div,
+                    body > div > div,
+                    body > div > div > div.login-form {
+                    height: 100%;
+                    }
+                `}</style>
+                <Grid
+                    textAlign='center'
+                    style={{ height: '100%' }}
+                    verticalAlign='middle'> 
 
-                    <input type="password"
-                    name="password"
-                    label="Password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={this.handleInputChange}/>
+                    <Grid.Column style={{ maxWidth: 450 }}>
+                        <Header as='h2' color='gray' textAlign='center'>
+                            <Image src='/logo.png' />
+                            {' '}Log-in to your account
+                        </Header>
+                        
+                        <Form onSubmit={event => this.handleSigninSubmit(event)} size='large'>
+                            <Segment stacked>
+                                <Form.Field fluid >
+                                    <Input
+                                        name="email" 
+                                        icon='mail' 
+                                        iconPosition='left' 
+                                        type='email' 
+                                        value={email} 
+                                        placeholder='E-mail address' 
+                                        onChange={this.handleInputChange}/>
+                                </Form.Field>
+                              
+                                <Form.Field fluid >
+                                    <Input
+                                        name="password" 
+                                        icon='lock' 
+                                        iconPosition='left' 
+                                        type='password' 
+                                        value={password} 
+                                        placeholder='Password' 
+                                        onChange={this.handleInputChange}/>
+                                </Form.Field>
+                                
+                                <Button.Group size='large' style={{padding: 5}}>
 
-                    <div>
-                        <h3>Please select account type.</h3>
-                        <div className="radio">
-                            <label>
-                                <input type="radio"
-                                name="accountType"
-                                value="investor" 
-                                checked={accountType === "investor"}
-                                onChange={this.handleInputChange}/>
-                                Investor
-                            </label>
-                        </div>
-                        <div className="radio">
-                            <label>
-                                <input type="radio"
-                                name="accountType" 
-                                value="corporation" 
-                                checked={accountType === "corporation"}
-                                onChange={this.handleInputChange}/>
-                                Corporation
-                            </label>
-                        </div>
-                    </div>    
-                    <input type="submit" value="Login"/>
-                </form>     
-            </div>    
+                                    <Button onClick={this.handleInputChange} name="accountType" value="investor" icon labelPosition='left'>
+                                        <Icon name='user'/>
+                                        Investor
+                                    </Button>
+                                    <Button.Or />
+                                    <Button onClick={this.handleInputChange}  name="accountType" value="corporation" icon labelPosition='right'>
+                                         Corporation
+                                        <Icon name='building'/>
+                                    </Button>
+                                </Button.Group>
+                            
+                                <Button color='gray' fluid size='large'>Login</Button>
+                            </Segment>
+                        </Form>
+                        <Message>
+                            New to us? <Link to="/signup">Sign Up</Link> 
+                            {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
+                            <p>{this.state.errors}</p>
+                        </Message>
+                    </Grid.Column>
+                </Grid>
+            </div>  
         )
     }
 }

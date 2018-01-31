@@ -1,1 +1,0 @@
-ActivInvestmentsTable/js

@@ -12,7 +12,9 @@ import {
   Segment,
   Visibility,
 } from 'semantic-ui-react';
-import CurrenciesQuickReview from './currencies/CurrenciesQuickReview';
+import CurrenciesQuickView from './currencies/CurrenciesQuickView';
+import InvestmentsQuickView from './investments/InvestmentsQuickView';
+import CorporationQuickView from './corporations/CorporationQuickView';
 
 class HomepageLayout extends Component {
     constructor(props){
@@ -22,17 +24,32 @@ class HomepageLayout extends Component {
   render() {
     return (
       <div ref="homePage">
+          <Segment style={{ padding: '0em' }} vertical>
+            <Grid celled='internally' columns='equal' stackable>
+              <Grid.Row textAlign='center'>
+                <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                  <Header as='h3' style={{ fontSize: '2em' }}>Current Investments</Header>
+                  <InvestmentsQuickView/>
+                </Grid.Column>
+                <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                  <Header as='h3' style={{ fontSize: '2em' }}>Corporations</Header>
+                  <CorporationQuickView/>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Segment>
+
           <Segment  style={{ padding: '8em 0em' }} vertical>
             <Grid container stackable verticalAlign='middle'>
               <Grid.Row>
                 <Grid.Column width={14}> 
-                  <Header as='h3' style={{ fontSize: '2em' }}>Active Investments</Header>
-                  
+                  <Header as='h3' style={{ fontSize: '2em' }}>Currencies</Header>
+                  <CurrenciesQuickView/>
                 </Grid.Column> 
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column textAlign='center'>
-                  <Button size='huge'>Start To Invest</Button>
+                  <Button size='huge'>Check Them Out</Button>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
@@ -51,22 +68,6 @@ class HomepageLayout extends Component {
                     <Image avatar src='/assets/images/avatar/large/nan.jpg' />
                     <b>Nan</b> Chief Fun Officer Acme Toys
                   </p>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Segment>
-
-          <Segment  style={{ padding: '8em 0em' }} vertical>
-            <Grid container stackable verticalAlign='middle'>
-              <Grid.Row>
-                <Grid.Column width={14}> 
-                  <Header as='h3' style={{ fontSize: '2em' }}>Currencies</Header>
-                  <CurrenciesQuickReview/>
-                </Grid.Column> 
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column textAlign='center'>
-                  <Button size='huge'>Check Them Out</Button>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
@@ -104,5 +105,4 @@ class HomepageLayout extends Component {
     )
   }
 }
-
 export default HomepageLayout;

@@ -115,7 +115,7 @@ class InvestmentsList extends Component{
                 investment_period = corporation.investment_period;
             }
             const id = investment.id
-            const activation = active === true ? "Active" : "Not Active";
+            const activation = active ? "Active" : "Not Active";
             const date = investment_date.slice(0, 10);
             return(
                 <div key={investment.id}>
