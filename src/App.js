@@ -74,9 +74,9 @@ class App extends Component {
                         once={false}
                         >
                             <Segment
-                            inverted
+                            
                             textAlign='center'
-                            style={{ minHeight: 700, padding: '1em 0em' }}
+                            style={{ minHeight: 700, padding: '1em 0em', shadow: '10px #9E9E9E', background: 'url("https://media.giphy.com/media/3ohhwNqFMnb7wZgNnq/giphy.gif")' }}
                             vertical
                             >
                                 <Container>

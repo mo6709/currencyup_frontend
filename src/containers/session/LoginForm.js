@@ -27,7 +27,7 @@ class LoginForm extends Component{
         const field = event.target.name;
         const credentials = this.state.credentials;
         credentials[field] = event.target.value;
-        this.setState({ credentials: credentials }, console.log(this.state));
+        this.setState({ credentials: credentials });
 
     }
 

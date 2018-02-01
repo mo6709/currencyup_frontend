@@ -2,11 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import AccountCorporationInfo from '../../../components/account/AccountCorporationInfo';
-import CorporationInvestorsList from '../../../components/investors/CorporationInvestorsList';
-import CorporationFunds from '../../../components/corporations/CorporationFunds';
-import CorporationInvestmentsList from '../../../components/investments/CorporationInvestmentsList';
-import CorporationTransactionsList from '../../../components/transactions/CorporationTransactionsList';
+import {
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Header,
+  Icon,
+  Image,
+  List,
+  Menu,
+  Segment,
+  Visibility,
+} from 'semantic-ui-react';
+
+import AccountCorporationInfoCard from '../../../components/account/AccountCorporationInfoCard';
+import CorporationInvestorsTable from '../../../components/investors/CorporationInvestorsTable';
+import CorporationFundsCard from '../../../components/CorporationFundsCard';
+import CorporationInvestmentsTable from '../../../components/investments/CorporationInvestmentsTable';
+import CorporationTransactionsTable from '../../../components/transactions/CorporationTransactionsTable';
 
 import AccountCorporationEditForm from './AccountCorporationEditForm';
 import GenerateInvestmentForm from './GenerateInvestmentForm'
@@ -39,26 +53,59 @@ class AccountCorporationShow extends Component{
         }else if(account.accountType === "corporation"){
             return(
                 <div>
-                    <Switch> 
-                        <Route path={`${this.props.match.url}/Edit`} component={AccountCorporationEditForm}/>
-                        <Route exact path={`${this.props.match.url}/corporationInvestments`} component={GenerateInvestmentForm} /> 
-                    </Switch>
-                    <div className="DottedBox">
-                        <AccountCorporationInfo accountInfo={account}/>
-                        <CorporationInvestorsList investorsInfo={investors}/>
-                        <CorporationInvestmentsList investmentsData={corporation_investments} currenciesData={this.props.currencies}/>
-                        <CorporationTransactionsList transactionsData={transactions} currenciesData={this.props.currencies}/>
-                        <CorporationFunds currencyCorporationsData={currency_corporations} currenciesData={this.props.currencies}/>
-                        
-                        <button><Link to={`${this.props.match.url}/Edit`}>Edit Account</Link></button>
-                        <button><Link to={`${this.props.match.url}/corporationInvestments`}>Generate Investment</Link></button>
-                    </div>    
-                    {/* 
-                     <div><InvestmentsGeneratorButton></div>
-                     <swith>
-                        <Route path={`${this.props.match.url}/investments`} component={InvestmentsPage} />
-                        <Route path={`${this.props.match.url}/funds`} component={FundsPage} />
-                     </switch>   */}
+                    <div className="accountInvestorShow">
+                      <Segment style={{ padding: '0em' }} vertical>
+                        <Grid celled='internally' divided stackable horizentalAlign='middle'>
+                          <Grid.Row textAlign='center'>
+                            <Grid.Column inverted horizentalAlign='middle'  width={6} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                              <Header as='h3' style={{ fontSize: '2em' }}>Corporation Info</Header>
+                                <Switch> 
+                                    <Route exact path={`${this.props.match.url}`} render={() => <AccountCorporationInfoCard accountInfo={account}/>} />
+                                    <Route exact path={`${this.props.match.url}/Edit`} component={AccountCorporationEditForm}/>
+                                    <Route exact path={`${this.props.match.url}/corporationInvestments`} component={GenerateInvestmentForm} /> 
+                                </Switch>
+                                <Link to={`${this.props.match.url}`}><Button icon style={{ margin: '1em 2px'}}><Icon name='info circle'/></Button></Link>
+                                <Link to={`${this.props.match.url}/Edit`}><Button style={{ margin: '1em 2px'}}><Icon name='edit'/>Edit Account</Button></Link>
+                                <Link to={`${this.props.match.url}/corporationInvestments`}><Button><Icon name='cogs'/>Generate Investment</Button></Link>
+                            </Grid.Column>
+                            <Grid.Column horizentalAlign='middle' textAlign='center' width={9} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                              <Header as='h3' style={{ fontSize: '2em' }}>Funds</Header>
+                              <CorporationFundsCard currencyCorporationsData={currency_corporations} currenciesData={this.props.currencies}/>
+                            </Grid.Column>
+                          </Grid.Row>
+                        </Grid>
+                      </Segment>
+
+                      <Segment style={{ padding: '3em 0em' }} vertical>
+                        <Grid  container stackable divided >
+                          <Grid.Row>
+                            <Grid.Column width={4} >
+                               <Header as='h3' style={{ textAlign: 'center', padding: '0em 1em', fontSize: '2em' }}>Investors</Header> 
+                               <CorporationInvestorsTable investorsInfo={investors}/> 
+                            </Grid.Column>
+                            <Grid.Column width={10} >
+                                <Header as='h3' style={{ textAlign: 'center', padding: '0em 1em', fontSize: '2em' }}>Active Investments</Header>
+                                <CorporationInvestmentsTable investmentsData={corporation_investments} currenciesData={this.props.currencies}/>
+                            </Grid.Column>
+                          </Grid.Row>
+                        </Grid>
+                      </Segment>
+                      
+                      <Segment  style={{ padding: '8em 0em' }} vertical>
+                        <Grid container stackable verticalAlign='middle'>
+                          <Grid.Row>
+                            <Grid.Column width={14}> 
+                                <Header as='h3' style={{ fontSize: '2em' }}>Your Transactions</Header>
+                            </Grid.Column> 
+                          </Grid.Row>
+                          <Grid.Row>
+                            <Grid.Column textAlign='center'>
+                                <CorporationTransactionsTable transactionsData={transactions} currenciesData={this.props.currencies}/>
+                            </Grid.Column>
+                          </Grid.Row>
+                        </Grid>
+                      </Segment>   
+                    </div> 
                </div>   
             )
         }else if(account.accountType === "investor"){
@@ -79,4 +126,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(AccountCorporationShow)
+export default connect(mapStateToProps)(AccountCorporationShow);
