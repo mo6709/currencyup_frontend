@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 
 export function fetchInvestments() {
     return function(dispatch){
-        dispatch({ type: 'LOAD_INVESTMENTS' });
+        dispatch({ type: 'LOADING_INVESTMENTS' });
 
         return fetch('http://localhost:3000/api/v1/corporation_investments')
         .then(response => response.json())
@@ -39,9 +39,10 @@ export function generateInvestment(investmentInfo, routerHistory){
 		.then(response => response.json())
 		.then((responseJSON) => { 
 			if(responseJSON.status === 'error'){
-                dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS_FAILUR', payload: responseJSON.messages || "Somthing went wrong" })
+                dispatch({ type: 'GENERATE_CORPORSTION_INVESTMENT_FAILUR', payload: responseJSON.messages || "Somthing went wrong" })
 			}else{
-				dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS_SUCCESS', payload: responseJSON.data });
+				dispatch({ type: 'GENERATE_CORPORSTION_INVESTMENT_SUCCESS' })
+				dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS', payload: responseJSON.data });
 				routerHistory.replace(`/account/corporations/${id}`);
 			}
 		})

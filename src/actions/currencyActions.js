@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch'
 
 export function fetchCurrencies() {
     return function(dispatch){
-        dispatch({ type: 'LOAD_CURRENCIES' })
+        dispatch({ type: 'LOADING_CURRENCIES' })
 
         return fetch('http://localhost:3000/api/v1/currencies')
         .then(response => response.json())

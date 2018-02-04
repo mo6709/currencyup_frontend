@@ -16,14 +16,11 @@ import {
   Visibility,
 } from 'semantic-ui-react';
 
-import AccountCorporationInfoCard from '../../../components/account/AccountCorporationInfoCard';
 import CorporationInvestorsTable from '../../../components/investors/CorporationInvestorsTable';
-import CorporationFundsCard from '../../../components/CorporationFundsCard';
 import CorporationInvestmentsTable from '../../../components/investments/CorporationInvestmentsTable';
 import CorporationTransactionsTable from '../../../components/transactions/CorporationTransactionsTable';
-
-import AccountCorporationEditForm from './AccountCorporationEditForm';
-import GenerateInvestmentForm from './GenerateInvestmentForm'
+import AccountCorporationInfoTopSegment from './AccountCorporationInfoTopSegment';
+import AccountCorporationTopSegment from './AccountCorporationTopSegment';
 
 
 class AccountCorporationShow extends Component{
@@ -35,7 +32,9 @@ class AccountCorporationShow extends Component{
 
     render(){
         const { account, session } = this.props;
+        const { url } = this.props.match;
         const { id, investors, corporation_investments, transactions, currency_corporations } = this.props.account.info;
+        
 
         if(account.loading){
             return(
@@ -54,27 +53,11 @@ class AccountCorporationShow extends Component{
             return(
                 <div>
                     <div className="accountInvestorShow">
-                      <Segment style={{ padding: '0em' }} vertical>
-                        <Grid celled='internally' divided stackable horizentalAlign='middle'>
-                          <Grid.Row textAlign='center'>
-                            <Grid.Column inverted horizentalAlign='middle'  width={6} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-                              <Header as='h3' style={{ fontSize: '2em' }}>Corporation Info</Header>
-                                <Switch> 
-                                    <Route exact path={`${this.props.match.url}`} render={() => <AccountCorporationInfoCard accountInfo={account}/>} />
-                                    <Route exact path={`${this.props.match.url}/Edit`} component={AccountCorporationEditForm}/>
-                                    <Route exact path={`${this.props.match.url}/corporationInvestments`} component={GenerateInvestmentForm} /> 
-                                </Switch>
-                                <Link to={`${this.props.match.url}`}><Button icon style={{ margin: '1em 2px'}}><Icon name='info circle'/></Button></Link>
-                                <Link to={`${this.props.match.url}/Edit`}><Button style={{ margin: '1em 2px'}}><Icon name='edit'/>Edit Account</Button></Link>
-                                <Link to={`${this.props.match.url}/corporationInvestments`}><Button><Icon name='cogs'/>Generate Investment</Button></Link>
-                            </Grid.Column>
-                            <Grid.Column horizentalAlign='middle' textAlign='center' width={9} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-                              <Header as='h3' style={{ fontSize: '2em' }}>Funds</Header>
-                              <CorporationFundsCard currencyCorporationsData={currency_corporations} currenciesData={this.props.currencies}/>
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </Segment>
+                    <Switch> 
+                        <Route exact path={`${url}`} component={AccountCorporationInfoTopSegment} />
+                        <Route exact path={`${url}/Edit`} component={AccountCorporationTopSegment}/>
+                        <Route exact path={`${url}/corporationInvestments`} component={AccountCorporationTopSegment} /> 
+                    </Switch>
 
                       <Segment style={{ padding: '3em 0em' }} vertical>
                         <Grid  container stackable divided >

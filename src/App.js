@@ -98,7 +98,7 @@ class App extends Component {
                                     style={{ fontSize: '1.7em', fontWeight: 'normal' }}
                                     />
                                     <Button  size='huge'>
-                                        {loggedIn ?<Link to="/investments">Investments</Link> : <Link to="/login">Get Started</Link>}
+                                        {loggedIn ? <Link to="/investments">Investments</Link> : <Link to="/login">Get Started</Link>}
                                         <Icon name='right arrow' />
                                     </Button>
                                 </Container>

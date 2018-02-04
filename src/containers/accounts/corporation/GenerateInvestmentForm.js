@@ -8,6 +8,7 @@ import ErrorsDiv from '../../../components/errors/ErrorsDiv';
 
 import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
+import { Container, Radio, Modal, Dropdown, Label, Icon, Input, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 
 
 class GenerateInvestmentForm extends Component{ 
@@ -15,6 +16,7 @@ class GenerateInvestmentForm extends Component{
         super(props);
 
         this.state = {
+            open: false,
         	errors: "",
         	select: {
                 removeSelected: true,
@@ -27,27 +29,35 @@ class GenerateInvestmentForm extends Component{
 	            currencyId: '',
 	            returnRate: '',
 	            investmentDate: new Date(),
-	            active: null
+	            active: false,
 	        },
         }
 	}
 
+    show = size => () => this.setState({ size, open: true });
+    close = () => this.setState({ open: false });
+    toggle = () => {
+        this.setState({ investment: 
+            Object.assign({}, this.state.investment, 
+                { active:  !this.state.investment.active 
+            }) 
+        }) 
+    }
+   
 	handleInputChange = (event) => {
         const { name, value } = event.target;
-        const stringVal = value === "false" ? false : true;
-        const parsedVal = name === "active" ? stringVal : value;
-        this.setState({ investment: Object.assign({}, this.state.investment, { [name]: parsedVal }) })
+        this.setState({ investment: Object.assign({}, this.state.investment, { [name]: value }) })
 	}
     
-    handleCurrencySelectChange = (value) => {
+    handleCurrencySelectChange = (event, data) => {
         const newState = Object.assign({}, this.state);
-        newState.investment.currencyId = value;
+        newState.investment.currencyId = data.value;
         this.setState(newState);
     }
 
-    handleRegionSelectChange = (value) => {
+    handleRegionSelectChange = (event, data) => {
         const newState = Object.assign({}, this.state);
-        newState.investment.region = value;
+        newState.investment.region = data.value;
         this.setState(newState);
     }
 
@@ -80,111 +90,106 @@ class GenerateInvestmentForm extends Component{
     render(){
     	const { stayOpen, disabled, removeSelected } = this.state.select;
     	const { currencyId, returnRate, investmentDate, active, region } = this.state.investment;
-        const { account } = this.props;
-    	
-    	const currencies = account.info.currencies.map((currency) => {
-    		return { label: `${currency.name} - ${currency.acronym}`, value: currency.id }
+        const { account, currencies } = this.props;
+    	const { open, size } = this.state
+
+    	const currencyOptions = currencies.all.map((currency) => {
+    		return { key: currency.id, value: currency.id, text: `${currency.name} - ${currency.iso_code}` }
     	});
 
-        const regions = account.info.currencies.map(c => {
-            return { label: `${c.region}`, value: `${c.region.toLocaleLowerCase()}`}
+        const regionOptions = account.info.currencies.map(c => {
+            const regionName = `${c.region.toLocaleLowerCase()}`;
+            return { key: regionName, value: regionName, text: `${c.region}` }
         })
 
     	const dateObject = new Date(investmentDate);
         const date = new Date();
         const lastWeek = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7);
-        
         return(
-        	<div className="DottedBox">
-        	  <h4>Generate Investment Form</h4>
+        	<Container style={{ height: '37em' }} >
+                <Segment stacked>
+                    <Form size='large'>
+                        <Form.Group>
+                            <Form.Field fluid>
+                                <p><b>Return Rate</b></p>
+                                <Input name="returnRate" 
+                                    placeholder="Return Rate in %"
+                                    type='number'
+                                    value={returnRate}
+                                    onChange={this.handleInputChange}/>
+                            </Form.Field>
 
-        	  {this.state.errors}
-        	  {account.errors === "" ? "" : <ErrorsDiv messages={account.errors}/>}
+                            <Form.Field fluid>
+                                <p><b>Region</b></p>
+                                <Dropdown name="region"
+                                    placeholder='Select Region' 
+                                    fluid
+                                    search 
+                                    selection 
+                                    onChange={this.handleRegionSelectChange}
+                                    value={region}
+                                    options={regionOptions} />
+                            </Form.Field>
+                        </Form.Group>
 
-        	    <form onSubmit={this.handleInvestmentSubmit}>
-		        	<div>
-	                    <label style={{width: '280px'}}>Currency:
-		                    <Select
+                        <Form.Field fluid>                            
+                            <p style={{ float: 'left', margin: '1em', size: '50em' }}><b>Currency</b></p>
+                            <Dropdown style={{ width: '12em' }} 
                                 name="currencyId"
-		                        closeOnSelect={!stayOpen}
-		                        disabled={disabled}
-		                        onChange={this.handleCurrencySelectChange}
-		                        options={currencies}
-		                        placeholder="Select Currency"
-		                        removeSelected={removeSelected}
-		                        simpleValue
-		                        value={currencyId}/>
-	                    </label>    
-                    </div><br/>
-                    
-                    <div>
-                         <label style={{width: '280px'}}>Region:
-                            <Select
-                                name="region"
-                                closeOnSelect={!stayOpen}
-                                disabled={disabled}
-                                onChange={this.handleRegionSelectChange}
-                                options={regions}
-                                placeholder="Select Region"
-                                removeSelected={removeSelected}
-                                simpleValue
-                                value={region}/>
-                        </label>
-                    </div>
-
-                    <div>
-	                    <label>Return Rate:
-	                        <input type="number"
-	                            name="returnRate"
-	                            placeholder="Return Rate in %"
-	                            value={returnRate}
-	                            onChange={this.handleInputChange}/>
-			        	</label>
-		        	</div><br/>
-	                
-	                <div>
-			        	<label>Investment Date:
-			        	    <InfiniteCalendar
-							    width={280}
-							    height={200}
-							    selected={dateObject}
-							    minDate={lastWeek}
-							    onSelect={this.hendleCalendarSelect}/>
-	                    </label>
-                    </div><br/>
-                    
-                    <div> 
-			        	<label>Should the investment be active at the investment date? <br/>
-			        	    <label>Yes 
-				        	    <input type="Radio"
-				        	        value={true}
-		                            name="active"
-		                            checked={active}
-				        	        onChange={this.handleInputChange}/>
-			        	    </label>
-
-			        	    {" "}
-
-			        	    <label>No
-				        	    <input type="Radio"
-				        	        value={false}
-		                            name="active"
-		                            checked={active === null ? false : !active}
-				        	        onChange={this.handleInputChange}/>
-			        	    </label>    
-			        	</label>
-		        	</div><br/>
-
-		        	<input type="submit" value="Generate Investment"/>
-		        </form>	  
-            </div>
+                                placeholder='Select Currency' 
+                                float
+                                search 
+                                selection 
+                                onChange={this.handleCurrencySelectChange}
+                                value={currencyId}
+                                options={currencyOptions} />
+                        </Form.Field>
+                        
+                        <Segment>
+                            <p><b>Investment Date: {dateObject.toDateString()}</b></p>
+                            <Button onClick={this.show('tiny')}>Select Starting Date</Button>
+                            <Modal size={size} open={open} onClose={this.close}>
+                                <Modal.Header textAlign="center">
+                                    Investment Date:
+                                </Modal.Header>
+                                <Modal.Content >
+                                    <Container style={{ margin: '0em 3em'}}>
+                                    <InfiniteCalendar
+                                        width={380}
+                                        height={220}
+                                        selected={dateObject}
+                                        minDate={lastWeek}
+                                        onSelect={this.hendleCalendarSelect} />
+                                    </Container>
+                                </Modal.Content>
+                                <Modal.Actions>
+                                    <Button onClick={this.close} icon='checkmark' labelPosition='right' content='Done' />
+                                </Modal.Actions>
+                            </Modal>
+                        </Segment>
+                        
+                        <Segment>
+                            <p><b>Should the investment be active at the investment date? </b></p> 
+                            <Radio toggle
+                                name="active"
+                                checked={this.state.investment.active}                                
+                                onChange={this.toggle}/>
+                        </Segment>
+                        <Button onClick={this.handleInvestmentSubmit}>Submit Investment</Button>
+                    </Form>
+                </Segment>	 
+                {this.state.errors}
+                {account.errors === "" ? "" : <ErrorsDiv messages={account.errors}/>} 
+            </Container>
+            
         )
     }
 }
 
 const mapStateToProps = (state) => {
     return{
-    	account: state.account
+    	account: state.account,
+        currencies: state.currencies
     }
 }
 
@@ -193,6 +198,5 @@ const mapDispatchToProps = (dispatch) => {
 		investmentActions: bindActionCreators(investmentActions, dispatch)
 	}
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(GenerateInvestmentForm);
