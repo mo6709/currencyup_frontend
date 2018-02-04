@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import InvestmentsList from './InvestmentsList';
+
 import * as investmentActions from '../../actions/investmentActions';
 import * as corporationActions from '../../actions/corporationActions';
 
@@ -32,7 +32,7 @@ class InvestmentsPage extends Component{
 				<div className="DottedBox">
 				    <h3>Investments Page</h3>
 				    {session.loggedIn === true ? <h3>You have {account.info.currency_investors[0].total_amount.toFixed(4)} to invest</h3> : ""}
-	                <InvestmentsList routerHistory={this.props.match}/>
+	                
 				</div>
 			)
 		}else{

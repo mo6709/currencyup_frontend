@@ -15,12 +15,12 @@ import {
   Segment,
   Visibility,
 } from 'semantic-ui-react';
-import AccountInvestorInfoCard from '../../../components/account/AccountInvestorInfoCard';
-import AccountInvestorEditForm from './AccountInvestorEditForm';
+
 import InvestorInvestmentsTable from '../../../components/investments/InvestorInvestmentsTable';
 import InvestorTransactionsList from '../../../components/transactions/InvestorTransactionsList';
-import InvestorFundsCard from '../../../components/InvestorFundsCard';
-import InvestmentsPage from '../../investments/InvestmentsPage'
+import InvestmentsPage from '../../investments/InvestmentsPage';
+import AccountInvestorTopSegment from './AccountInvestorTopSegment';
+import AccountInvestorInvestmentsTopSegment from './AccountInvestorInvestmentsTopSegment';
 
 
 class AccountInvestorShow extends Component{
@@ -47,65 +47,47 @@ class AccountInvestorShow extends Component{
                 </div>
             )
         }else if(account.accountType === "investor"){
-            const { first_name, last_name } = this.props.account.info;
-            return(
-                <div>
-                    <Switch> 
-	                  <Route path={`${this.props.match.url}/Edit`} component={AccountInvestorEditForm}/>
-                      <Route path={`${this.props.match.url}/investments`} component={InvestmentsPage} />
-	                </Switch>
+            return(  
+                <div className="accountInvestorShow">
+                    <Switch>
+                        <Route path={`${this.props.match.url}`} component={AccountInvestorTopSegment}/>
+                        <Route path={`${this.props.match.url}/Edit`} component={AccountInvestorTopSegment}/>
+                        <Route path={`${this.props.match.url}/investments`} component={AccountInvestorInvestmentsTopSegment} />
+                    </Switch>
 
-                    <div className="accountInvestorShow">
-                      <Segment style={{ padding: '0em' }} vertical>
-                        <Grid celled='internally' divided stackable>
-                          <Grid.Row textAlign='center'>
-                            <Grid.Column  width={6} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-                              <Header as='h3' style={{ fontSize: '2em' }}>Account Info</Header>
-                              <AccountInvestorInfoCard accountInfo={account}/>
-                              <Button><Icon name='edit'/><Link to={{ pathname:`${this.props.match.url}/Edit` }}>Edit Account</Link></Button>
-                            </Grid.Column>
-                            <Grid.Column textAlign='center' width={9} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-                              <Header as='h3' style={{ fontSize: '2em' }}>Funds</Header>
-                              <InvestorFundsCard currenciesData={currencies} currencyInvestorsData={account.info.currency_investors}/>
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </Segment>
-
-                      <Segment  style={{ padding: '8em 0em' }} vertical>
-                        <Grid container stackable verticalAlign='middle'>
-                          <Grid.Row>
-                            <Grid.Column textAlign='center' width={10}> 
-                              <Header as='h3' style={{ fontSize: '2em' }}>Your Active Investments</Header>
-                            </Grid.Column>
-                            <Grid.Column textAlign='right' width={4}>
-                              <Button><Icon name='angle double down' /><Link to={{ pathname: `${this.props.match.url}/investments` }}>Start to Invest</Link></Button>
-                            </Grid.Column>  
-                          </Grid.Row>
-                          <Grid.Row>
-                            <Grid.Column textAlign='center'>
-                            <InvestorInvestmentsTable currenciesData={currencies} transactionsData={account.info.transactions}/>
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </Segment>
-                      
-                      <Segment  style={{ padding: '8em 0em' }} vertical>
-                        <Grid container stackable verticalAlign='middle'>
-                          <Grid.Row>
-                            <Grid.Column width={14}> 
-                              <Header as='h3' style={{ fontSize: '2em' }}>Your Transactions</Header>
-                            </Grid.Column> 
-                          </Grid.Row>
-                          <Grid.Row>
-                            <Grid.Column textAlign='center'>
-                            <InvestorTransactionsList currenciesData={currencies} transactionsData={account.info.transactions}/>
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </Segment>   
-                    </div>
-               </div>   
+                  <Segment  style={{ padding: '8em 0em' }} vertical>
+                    <Grid container stackable verticalAlign='middle'>
+                      <Grid.Row>
+                        <Grid.Column textAlign='center' width={10}> 
+                          <Header as='h3' style={{ fontSize: '2em' }}>Your Active Investments</Header>
+                        </Grid.Column>
+                        <Grid.Column textAlign='right' width={4}>
+                          <Button><Icon name='angle double down' /><Link to={{ pathname: `${this.props.match.url}/investments` }}>Start to Invest</Link></Button>
+                        </Grid.Column>  
+                      </Grid.Row>
+                      <Grid.Row>
+                        <Grid.Column textAlign='center'>
+                        <InvestorInvestmentsTable currenciesData={currencies} transactionsData={account.info.transactions}/>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </Segment>
+                  
+                  <Segment  style={{ padding: '8em 0em' }} vertical>
+                    <Grid container stackable verticalAlign='middle'>
+                      <Grid.Row>
+                        <Grid.Column width={14}> 
+                          <Header as='h3' style={{ fontSize: '2em' }}>Your Transactions</Header>
+                        </Grid.Column> 
+                      </Grid.Row>
+                      <Grid.Row>
+                        <Grid.Column textAlign='center'>
+                        <InvestorTransactionsList currenciesData={currencies} transactionsData={account.info.transactions}/>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </Segment>   
+                </div>  
             )
         }
     }
@@ -119,4 +101,5 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(AccountInvestorShow)
+export default connect(mapStateToProps)(AccountInvestorShow);
+

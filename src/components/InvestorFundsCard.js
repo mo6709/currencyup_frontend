@@ -12,19 +12,21 @@ const InvestorFundsCard = ({ currencyInvestorsData, currenciesData }) => {
 	})
 
 	return(
-		<Card centered style={{ width: '42em', margin: 10 }}>
-            <VictoryPie
-              padAngle={3}
-              innerRadius={100}
-			  data={fundsData}
-			/>
-			<Card.Content extra>
-			  <a>
-			    <Icon name='money' />
-			    {fundPs}
-			  </a>
-			</Card.Content>
-		</Card>
+		<div className="DottedBox">
+			<Card centered style={{ width: '42em', margin: 10 }}>
+	            <VictoryPie
+	              padAngle={3}
+	              innerRadius={100}
+				  data={fundsData}
+				/>
+				<Card.Content extra>
+				  <a>
+				    <Icon name='money' />
+				    {fundPs}
+				  </a>
+				</Card.Content>
+			</Card>
+		</div>
 	)
 }
 

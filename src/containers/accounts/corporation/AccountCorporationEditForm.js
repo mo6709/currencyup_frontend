@@ -59,88 +59,88 @@ class AccountCorporationEditForm extends Component{
         return( 
             <div style={{ height: '42em'}} className="DottedBox">
                 <Segment>
-                {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
-                <Segment stackable >
-                <p><Icon name="info circle"/><b>Edit Info</b></p>
-                    <Form size='large'>
-                        <Form.Field fluid >
-                            <Input
-                                name="email" 
-                                icon='mail' 
-                                iconPosition='left' 
-                                type='email'
-                                placeholder='E-mail address' 
-                                value={email}
-                                onChange={this.handleInputChange}/>
-                        </Form.Field>
-                      
-                        <Form.Field fluid >
-                            <Input
-                                name="name" 
-                                icon='building' 
-                                iconPosition='left' 
-                                type='text'
-                                placeholder='Enter Name'  
-                                value={name}
-                                onChange={this.handleInputChange}/>
-                        </Form.Field>
+                    {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
+                    <Segment stackable >
+                        <p><Icon name="info circle"/><b>Edit Info</b></p>
+                        <Form size='large'>
+                            <Form.Field fluid >
+                                <Input
+                                    name="email" 
+                                    icon='mail' 
+                                    iconPosition='left' 
+                                    type='email'
+                                    placeholder='E-mail address' 
+                                    value={email}
+                                    onChange={this.handleInputChange}/>
+                            </Form.Field>
+                          
+                            <Form.Field fluid >
+                                <Input
+                                    name="name" 
+                                    icon='building' 
+                                    iconPosition='left' 
+                                    type='text'
+                                    placeholder='Enter Name'  
+                                    value={name}
+                                    onChange={this.handleInputChange}/>
+                            </Form.Field>
 
-                        <Form.Field fluid >
-                            <Input
-                                name="title" 
-                                icon='file text outline' 
-                                iconPosition='left' 
-                                type='text'
-                                placeholder='Enter Title'  
-                                value={title}
-                                onChange={this.handleInputChange}/>
-                        </Form.Field>
-                    </Form>
-                </Segment>
+                            <Form.Field fluid >
+                                <Input
+                                    name="title" 
+                                    icon='file text outline' 
+                                    iconPosition='left' 
+                                    type='text'
+                                    placeholder='Enter Title'  
+                                    value={title}
+                                    onChange={this.handleInputChange}/>
+                            </Form.Field>
+                        </Form>
+                    </Segment>
 
-                <Segment >
-                    <Icon name="time"/>
-                    <b>Select Investments Period</b><br/>
-                    <Button.Group>
-                        <Button name="investment_period"
-                            value="2"
-                            onClick={this.handleInputChange}>2
-                        </Button>
-                        <Button.Or />
-                        <Button name="investment_period"
-                            value="4"
-                            onClick={this.handleInputChange}>4
-                        </Button>
-                        <Button.Or />
-                        <Button name="investment_period"
-                            value="6"
-                            onClick={this.handleInputChange}>6
-                        </Button>
-                    </Button.Group><br/>
-                    <b>Months</b>
-                </Segment>
+                    <Segment >
+                        <Icon name="time"/>
+                        <b>Select Investments Period</b><br/>
+                        <Button.Group>
+                            <Button name="investment_period"
+                                value="2"
+                                onClick={this.handleInputChange}>2
+                            </Button>
+                            <Button.Or />
+                            <Button name="investment_period"
+                                value="4"
+                                onClick={this.handleInputChange}>4
+                            </Button>
+                            <Button.Or />
+                            <Button name="investment_period"
+                                value="6"
+                                onClick={this.handleInputChange}>6
+                            </Button>
+                        </Button.Group><br/>
+                        <b>Months</b>
+                    </Segment>
 
-                <Segment>
-                    <p>
-                        <Icon name="world"/>
-                        <b>Select Regions</b>
-                    </p>
-                    <Select
-                        closeOnSelect={!stayOpen}
-                        disabled={disabled}
-                        multi
-                        onChange={this.handleSelectChange}
-                        options={regions}
-                        placeholder="Select investment regions"
-                        removeSelected={this.state.select.removeSelected}
-                        rtl={this.state.select.rtl}
-                        simpleValue
-                        value={regions_array}/>
-                </Segment>
+                    <Segment>
+                        <p>
+                            <Icon name="world"/>
+                            <b>Select Regions</b>
+                        </p>
+                        <Select
+                            closeOnSelect={!stayOpen}
+                            disabled={disabled}
+                            multi
+                            onChange={this.handleSelectChange}
+                            options={regions}
+                            placeholder="Select investment regions"
+                            removeSelected={this.state.select.removeSelected}
+                            rtl={this.state.select.rtl}
+                            simpleValue
+                            value={regions_array}/>
+                    </Segment>
 
-                <Segment>
-                    <Button onClick={event => this.handleEditSubmit(event)} color='gray' fluid size='large' icon="external">Subbmit Info{"     "}<Icon name="external"/></Button>
-                </Segment>
+                    <Segment>
+                        <Button onClick={event => this.handleEditSubmit(event)} color='gray' fluid size='large' icon="external">Subbmit Info{"     "}<Icon name="external"/></Button>
+                    </Segment>
                 </Segment>
             </div> 
         )

@@ -8,7 +8,7 @@ import { Label, Input } from 'semantic-ui-react';
 import ErrorsDiv from '../../components/errors/ErrorsDiv';
 
 
-class InvestmentsList extends Component{
+class InvestorInvestmentsList.js extends Component{
     constructor(props){
         super(props);
 
@@ -207,4 +207,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InvestmentsList);
+export default connect(mapStateToProps, mapDispatchToProps)(InvestorInvestmentsList.js);

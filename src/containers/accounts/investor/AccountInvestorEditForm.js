@@ -2,9 +2,9 @@ import 'react-select/dist/react-select.css';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Select from 'react-select';
 import { updateAndSetAccountInfo } from '../../../actions/accountActions';
 import ErrorsDiv from '../../../components/errors/ErrorsDiv';
+import { Dropdown, Label, Icon, Input, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 
 class AccountInvestorEditForm extends Component{
     constructor(props){
@@ -13,11 +13,6 @@ class AccountInvestorEditForm extends Component{
         const { id, email, first_name, last_name, region } = this.props.account.info;
 
     	this.state = {
-    		select: {
-                removeSelected: true,
-                disabled: false,
-                stayOpen: false
-            },
             account: {
             	type: this.props.account.accountType,
             	id: id,
@@ -29,16 +24,16 @@ class AccountInvestorEditForm extends Component{
     	}
     }
     
-    handleInpuChange = (event) => {
+    handleInputChange = (event) => {
     	const { name, value } = event.target;
     	let newAccount = Object.assign({}, this.state.account);
     	newAccount[name] = value;
         this.setState({ account: newAccount })
     }
 
-    handleSelectChange = (value) => {
+    handleSelectChange = (event, data) => {
         const newAccount = Object.assign({}, this.state.account);
-        newAccount.region = value
+        newAccount.region = data.value
         this.setState({ account: newAccount });
     }
 
@@ -50,55 +45,66 @@ class AccountInvestorEditForm extends Component{
 
     render(){
     	const { email, firstName, lastName, region } = this.state.account;
-    	const { removeSelected, disabled, stayOpen } = this.state.select;
         const { errors } = this.props.account;
-    	const regions = this.props.currencies.map((currency) => {
-            return { label: currency.region, value: currency.region }
+    	const regions = this.props.currencies.all.map((currency) => {
+            const regionName = `${currency.region.toLocaleLowerCase()}`;
+            return { key: regionName, value: regionName, text: `${currency.region}` }
         });
 
     	return(
-    		<div className="DottedBox">
-    		    <h3>Edit Account Info</h3>
-    		    {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
-    		    <form onSubmit={this.handleUpdateSubmit}>
-    		        <label>Email:
-                        <input type="email"
-                            placeholder="Enter Email"
-                            name="email"
-                            value={email}
-                            onChange={this.handleInpuChange}/>
-                    </label><br/>
+    		<div style={{ height: '28em'}} className="DottedBox">
+                <Segment stackable>
+                    {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
+    		        <p><Icon name="info circle"/><b>Edit Info</b></p>
+                    <Form size='large'>
+                        <Form.Field fluid >
+                            <Input
+                                name="email" 
+                                icon='mail' 
+                                iconPosition='left' 
+                                type='email'
+                                placeholder='E-mail address' 
+                                value={email}
+                                onChange={this.handleInputChange}/>
+                        </Form.Field>
+                      
+                        <Form.Field fluid >
+                            <Input
+                                name="firstName" 
+                                icon='user circle outline' 
+                                iconPosition='left' 
+                                type='text'
+                                placeholder='Enter First Name'  
+                                value={firstName}
+                                onChange={this.handleInputChange}/>
+                        </Form.Field>
 
-                    <label>First Name:
-                        <input type="text"
-                            placeholder="Enter First Name"
-                            name="firstName"
-                            value={firstName}
-                            onChange={this.handleInpuChange}/>
-                    </label><br/>
+                        <Form.Field fluid >
+                            <Input
+                                name="lastName" 
+                                icon='user circle outline' 
+                                iconPosition='left' 
+                                type='text'
+                                placeholder='Enter Last Name'  
+                                value={lastName}
+                                onChange={this.handleInputChange}/>
+                        </Form.Field>
 
-                     <label>Last Name:
-                        <input type="text"
-                            name="lastName"
-                            placeholder="Enter Last Name"
-                            value={lastName}
-                            onChange={this.handleInpuChange}/>
-                    </label><br/>
-
-                     <label style={{width: '280px'}}>Region:
-                        <Select
-	                        closeOnSelect={!stayOpen}
-	                        disabled={disabled}
-	                        onChange={this.handleSelectChange}
-	                        options={regions}
-	                        placeholder="Select Your Region"
-	                        removeSelected={removeSelected}
-	                        simpleValue
-	                        value={region}/>
-                    </label><br/>
-
-    		        <input type="submit" value="Update Account" />
-    		    </form>
+                        <Form.Field fluid>                            
+                            <p style={{ float: 'left', margin: '1em', size: '50em' }}><Icon name="world"/><b>Region</b></p>
+                            <Dropdown style={{ width: '12em' }} 
+                                name="region"
+                                placeholder='Select Your Region' 
+                                float
+                                search 
+                                selection 
+                                onChange={this.handleSelectChange}
+                                value={region.toLocaleLowerCase()}
+                                options={regions} />
+                        </Form.Field>
+                        <Button onClick={this.handleUpdateSubmit}><Icon name="send outline"/>Update Info</Button>
+                    </Form>
+                </Segment>
     		</div>
     	)
     }	
@@ -107,7 +113,7 @@ class AccountInvestorEditForm extends Component{
 const mapStateToProps = (state) => {
     return{ 
     	account: state.account,
-    	currencies: state.currencies.all 
+    	currencies: state.currencies
     }
 }
 
