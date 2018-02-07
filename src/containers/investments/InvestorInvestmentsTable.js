@@ -13,7 +13,6 @@ class InvestorInvestmentsTable extends Component{
         super(props);
 
         this.state = {
-            currentTableRows: '',
             pickedTransaction: false,
             open: false,
             moneyToInvest: this.props.account.info.currency_investors[0].total_amount,
@@ -34,7 +33,55 @@ class InvestorInvestmentsTable extends Component{
                 returnRate: '',
                 investmentPeriod: '',
             },
+            pagination: {
+                tableRows: null,
+                currentTableRows: null,
+                rowsPerPage: 7,
+                totalPages: null,
+            }
         }
+    }
+
+    componentWillMount(){
+        const { investments, account, corporations } = this.props;
+        const { rowsPerPage } = this.state.pagination;
+        let investmentsData = null;
+        if(account.accountType === "investor"){
+            investmentsData = investments.all.filter(i => i.region === account.info.region.toLowerCase())
+        }else{
+            investmentsData = investments.all
+        }
+
+        const tableRows = investmentsData.map((investment) => {
+            const { active, corporation_id, return_rate, investment_date } = investment;
+            const corporation = corporations.all.find(c => c.id === corporation_id);
+            let corpName = "";
+            let investment_period = "";
+            if(corporation){
+                corpName = corporation.name;
+                investment_period = corporation.investment_period;
+            }
+            const id = investment.id
+            const activation = active ? "Active" : "Not Active";
+            const date = investment_date.slice(0, 10);
+            return(
+                <Table.Row key={investment.id}>
+                    <Table.Cell>{investment.id}</Table.Cell>
+                    <Table.Cell>{corpName}</Table.Cell>
+                    <Table.Cell>{return_rate}</Table.Cell>
+                    <Table.Cell>{investment_period} Months</Table.Cell>
+                    <Table.Cell>{date}</Table.Cell>
+                    <Table.Cell textAlign='right'><Button onClick={ this.showModal(['blurring', id, corpName, return_rate, investment_period]) }>Invest</Button></Table.Cell>
+                </Table.Row>
+            )
+        })
+
+        const totalPages = Math.ceil(tableRows.length / rowsPerPage);
+        const currentTableRows =  tableRows.slice(0, rowsPerPage);
+
+        this.setState({ 
+            pagination: Object.assign({}, this.state.pagination, { tableRows, currentTableRows, totalPages }) 
+        });
     }
 
     componentWillUpdate(nextProps){
@@ -90,12 +137,11 @@ class InvestorInvestmentsTable extends Component{
     }
 
     handlePageChange = pageNumber => {
-        debugger;
-        // take the total tableRows number and divide it by rowsPerPage
-        //     pass that value to CustomizedPagination
-        // multiplay the number of (rowsPerPage by the pageNumber) - 1 asigd it to showedRows
-        //   then slice rows from tableRows from showedRows for (rowsPerPage * pageNumber)
-        //     then asigned it to var and return it
+        const{ tableRows, currentTableRows, rowsPerPage } = this.state.pagination;
+        let showedRows = (pageNumber - 1) * rowsPerPage;
+        let rowsToBeShowen = pageNumber * rowsPerPage;
+        let parsedRows = tableRows.slice(showedRows, rowsToBeShowen);
+        this.setState({ pagination: Object.assign({}, this.state.pagination, { currentTableRows: parsedRows }) })
     }  
 
     handleInvestSubmition = (event) => {
@@ -105,40 +151,9 @@ class InvestorInvestmentsTable extends Component{
 
     render(){
         const { routerHistory, account, investments, corporations, accountTransaction } = this.props;
-        const { open, dimmer, transaction, pickedTransaction } = this.state;
+        const { open, dimmer, transaction, pickedTransaction, pagination } = this.state;
         const {investmentCurrencyName, investmentCurrencySymbol, investmentDate, corporationName, returnRate, investmentPeriod } = this.state.investment;
-
-        let investmentsData = null;
-        if(account.accountType === "investor"){
-            investmentsData = investments.all.filter(i => i.region === account.info.region.toLowerCase())
-        }else{
-            investmentsData = investments.all
-        }
-
-        const tableRows = investmentsData.map((investment) => {
-            const { active, corporation_id, return_rate, investment_date } = investment;
-            const corporation = corporations.all.find(c => c.id === corporation_id);
-            let corpName = "";
-            let investment_period = "";
-            if(corporation){
-                corpName = corporation.name;
-                investment_period = corporation.investment_period;
-            }
-            const id = investment.id
-            const activation = active ? "Active" : "Not Active";
-            const date = investment_date.slice(0, 10);
-            return(
-                <Table.Row key={investment.id}>
-                    <Table.Cell>{investment.id}</Table.Cell>
-                    <Table.Cell>{corpName}</Table.Cell>
-                    <Table.Cell>{return_rate}</Table.Cell>
-                    <Table.Cell>{investment_period} Months</Table.Cell>
-                    <Table.Cell>{date}</Table.Cell>
-                    <Table.Cell textAlign='right'><Button onClick={ this.showModal(['blurring', id, corpName, return_rate, investment_period]) }>Invest</Button></Table.Cell>
-                </Table.Row>
-            )
-        })
-
+        
         let description = "";
         if(pickedTransaction && accountTransaction.loading){
             description = <p>loading one moment please we are submiting your investments</p>;
@@ -181,8 +196,8 @@ class InvestorInvestmentsTable extends Component{
                 <Header textAlign="center">Live Investments</Header>
                 
                 
-                <Segment loading={this.props.investments.loading || this.props.corporations.loading } >
-                    <CustomizedPagination totalPages={5} activePageChange={this.handlePageChange}/>
+                <Segment loading={investments.loading || corporations.loading } >
+                    <CustomizedPagination totalPages={pagination.totalPages} activePageChange={this.handlePageChange}/>
                     <Table unstackable>
                         <Table.Header>
                           <Table.Row>
@@ -196,7 +211,7 @@ class InvestorInvestmentsTable extends Component{
                         </Table.Header>
 
                         <Table.Body>
-                          {currentTableRows}
+                          {pagination.currentTableRows}
                         </Table.Body>
                     </Table> 
                 </Segment>
