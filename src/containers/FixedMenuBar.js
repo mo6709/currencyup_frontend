@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, NavLink, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -35,32 +36,47 @@ class FixedMenuBar extends Component {
     
 	    let accountButtons = null;
 	    if(loggedIn && account.accountType === "investor"){
+
 	        accountButtons = <Menu.Menu position='right'>
 		        <Menu.Item className='item'>
-		            <Button as={ NavLink } to={`${this.props.match.url}account/investors/${account.info.id}`} name='account' >{account.info.first_name}</Button>
+                    <Button as={Link} name='account' to={`${this.props.match.url}account/investors/${account.info.id}#investor-info`}>
+                       {account.info.first_name}
+                    </Button>
 		        </Menu.Item>
 		        <Menu.Item>
-		            <Button as={ NavLink } to={this.props.match.url} name='logout' onClick={this.logOut} primary>Logout</Button>
+                    <Button as={Link} primary name='logout' style={{ marginLeft: '0.5em' }} onClick={this.logOut} to={this.props.match.url}>
+                        Logout
+                    </Button>
 		        </Menu.Item>
 		    </Menu.Menu>
 
 	    }else if(loggedIn && loggedIn && account.accountType === "corporation"){
+
 	        accountButtons = <Menu.Menu position='right'>
 		        <Menu.Item className='item'>
-		            <Button as={ NavLink } to={`${this.props.match.url}account/corporations/${account.info.id}`} name='account' >{account.info.name}</Button>
+                    <Button as={Link} name='account' to={`${this.props.match.url}account/corporations/${account.info.id}#corporation-info`}>
+                        {account.info.name}
+                    </Button>
 		        </Menu.Item>
 		        <Menu.Item>
-		            <Button as={ NavLink } to={this.props.match.url} name='logout' onClick={this.logOut} primary>Logout</Button>
+                    <Button as={Link} primary name='logout' style={{ marginLeft: '0.5em' }} onClick={this.logOut} to={this.props.match.url}>
+                        Logout
+                    </Button>
 		        </Menu.Item>
 		    </Menu.Menu>
 
 	    }else{
+
 	        accountButtons = <Menu.Menu position='right'>
 		        <Menu.Item className='item'>
-		            <Button as={ NavLink } to='login' name='login'>Log in</Button>
+                    <Button as={Link} name='login' to='login#login-sec'>
+                        Log in
+                    </Button>
 		        </Menu.Item>
 		        <Menu.Item>
-		            <Button as={ NavLink } to='signup' name='signup' primary>Sign Up</Button>
+                    <Button as={Link} primary name='signup' to='signup#signup-sec'>
+                        Sign Up
+                    </Button>
 		        </Menu.Item>
 		    </Menu.Menu>
 
@@ -69,10 +85,19 @@ class FixedMenuBar extends Component {
     	return(
 			<Menu fixed='top' size='large'>
 			    <Container>
-				    <Menu.Item exact as={ NavLink } to='/' name='home' >Home</Menu.Item>
-	    		    <Menu.Item as={ NavLink } to='/currencies' name='currencies' >Currencies</Menu.Item>
-					<Menu.Item as={ NavLink } to='/corporations' name='corporation'>Corporations</Menu.Item>
-					<Menu.Item as={ NavLink } to='/investments' name='investments'>Investments</Menu.Item>
+					 <Menu.Item as={Link} name='home' to='/#home-div' exact> 
+	                    Home
+	                </Menu.Item>
+	                <Menu.Item as={Link} name='currencies' to='/currencies#currencies-div'> 
+	                    Currencies 
+	                </Menu.Item>
+	                <Menu.Item as={Link} name='corporations' to='/corporations#corporations-div'> 
+	                    Corporations
+	                </Menu.Item>
+	                <Menu.Item as={Link} name='investments' to='/investments#investments-info'> 
+	                    Investments
+	                </Menu.Item>
+
 				    {accountButtons}  
 			    </Container>
 			</Menu>

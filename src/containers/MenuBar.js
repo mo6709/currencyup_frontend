@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, NavLink, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -30,37 +31,45 @@ class MenuBar extends Component {
         logoutAccount(history);
     }
 
-    goHome = (event) => {
-    	window.scrollTo(0, 720)
-    }
-
     render(){
     	const { loggedIn, account } = this.props
     
 	    let accountButtons = null;
 	    if(loggedIn && account.accountType === "investor"){
 	        accountButtons = <Menu.Item position='right'>
-				<Button  as={ NavLink } to={`${this.props.match.url}account/investors/${account.info.id}`} name='account' inverted>{account.info.first_name}</Button>
-				<Button onClick={this.logOut} as={ NavLink } to={this.props.match.url} name='logout'  inverted style={{ marginLeft: '0.5em' }}>Logout</Button>
+				<Button inverted as={Link} name='account' to={`${this.props.match.url}account/investors/${account.info.id}#investor-info`}>
+                    {account.info.first_name}
+                </Button>
+				<Button inverted as={Link} name='logout' style={{ marginLeft: '0.5em' }} onClick={this.logOut} to={this.props.match.url}>
+                    Logout
+                </Button>
 			</Menu.Item> 
 	    }else if(loggedIn && loggedIn && account.accountType === "corporation"){
 	        accountButtons = <Menu.Item position='right'>
-				<Button  as={ NavLink } to={`${this.props.match.url}account/corporations/${account.info.id}`} name='account' inverted>{account.info.name}</Button>
-				<Button as={ NavLink } to={this.props.match.url} name='logout' onClick={this.logOut} inverted style={{ marginLeft: '0.5em' }}>Logout</Button>
+				<Button inverted as={Link} name='account' to={`${this.props.match.url}account/corporations/${account.info.id}#corporation-info`}>
+                    {account.info.name}
+                </Button>
+				<Button inverted name='logout' style={{ marginLeft: '0.5em' }} onClick={this.logOut} to={this.props.match.url}>
+                    Logout
+                </Button>
 			</Menu.Item>
 	    }else{
 	        accountButtons = <Menu.Item position='right'>
-				<Button   as={ NavLink } to='login' name='login' inverted>Log in</Button>
-				<Button  as={ NavLink } to='signup' name='signup' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+				<Button inverted as={Link} name='login' to='login#login-sec'>
+                    Log in
+                </Button>
+				<Button inverted as={Link} name='signup' style={{ marginLeft: '0.5em' }} to='signup#signup-sec'>
+                    Sign Up
+                </Button>
 			</Menu.Item>
 	    }
 
     	return(
     		<Menu inverted pointing secondary size='large'> 
-    		    <Menu.Item as={ NavLink } to='/' onClick={this.goHome} exact >Home</Menu.Item>
-    		    <Menu.Item as={ NavLink } to='/currencies' onClick={this.goHome} >Currencies</Menu.Item>
-				<Menu.Item as={ NavLink } to='/corporations' name='corporation'>Corporations</Menu.Item>
-				<Menu.Item as={ NavLink } to='/investments' name='investments'>Investments</Menu.Item>
+                <Menu.Item as={Link} to='/#home-div' name='home'>Home</Menu.Item>
+                <Menu.Item as={Link} to='/currencies#currencies-div' name='currencies'>Currencies</Menu.Item>
+                <Menu.Item as={Link} to='/corporations#corporations-div' name='corporations'>Corporations</Menu.Item>
+                <Menu.Item as={Link} to='/investments#investments-info' name='investments'>Investments</Menu.Item>
 			    {accountButtons}
 			</Menu>
     	)

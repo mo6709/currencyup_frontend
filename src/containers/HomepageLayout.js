@@ -14,7 +14,7 @@ import {
 } from 'semantic-ui-react';
 import CurrenciesQuickView from './currencies/CurrenciesQuickView';
 import InvestmentsQuickView from './investments/InvestmentsQuickView';
-import CorporationQuickView from './corporations/CorporationQuickView';
+import CorporationsQuickView from './corporations/CorporationsQuickView';
 
 class HomepageLayout extends Component {
     constructor(props){
@@ -23,17 +23,19 @@ class HomepageLayout extends Component {
 
   render() {
     return (
-      <div ref="homePage">
-          <Segment style={{ padding: '0em' }} vertical>
+      <div >
+          
+          <Segment style={{ padding: '5em' }} vertical>
+            <span id="home-div"></span>
             <Grid celled='internally' columns='equal' stackable>
               <Grid.Row textAlign='center'>
                 <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-                  <Header as='h3' style={{ fontSize: '2em' }}>Current Investments</Header>
-                  <InvestmentsQuickView/>
+                  <Header as='h3' style={{ fontSize: '2em' }}>Corporations</Header> 
+                    <CorporationsQuickView/>
                 </Grid.Column>
                 <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-                  <Header as='h3' style={{ fontSize: '2em' }}>Corporations</Header>
-                  <CorporationQuickView/>
+                  <Header as='h3' style={{ fontSize: '2em' }}>Current Investments</Header>
+                    <InvestmentsQuickView/>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
@@ -43,7 +45,7 @@ class HomepageLayout extends Component {
             <Grid container stackable verticalAlign='middle'>
               <Grid.Row>
                 <Grid.Column width={14}> 
-                  <Header as='h3' style={{ fontSize: '2em' }}>Currencies</Header>
+                  <Header as='h3' style={{ fontSize: '2em' }}>Currencies Monthly Rates</Header>
                   <CurrenciesQuickView/>
                 </Grid.Column> 
               </Grid.Row>

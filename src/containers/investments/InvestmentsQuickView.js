@@ -25,6 +25,7 @@ class InvestmentsQuickView extends Component{
 
 				return (
 					<Table.Row key={investment.id}>
+						<Table.Cell>{investment.id}</Table.Cell>
 						<Table.Cell>{corpName}</Table.Cell>
 						<Table.Cell>{return_rate}</Table.Cell>
 						<Table.Cell>{investment_period} Months</Table.Cell>
@@ -37,24 +38,23 @@ class InvestmentsQuickView extends Component{
 	    }
 
 	    return (
-	    	<Segment loading={this.props.investments.loading || this.props.corporations.loading } >
-		        <Table unstackable>
-				    <Table.Header>
-				      <Table.Row>
-				        <Table.HeaderCell>Corporation Name</Table.HeaderCell>
-				        <Table.HeaderCell>Return Rate</Table.HeaderCell>
-				        <Table.HeaderCell>Investment Period</Table.HeaderCell>
-				        <Table.HeaderCell>Active</Table.HeaderCell>
-				        <Table.HeaderCell>Date</Table.HeaderCell>
-				        <Table.HeaderCell textAlign='right'>Region</Table.HeaderCell>
-				      </Table.Row>
-				    </Table.Header>
+	        <Table unstackable loading={this.props.investments.loading || this.props.corporations.loading} >
+			    <Table.Header>
+					<Table.Row>
+						<Table.HeaderCell>ID</Table.HeaderCell>
+						<Table.HeaderCell>Corporation Name</Table.HeaderCell>
+						<Table.HeaderCell>Return Rate</Table.HeaderCell>
+						<Table.HeaderCell>Investment Period</Table.HeaderCell>
+						<Table.HeaderCell>Active</Table.HeaderCell>
+						<Table.HeaderCell>Date</Table.HeaderCell>
+						<Table.HeaderCell textAlign='right'>Region</Table.HeaderCell>
+					</Table.Row>
+			    </Table.Header>
 
-				    <Table.Body>
-				      {tableRows}
-				    </Table.Body>
-			    </Table> 
-			</Segment>  
+			    <Table.Body>
+			      {tableRows}
+			    </Table.Body>
+		    </Table>
 	    )
     }
 }

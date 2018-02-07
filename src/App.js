@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -16,19 +17,20 @@ import {
   Visibility,
 } from 'semantic-ui-react';
 
-import CurrenciesPage from './containers/currencies/CurrenciesPage';
+import * as currencyActions from './actions/currencyActions';
+import * as corporationActions from './actions/corporationActions';
+import * as investmentActions from './actions/investmentActions';
+import MenuBar from './containers/MenuBar';
+import FixedMenuBar from './containers/FixedMenuBar';
+import HomepageLayout from './containers/HomepageLayout';
 import LoginForm from './containers/session/LoginForm';
 import AccountSignupForm from './containers/accounts/AccountSignupForm';
 import AccountCorporationShow from './containers/accounts/corporation/AccountCorporationShow';
 import AccountInvestorShow from './containers/accounts/investor/AccountInvestorShow';
-import * as currencyActions from './actions/currencyActions';
-import * as corporationActions from './actions/corporationActions';
-import * as investmentActions from './actions/investmentActions';
-
+import CurrenciesPage from './containers/currencies/CurrenciesPage';
+import CorporationsPage from './containers/corporations/CorporationsPage';
 import InvestmentsPage from './containers/investments/InvestmentsPage';
-import MenuBar from './containers/MenuBar';
-import FixedMenuBar from './containers/FixedMenuBar';
-import HomepageLayout from './containers/HomepageLayout';
+
 
 class App extends Component {
     constructor(props){
@@ -98,23 +100,24 @@ class App extends Component {
                                     style={{ fontSize: '1.7em', fontWeight: 'normal' }}
                                     />
                                     <Button  size='huge'>
-                                        {loggedIn ? <Link to="/investments">Investments</Link> : <Link to="/login">Get Started</Link>}
+                                        {loggedIn ? <Link to="/investments#investments-info">Investments</Link> : <Link to="/login#login-sec">Get Started</Link>}
                                         <Icon name='right arrow' />
                                     </Button>
                                 </Container>
                             </Segment>
                         </Visibility>
-
-                        <Switch> 
+                        
+                        <Switch>
                             <Route exact path="/" component={HomepageLayout} />
                             <Route exact path="/login" component={LoginForm} />
-                            <Route exact path="/signup" component={AccountSignupForm} /> 
+                            <Route exact path="/signup" component={AccountSignupForm} />
                             <Route exact path="/currencies" component={CurrenciesPage} />
                             <Route exact path="/investments" component={InvestmentsPage} />
+                            <Route exact path="/corporations" component={CorporationsPage} />
                             <Route path="/account/corporations/:corporationId" component={AccountCorporationShow}/>
                             <Route path="/account/investors/:investorId" component={AccountInvestorShow}/>
                         </Switch>
-
+                        
                         <Segment inverted vertical style={{ padding: '5em 0em' }}>
                           <Container>
                             <Grid divided inverted stackable>

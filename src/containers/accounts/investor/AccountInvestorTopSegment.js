@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import {
   Button,
   Container,
@@ -30,6 +31,7 @@ class AccountInvestorTopSegment extends Component{
     return(
         <Segment style={{ padding: '0em' }} vertical>
             <Grid celled='internally' divided stackable>
+                <span id="investor-info"></span>
                 <Grid.Row textAlign='center'>
                     <Grid.Column  width={6} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
                         <Header as='h3' style={{ fontSize: '2em' }}>Account Info</Header>
@@ -38,8 +40,8 @@ class AccountInvestorTopSegment extends Component{
                                 render={() => <AccountInvestorInfoCard accountInfo={account} />} />
                             <Route exact path="/account/investors/:investorId/Edit" component={AccountInvestorEditForm}/>
                         </Switch>
-                        <Link to={{ pathname:`/account/investors/${account.info.id}` }}><Button icon style={{ margin: '1em 2px'}}><Icon name='info circle'/></Button></Link>
-                        <Link to={{ pathname:`/account/investors/${account.info.id}/Edit` }}><Button style={{ margin: '1em 2px'}}><Icon name='edit'/>Edit Account</Button></Link>
+                        <Link to={`/account/investors/${account.info.id}#investor-info`}><Button icon style={{ margin: '1em 2px'}}><Icon name='info circle'/></Button></Link>
+                        <Link to={`/account/investors/${account.info.id}/Edit#investor-info`}><Button style={{ margin: '1em 2px'}}><Icon name='edit'/>Edit Account</Button></Link>
                     </Grid.Column>
                     <Grid.Column textAlign='center' width={9} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
                         <Header as='h3' style={{ fontSize: '2em' }}>Funds</Header>

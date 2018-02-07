@@ -35,9 +35,9 @@ class AccountCorporationInfoTopSegment extends Component{
 						<Grid.Column inverted horizentalAlign='middle'  width={6} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
 							<Header as='h3' style={{ fontSize: '2em' }}>Corporation Info</Header>
 							<AccountCorporationInfoCard accountInfo={account}/>
-							<Link to={`${this.props.match.url}`}><Button icon style={{ margin: '1em 2px'}}><Icon name='info circle'/></Button></Link>
-							<Link to={`${this.props.match.url}/Edit`}><Button style={{ margin: '1em 2px'}}><Icon name='edit'/>Edit Account</Button></Link>
-							<Link to={`${this.props.match.url}/corporationInvestments`}><Button><Icon name='cogs'/>Generate Investment</Button></Link>
+							<Link to={`${this.props.match.url}#corporation-info`}><Button icon style={{ margin: '1em 2px'}}><Icon name='info circle'/></Button></Link>
+							<Link to={`${this.props.match.url}/Edit#corporation-info`}><Button style={{ margin: '1em 2px'}}><Icon name='edit'/>Edit Account</Button></Link>
+							<Link to={`${this.props.match.url}/corporationInvestments#corporation-info`}><Button><Icon name='cogs'/>Generate Investment</Button></Link>
 						</Grid.Column>
 					    <Grid.Column horizentalAlign='middle' textAlign='center' width={9} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
 					        <Header as='h3' style={{ fontSize: '2em' }}>Funds</Header>

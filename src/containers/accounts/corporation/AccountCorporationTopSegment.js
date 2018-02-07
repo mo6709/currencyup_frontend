@@ -39,9 +39,9 @@ class AccountCorporationInfoTopSegment extends Component{
                             <Route exact path="/account/corporations/:corporationId/Edit" component={AccountCorporationEditForm}/>
                             <Route exact path="/account/corporations/:corporationId/corporationInvestments" component={GenerateInvestmentForm} />
                         </Switch>
-                        <Link to={`/account/corporations/${account.info.id}`}><Button icon style={{ margin: '1em 2px'}}><Icon name='info circle'/></Button></Link>
-                        <Link to={`/account/corporations/${account.info.id}/Edit`}><Button style={{ margin: '1em 2px'}}><Icon name='edit'/>Edit Account</Button></Link>
-                        <Link to={`/account/corporations/${account.info.id}/corporationInvestments`}><Button><Icon name='cogs'/>Generate Investment</Button></Link>
+                        <Link to={`/account/corporations/${account.info.id}#corporation-info`}><Button icon style={{ margin: '1em 2px'}}><Icon name='info circle'/></Button></Link>
+                        <Link to={`/account/corporations/${account.info.id}/Edit#corporation-info`}><Button style={{ margin: '1em 2px'}}><Icon name='edit'/>Edit Account</Button></Link>
+                        <Link to={`/account/corporations/${account.info.id}/corporationInvestments#corporation-info`}><Button><Icon name='cogs'/>Generate Investment</Button></Link>
                     </Grid.Column>
                     <Grid.Column horizentalAlign='middle' textAlign='center' width={6} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
                         <Header as='h3' style={{ fontSize: '2em' }}>Funds</Header>

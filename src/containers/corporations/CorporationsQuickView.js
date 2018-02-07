@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Segment } from 'semantic-ui-react';
 
-class CorporationQuickView extends Component{
+class CorporationsQuickView extends Component{
   constructor(props){
     super(props);
   }
@@ -19,8 +19,7 @@ class CorporationQuickView extends Component{
 					<Table.Cell>{id}</Table.Cell>
 					<Table.Cell>{name}</Table.Cell>
 					<Table.Cell>{title}</Table.Cell>
-					<Table.Cell>{totalInvestments}</Table.Cell>
-					<Table.Cell textAlign='right'>{corporation.region}</Table.Cell>
+					<Table.Cell textAlign="center">{totalInvestments}</Table.Cell>
 				</Table.Row>
 			)
 	    })
@@ -31,10 +30,10 @@ class CorporationQuickView extends Component{
             <Table unstackable>
 			    <Table.Header>
 			      <Table.Row>
-			        <Table.HeaderCell>Corporation Id</Table.HeaderCell>
-			        <Table.HeaderCell>Corporation Name</Table.HeaderCell>
+			        <Table.HeaderCell>ID</Table.HeaderCell>
+			        <Table.HeaderCell>Name</Table.HeaderCell>
 			        <Table.HeaderCell>Title</Table.HeaderCell>
-			        <Table.HeaderCell>Total Investments</Table.HeaderCell>
+			        <Table.HeaderCell textAlign="center">Total Investments</Table.HeaderCell>
 			      </Table.Row>
 			    </Table.Header>
 			    <Table.Body>
@@ -53,4 +52,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(CorporationQuickView);
+export default connect(mapStateToProps)(CorporationsQuickView);

@@ -5,6 +5,7 @@ import * as currencyActions from '../../actions/currencyActions';
 import CurrenciesList from '../../components/currencies/CurrenciesList';
 import CurrenciesTable from './CurrenciesTable';
 import { bindActionCreators } from 'redux';
+import { Segment, Header } from 'semantic-ui-react';
 
 class CurrenciesPage extends Component {
     constructor(props){
@@ -21,9 +22,11 @@ class CurrenciesPage extends Component {
 
     render(){
         return(
-           <div>
-             <h1>hello from CurrenciesPage smart container</h1>
-             <CurrenciesTable/> 
+            <div id="currencies-div" className="DottedBox">
+                <Segment style={{ margin: '5em 0em'}}>
+                    <Header as="h1" textAlign="center">All Currencies</Header>
+                    <CurrenciesTable/> 
+                </Segment>
            </div>
         )
     }

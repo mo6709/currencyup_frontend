@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Icon, Modal, Header } from 'semantic-ui-react';
+import { Button, Icon, Modal, Header, Label, Input, Table, Segment, Pagination } from 'semantic-ui-react';
 import * as accountTransactionActions from '../../actions/accountTransactionActions';
-import { Label, Input } from 'semantic-ui-react';
 import ErrorsDiv from '../../components/errors/ErrorsDiv';
+import CustomizedPagination from '../CustomizedPagination';
 
 
-class InvestorInvestmentsList.js extends Component{
+class InvestorInvestmentsTable extends Component{
     constructor(props){
         super(props);
 
         this.state = {
+            currentTableRows: '',
             pickedTransaction: false,
             open: false,
             moneyToInvest: this.props.account.info.currency_investors[0].total_amount,
@@ -86,7 +87,16 @@ class InvestorInvestmentsList.js extends Component{
         const newMoneyToInvest = funds - amount;
         newTransaction.total_amount = parseFloat(value);
         this.setState({ transaction: newTransaction, moneyToInvest: newMoneyToInvest });
-    } 
+    }
+
+    handlePageChange = pageNumber => {
+        debugger;
+        // take the total tableRows number and divide it by rowsPerPage
+        //     pass that value to CustomizedPagination
+        // multiplay the number of (rowsPerPage by the pageNumber) - 1 asigd it to showedRows
+        //   then slice rows from tableRows from showedRows for (rowsPerPage * pageNumber)
+        //     then asigned it to var and return it
+    }  
 
     handleInvestSubmition = (event) => {
         this.setState({ pickedTransaction: true });
@@ -105,7 +115,7 @@ class InvestorInvestmentsList.js extends Component{
             investmentsData = investments.all
         }
 
-        const investmentDivs = investmentsData.map((investment) => {
+        const tableRows = investmentsData.map((investment) => {
             const { active, corporation_id, return_rate, investment_date } = investment;
             const corporation = corporations.all.find(c => c.id === corporation_id);
             let corpName = "";
@@ -118,10 +128,14 @@ class InvestorInvestmentsList.js extends Component{
             const activation = active ? "Active" : "Not Active";
             const date = investment_date.slice(0, 10);
             return(
-                <div key={investment.id}>
-                    <p>{activation} | {corpName} | {return_rate} for | {investment_period} months | investment date {date}</p>
-                    {account.accountType === "investor" ? <Button onClick={ this.showModal(['blurring', id, corpName, return_rate, investment_period]) }>Invest</Button> : ""}
-                </div>
+                <Table.Row key={investment.id}>
+                    <Table.Cell>{investment.id}</Table.Cell>
+                    <Table.Cell>{corpName}</Table.Cell>
+                    <Table.Cell>{return_rate}</Table.Cell>
+                    <Table.Cell>{investment_period} Months</Table.Cell>
+                    <Table.Cell>{date}</Table.Cell>
+                    <Table.Cell textAlign='right'><Button onClick={ this.showModal(['blurring', id, corpName, return_rate, investment_period]) }>Invest</Button></Table.Cell>
+                </Table.Row>
             )
         })
 
@@ -144,11 +158,10 @@ class InvestorInvestmentsList.js extends Component{
             }
         }else{
             description = <div>
-                <Header>investment info</Header>
-                <p>corporation name: {corporationName}</p>
-                <p>return rate: {returnRate}</p>
-                <p>for: {investmentPeriod}</p>
-                <label>Total Amount:
+                <p><b>corporation name:</b> {corporationName}</p>
+                <p><b>return rate:</b> {returnRate}</p>
+                <p><b>for: {investmentPeriod}</b></p>
+                <label>Enter Amount: 
                     <Input labelPosition='right' 
                         type='number'
                         name="total">
@@ -164,15 +177,36 @@ class InvestorInvestmentsList.js extends Component{
        
         return(
             <div className="DottedBox">
-                <p>Investments list</p>
-                {investmentDivs}
+                <span id="investor-investments-div"></span> 
+                <Header textAlign="center">Live Investments</Header>
+                
+                
+                <Segment loading={this.props.investments.loading || this.props.corporations.loading } >
+                    <CustomizedPagination totalPages={5} activePageChange={this.handlePageChange}/>
+                    <Table unstackable>
+                        <Table.Header>
+                          <Table.Row>
+                            <Table.HeaderCell>ID</Table.HeaderCell>
+                            <Table.HeaderCell>Corporation Name</Table.HeaderCell>
+                            <Table.HeaderCell>Return Rate</Table.HeaderCell>
+                            <Table.HeaderCell>Investment Period</Table.HeaderCell>
+                            <Table.HeaderCell>Date</Table.HeaderCell>
+                            <Table.HeaderCell textAlign='right'><Icon name="angle double down"/></Table.HeaderCell>
+                          </Table.Row>
+                        </Table.Header>
+
+                        <Table.Body>
+                          {currentTableRows}
+                        </Table.Body>
+                    </Table> 
+                </Segment>
 
                 <Modal
                 open={open}
                 dimmer={dimmer}
                 onClose={this.close}>
                     <Modal.Header>
-                        Invest
+                        Investment Info
                     </Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
@@ -207,4 +241,5 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InvestorInvestmentsList.js);
+export default connect(mapStateToProps, mapDispatchToProps)(InvestorInvestmentsTable);
+

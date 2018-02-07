@@ -34,70 +34,67 @@ class AccountCorporationShow extends Component{
         const { account, session } = this.props;
         const { url } = this.props.match;
         const { id, investors, corporation_investments, transactions, currency_corporations } = this.props.account.info;
+        let accountContainer = "";
         
-
         if(account.loading){
-            return(
-                <div>
-                    <h3>Loading...</h3>
-                </div>
-            )
+            
+            accountContainer = <Container>
+                <h3>Loading...</h3>
+            </Container>
+            
         }else if(!session.loggedIn){
-            return(
-                <div>
-                    <h3>You must be logged in</h3>
-                    <Link to="/login">Login Here</Link>
-                </div>
-            )
+            
+            accountContainer = <Container>
+                <h3>You must be logged in</h3>
+                <Link to="/login">Login Here</Link>
+            </Container>
         }else if(account.accountType === "corporation"){
-            return(
-                <div>
-                    <div className="accountInvestorShow">
-                    <Switch> 
-                        <Route exact path={`${url}`} component={AccountCorporationInfoTopSegment} />
-                        <Route exact path={`${url}/Edit`} component={AccountCorporationTopSegment}/>
-                        <Route exact path={`${url}/corporationInvestments`} component={AccountCorporationTopSegment} /> 
-                    </Switch>
+            
+            accountContainer = <Container >
+                <Switch> 
+                    <Route exact path={`${url}`} component={AccountCorporationInfoTopSegment} />
+                    <Route exact path={`${url}/Edit`} component={AccountCorporationTopSegment}/>
+                    <Route exact path={`${url}/corporationInvestments`} component={AccountCorporationTopSegment} /> 
+                </Switch>
 
-                      <Segment style={{ padding: '3em 0em' }} vertical>
-                        <Grid  container stackable divided >
-                          <Grid.Row>
+                <Segment style={{ padding: '3em 0em' }} vertical>
+                    <Grid  container stackable Segmentided >
+                        <Grid.Row>
                             <Grid.Column width={4} >
-                               <Header as='h3' style={{ textAlign: 'center', padding: '0em 1em', fontSize: '2em' }}>Investors</Header> 
-                               <CorporationInvestorsTable investorsInfo={investors}/> 
+                                <Header as='h3' style={{ textAlign: 'center', padding: '0em 1em', fontSize: '2em' }}>Investors</Header> 
+                                <CorporationInvestorsTable investorsInfo={investors}/> 
                             </Grid.Column>
                             <Grid.Column width={10} >
                                 <Header as='h3' style={{ textAlign: 'center', padding: '0em 1em', fontSize: '2em' }}>Active Investments</Header>
                                 <CorporationInvestmentsTable investmentsData={corporation_investments} currenciesData={this.props.currencies}/>
                             </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </Segment>
-                      
-                      <Segment  style={{ padding: '8em 0em' }} vertical>
-                        <Grid container stackable verticalAlign='middle'>
-                          <Grid.Row>
+                        </Grid.Row>
+                    </Grid>
+                </Segment>
+                  
+                <Segment  style={{ padding: '8em 0em' }} vertical>
+                    <Grid container stackable verticalAlign='middle'>
+                        <Grid.Row>
                             <Grid.Column width={14}> 
                                 <Header as='h3' style={{ fontSize: '2em' }}>Your Transactions</Header>
                             </Grid.Column> 
-                          </Grid.Row>
-                          <Grid.Row>
+                        </Grid.Row>
+                        <Grid.Row>
                             <Grid.Column textAlign='center'>
                                 <CorporationTransactionsTable transactionsData={transactions} currenciesData={this.props.currencies}/>
                             </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </Segment>   
-                    </div> 
-               </div>   
-            )
-        }else if(account.accountType === "investor"){
-            return(
-                <div>
-                    <p>Hello from AccountShow smart Container for investor</p>
-                </div>
-            )
+                        </Grid.Row>
+                    </Grid>
+                </Segment>   
+            </Container>
+
         }
+        return(
+            <div>
+                <p id="corporation-info"></p>
+                {accountContainer}
+            </div>
+        ) 
     }
 }
 

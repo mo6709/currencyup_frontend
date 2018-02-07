@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import { bindActionCreators } from 'redux';
 import {
   Button,
@@ -32,64 +33,72 @@ class AccountInvestorShow extends Component{
 
     render(){
         const { account, session, currencies } = this.props;
+        let accountContainer = "";
 
         if(account.loading){
-            return(
-                <div>
-                    <h3>Loading...</h3>
-                </div>
-            )
-        }else if(!session.loggedIn){
-            return(
-                <div>
-                    <h3>You must be logged in</h3>
-                    <Link to="/login">Login Here</Link>
-                </div>
-            )
-        }else if(account.accountType === "investor"){
-            return(  
-                <div className="accountInvestorShow">
-                    <Switch>
-                        <Route path={`${this.props.match.url}`} component={AccountInvestorTopSegment}/>
-                        <Route path={`${this.props.match.url}/Edit`} component={AccountInvestorTopSegment}/>
-                        <Route path={`${this.props.match.url}/investments`} component={AccountInvestorInvestmentsTopSegment} />
-                    </Switch>
 
-                  <Segment  style={{ padding: '8em 0em' }} vertical>
-                    <Grid container stackable verticalAlign='middle'>
-                      <Grid.Row>
-                        <Grid.Column textAlign='center' width={10}> 
-                          <Header as='h3' style={{ fontSize: '2em' }}>Your Active Investments</Header>
-                        </Grid.Column>
-                        <Grid.Column textAlign='right' width={4}>
-                          <Button><Icon name='angle double down' /><Link to={{ pathname: `${this.props.match.url}/investments` }}>Start to Invest</Link></Button>
-                        </Grid.Column>  
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column textAlign='center'>
-                        <InvestorInvestmentsTable currenciesData={currencies} transactionsData={account.info.transactions}/>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
-                  </Segment>
-                  
-                  <Segment  style={{ padding: '8em 0em' }} vertical>
-                    <Grid container stackable verticalAlign='middle'>
-                      <Grid.Row>
-                        <Grid.Column width={14}> 
-                          <Header as='h3' style={{ fontSize: '2em' }}>Your Transactions</Header>
-                        </Grid.Column> 
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column textAlign='center'>
-                        <InvestorTransactionsList currenciesData={currencies} transactionsData={account.info.transactions}/>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
-                  </Segment>   
-                </div>  
-            )
+            accountContainer = <Container>
+                <h3>Loading...</h3>
+            </Container>
+
+        }else if(!session.loggedIn){
+            
+            accountContainer = <Container>
+                <h3>You must be logged in</h3>
+                <Link to="/login">Login Here</Link>
+            </Container>
+           
+        }else if(account.accountType === "investor"){
+              
+            accountContainer = <Container>
+                <Switch>
+                    <Route exact path={`${this.props.match.url}`} component={AccountInvestorTopSegment}/>
+                    <Route exact path={`${this.props.match.url}/Edit`} component={AccountInvestorTopSegment}/>
+                    <Route exact path={`${this.props.match.url}/investments`} component={AccountInvestorInvestmentsTopSegment} />
+                </Switch>
+
+              <Segment  style={{ padding: '8em 0em' }} vertical>
+                <Grid container stackable verticalAlign='middle'>
+                  <Grid.Row>
+                    <Grid.Column textAlign='center' width={10}> 
+                      <Header as='h3' style={{ fontSize: '2em' }}>Your Active Investments</Header>
+                    </Grid.Column>
+                    <Grid.Column textAlign='right' width={4}>
+                      <Button><Icon name='angle double down' /><Link to={`${this.props.match.url}/investments#investor-investments-div`}>Start to Invest</Link></Button>
+                    </Grid.Column>  
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column textAlign='center'>
+                    <InvestorInvestmentsTable currenciesData={currencies} transactionsData={account.info.transactions}/>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
+              
+              <Segment  style={{ padding: '8em 0em' }} vertical>
+                <Grid container stackable verticalAlign='middle'>
+                  <Grid.Row>
+                    <Grid.Column width={14}> 
+                      <Header as='h3' style={{ fontSize: '2em' }}>Your Transactions</Header>
+                    </Grid.Column> 
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column textAlign='center'>
+                    <InvestorTransactionsList currenciesData={currencies} transactionsData={account.info.transactions}/>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>   
+            </Container>  
+           
         }
+
+        return(
+            <div>
+                <p id="investor-info"></p>
+                {accountContainer}
+            </div>
+        )
     }
 }
 
