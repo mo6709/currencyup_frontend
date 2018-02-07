@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Segment } from 'semantic-ui-react';
+import PaginatedTable from '../../containers/PaginatedTable';
 
 const InvestorInvestmentsTable = ({ transactionsData, currenciesData }) => {
 	const tableRows = transactionsData.map((transaction) => {
@@ -20,23 +21,18 @@ const InvestorInvestmentsTable = ({ transactionsData, currenciesData }) => {
 			</Table.Row>
 		)	
 	})
+    
+    const tableHeaders = [
+        <Table.HeaderCell>Corporation Name</Table.HeaderCell>,
+        <Table.HeaderCell>Total Amount</Table.HeaderCell>,
+        <Table.HeaderCell>Currency</Table.HeaderCell>,
+        <Table.HeaderCell>Return Rate</Table.HeaderCell>,
+        <Table.HeaderCell textAlign='right'>Due Date</Table.HeaderCell>
+	];
+
 	return(
 	    <Segment>
-	        <Table unstackable>
-			    <Table.Header>
-			      <Table.Row>
-			        <Table.HeaderCell>Corporation Name</Table.HeaderCell>
-			        <Table.HeaderCell>Total Amount</Table.HeaderCell>
-			        <Table.HeaderCell>Currency</Table.HeaderCell>
-			        <Table.HeaderCell>Return Rate</Table.HeaderCell>
-			        <Table.HeaderCell textAlign='right'>Due Date</Table.HeaderCell>
-			      </Table.Row>
-			    </Table.Header>
-
-			    <Table.Body>
-			      {tableRows}
-			    </Table.Body>
-		    </Table> 
+	        <PaginatedTable headersData={tableHeaders} rowsData={tableRows} />
 		</Segment>
 	)
 }

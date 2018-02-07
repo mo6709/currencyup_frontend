@@ -15,7 +15,7 @@ import {
   Segment,
   Visibility,
 } from 'semantic-ui-react';
-import InvestorInvestmentsTable from '../../investments/InvestorInvestmentsTable';
+import InvestorInvestmentsAllTable from '../../investments/InvestorInvestmentsAllTable';
 
 
 
@@ -30,7 +30,7 @@ class AccountInvestorInvestmentsTopSegment extends Component{
     return(
         <Segment style={{ padding: '8em 0em' }} vertical>
 			<Container text textAlign="center">
-		        <InvestorInvestmentsTable />
+		        <InvestorInvestmentsAllTable />
 				<Link to={`/account/investors/${account.info.id}#investor-info`}><Button icon style={{ margin: '1em 2px'}}><Icon name='info circle'/></Button></Link>
 				<Link to={`/account/investors/${account.info.id}/Edit#investor-info`}><Button style={{ margin: '1em 2px'}}><Icon name='edit'/>Edit Account</Button></Link>
 			</Container>

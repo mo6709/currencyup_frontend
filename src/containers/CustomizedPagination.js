@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Form, Pagination, Segment } from 'semantic-ui-react';
+import { Pagination } from 'semantic-ui-react';
 
 export default class CustomizedPagination extends Component {
 	constructor(props){
@@ -19,7 +19,7 @@ export default class CustomizedPagination extends Component {
 
     handlePaginationChange = (e, { activePage }) => { 
     	this.setState({ activePage })
-    	this.props.activePageChange(activePage)
+    	this.props.onActivePageChange(activePage)
     }
 
 	render() {

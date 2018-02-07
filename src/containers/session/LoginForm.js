@@ -65,7 +65,7 @@ class LoginForm extends Component{
 
                             <Grid.Column style={{ maxWidth: 450 }}>
                                 <Header as='h2' color='gray' textAlign='center'>
-                                    <Image src='/logo.png' />
+                                    {/*<Image src='../../../public/UP.png' />*/}
                                     {' '}Log-in to your account
                                 </Header>
                                 

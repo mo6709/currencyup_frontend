@@ -78,7 +78,7 @@ class AccountSignupForm extends Component {
 
                         <Grid.Column style={{ maxWidth: 450 }}>
                             <Header as='h2' color='gray' textAlign='center'>
-                                <Image src='/logo.png' />
+                               {/*<Image src='/logo.png' />*/}
                                 {' '}Sign-up to currencyUP 
                             </Header>
                             

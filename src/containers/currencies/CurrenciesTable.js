@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Icon, Container, Header } from 'semantic-ui-react';
 import RateGraph from '../../components/currencies/RateGraph';
-
+import PaginatedTable from '../PaginatedTable';
 
 class CurrenciesTable extends Component{
   constructor(props){
@@ -34,10 +34,10 @@ class CurrenciesTable extends Component{
 	        <Table.Row key={currency.id}>
 		        <Table.Cell>{currency.name}</Table.Cell>
 		        <Table.Cell>{currency.rate}</Table.Cell>
-		        <Table.Cell>
+		        <Table.Cell textAlign="left" >
 		            <RateGraph rateData={data} />
 		        </Table.Cell>
-		        <Table.Cell textAlign='right'>
+		        <Table.Cell >
 		            <p style={{ color: `${color}`}}>
 		                <b>{finalRate.toFixed(4)}% <Icon name={`caret ${arrow}`}/></b>
 		            </p>
@@ -47,24 +47,18 @@ class CurrenciesTable extends Component{
         )
     })
 
+    const tableHeaders = [
+		<Table.HeaderCell>Name</Table.HeaderCell>,
+		<Table.HeaderCell>Rate</Table.HeaderCell>,
+		<Table.HeaderCell textAlign="center">Rate Graph</Table.HeaderCell>,
+		<Table.HeaderCell>Change %</Table.HeaderCell>,
+		<Table.HeaderCell textAlign='right'>Region</Table.HeaderCell>
+	];
+
     return (
     	<Container>
     	    <Header as='h3'>Monthly Rate</Header>
-            <Table unstackable>
-			    <Table.Header>
-					<Table.Row>
-						<Table.HeaderCell>Name</Table.HeaderCell>
-						<Table.HeaderCell>Rate</Table.HeaderCell>
-						<Table.HeaderCell>Rate Graph</Table.HeaderCell>
-						<Table.HeaderCell>Change %</Table.HeaderCell>
-						<Table.HeaderCell textAlign='right'>Region</Table.HeaderCell>
-					</Table.Row>
-			    </Table.Header>
-
-			    <Table.Body>
-			      {tableRows}
-			    </Table.Body>
-		    </Table>
+		    <PaginatedTable headersData={tableHeaders} rowsData={tableRows} />
 		</Container>   
     )
   }

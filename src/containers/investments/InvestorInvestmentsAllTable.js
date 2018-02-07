@@ -6,9 +6,10 @@ import { Button, Icon, Modal, Header, Label, Input, Table, Segment, Pagination }
 import * as accountTransactionActions from '../../actions/accountTransactionActions';
 import ErrorsDiv from '../../components/errors/ErrorsDiv';
 import CustomizedPagination from '../CustomizedPagination';
+import PaginatedTable from '../PaginatedTable';
 
 
-class InvestorInvestmentsTable extends Component{
+class InvestorInvestmentsAllTable extends Component{
     constructor(props){
         super(props);
 
@@ -33,18 +34,16 @@ class InvestorInvestmentsTable extends Component{
                 returnRate: '',
                 investmentPeriod: '',
             },
-            pagination: {
+            tableData: {
+                tableHeaders: null,
                 tableRows: null,
-                currentTableRows: null,
-                rowsPerPage: 7,
-                totalPages: null,
-            }
+            },
         }
     }
 
     componentWillMount(){
         const { investments, account, corporations } = this.props;
-        const { rowsPerPage } = this.state.pagination;
+        const { rowsPerPage } = this.state.tableData;
         let investmentsData = null;
         if(account.accountType === "investor"){
             investmentsData = investments.all.filter(i => i.region === account.info.region.toLowerCase())
@@ -76,11 +75,17 @@ class InvestorInvestmentsTable extends Component{
             )
         })
 
-        const totalPages = Math.ceil(tableRows.length / rowsPerPage);
-        const currentTableRows =  tableRows.slice(0, rowsPerPage);
+        const tableHeaders = [
+            <Table.HeaderCell>ID</Table.HeaderCell>,
+            <Table.HeaderCell>Corporation Name</Table.HeaderCell>,
+            <Table.HeaderCell>Return Rate</Table.HeaderCell>,
+            <Table.HeaderCell>Investment Period</Table.HeaderCell>,
+            <Table.HeaderCell>Date</Table.HeaderCell>,
+            <Table.HeaderCell textAlign='right'><Icon name="angle double down"/></Table.HeaderCell>
+        ]
 
         this.setState({ 
-            pagination: Object.assign({}, this.state.pagination, { tableRows, currentTableRows, totalPages }) 
+            tableData: Object.assign({}, this.state.tableData, { tableRows, tableHeaders }) 
         });
     }
 
@@ -136,14 +141,6 @@ class InvestorInvestmentsTable extends Component{
         this.setState({ transaction: newTransaction, moneyToInvest: newMoneyToInvest });
     }
 
-    handlePageChange = pageNumber => {
-        const{ tableRows, currentTableRows, rowsPerPage } = this.state.pagination;
-        let showedRows = (pageNumber - 1) * rowsPerPage;
-        let rowsToBeShowen = pageNumber * rowsPerPage;
-        let parsedRows = tableRows.slice(showedRows, rowsToBeShowen);
-        this.setState({ pagination: Object.assign({}, this.state.pagination, { currentTableRows: parsedRows }) })
-    }  
-
     handleInvestSubmition = (event) => {
         this.setState({ pickedTransaction: true });
         this.props.accountTransactionActions.persistInvestorTransaction(this.state.transaction)
@@ -151,7 +148,7 @@ class InvestorInvestmentsTable extends Component{
 
     render(){
         const { routerHistory, account, investments, corporations, accountTransaction } = this.props;
-        const { open, dimmer, transaction, pickedTransaction, pagination } = this.state;
+        const { open, dimmer, transaction, pickedTransaction, tableData } = this.state;
         const {investmentCurrencyName, investmentCurrencySymbol, investmentDate, corporationName, returnRate, investmentPeriod } = this.state.investment;
         
         let description = "";
@@ -197,23 +194,7 @@ class InvestorInvestmentsTable extends Component{
                 
                 
                 <Segment loading={investments.loading || corporations.loading } >
-                    <CustomizedPagination totalPages={pagination.totalPages} activePageChange={this.handlePageChange}/>
-                    <Table unstackable>
-                        <Table.Header>
-                          <Table.Row>
-                            <Table.HeaderCell>ID</Table.HeaderCell>
-                            <Table.HeaderCell>Corporation Name</Table.HeaderCell>
-                            <Table.HeaderCell>Return Rate</Table.HeaderCell>
-                            <Table.HeaderCell>Investment Period</Table.HeaderCell>
-                            <Table.HeaderCell>Date</Table.HeaderCell>
-                            <Table.HeaderCell textAlign='right'><Icon name="angle double down"/></Table.HeaderCell>
-                          </Table.Row>
-                        </Table.Header>
-
-                        <Table.Body>
-                          {pagination.currentTableRows}
-                        </Table.Body>
-                    </Table> 
+                    <PaginatedTable headersData={tableData.tableHeaders} rowsData={tableData.tableRows} /> 
                 </Segment>
 
                 <Modal
@@ -256,5 +237,5 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InvestorInvestmentsTable);
+export default connect(mapStateToProps, mapDispatchToProps)(InvestorInvestmentsAllTable);
 

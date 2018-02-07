@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Icon, Table, Segment } from 'semantic-ui-react';
 import RateGraph from '../../components/currencies/RateGraph';
+import PaginatedTable from '../PaginatedTable';
 
 
 class CurrenciesQuickView extends Component{
@@ -42,20 +43,15 @@ class CurrenciesQuickView extends Component{
 	    })
     }
 
+    const tableHeaders = [
+        <Table.HeaderCell>Name</Table.HeaderCell>,
+        <Table.HeaderCell textAlign='center'>Rate Graph</Table.HeaderCell>,
+        <Table.HeaderCell textAlign='right'>Change %</Table.HeaderCell>
+    ];
+
     return (
         <Segment loading={this.props.currencies.loading}>
-	        <Table unstackable>
-			    <Table.Header>
-			      <Table.Row>
-			        <Table.HeaderCell>Name</Table.HeaderCell>
-			        <Table.HeaderCell textAlign='center'>Rate Graph</Table.HeaderCell>
-			        <Table.HeaderCell textAlign='right'>Change %</Table.HeaderCell>
-			      </Table.Row>
-			    </Table.Header>
-			    <Table.Body>
-			      {tableRows}
-			    </Table.Body>
-			</Table>
+			<PaginatedTable headersData={tableHeaders} rowsData={tableRows} />
 		</Segment>   
     )
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Segment, Icon } from 'semantic-ui-react';
+import PaginatedTable from '../../containers/PaginatedTable';
 
 const CorporationInvestorsTable = ({ investorsInfo }) => {
 	let uniqueIds = [];
@@ -20,19 +21,15 @@ const CorporationInvestorsTable = ({ investorsInfo }) => {
 			</Table.Row>
     	)
     })	
+
+    const tableHeaders = [ 
+        <Table.HeaderCell>ID</Table.HeaderCell>,
+		<Table.HeaderCell textAlign='left'>Name</Table.HeaderCell>
+	];
+
 	return(
 		<Segment className="investorsTable">
-	        <Table unstackable>
-			    <Table.Header>
-					<Table.Row>
-						<Table.HeaderCell>ID</Table.HeaderCell>
-						<Table.HeaderCell textAlign='left'>Name</Table.HeaderCell>
-					</Table.Row>
-			    </Table.Header>
-			    <Table.Body>
-			      {tableRows}
-			    </Table.Body>
-		    </Table> 
+		    <PaginatedTable headersData={tableHeaders} rowsData={tableRows} />
 		</Segment>
 	)	
 }

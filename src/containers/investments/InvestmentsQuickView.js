@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Segment } from 'semantic-ui-react';
+import { Table, Segment, Container } from 'semantic-ui-react';
+import PaginatedTable from '../PaginatedTable';
 
 class InvestmentsQuickView extends Component{
 	constructor(props){
@@ -37,24 +38,20 @@ class InvestmentsQuickView extends Component{
 		    })
 	    }
 
-	    return (
-	        <Table unstackable loading={this.props.investments.loading || this.props.corporations.loading} >
-			    <Table.Header>
-					<Table.Row>
-						<Table.HeaderCell>ID</Table.HeaderCell>
-						<Table.HeaderCell>Corporation Name</Table.HeaderCell>
-						<Table.HeaderCell>Return Rate</Table.HeaderCell>
-						<Table.HeaderCell>Investment Period</Table.HeaderCell>
-						<Table.HeaderCell>Active</Table.HeaderCell>
-						<Table.HeaderCell>Date</Table.HeaderCell>
-						<Table.HeaderCell textAlign='right'>Region</Table.HeaderCell>
-					</Table.Row>
-			    </Table.Header>
+	    const tableHeaders = [
+	        <Table.HeaderCell>ID</Table.HeaderCell>,
+			<Table.HeaderCell>Corporation Name</Table.HeaderCell>,
+			<Table.HeaderCell>Return Rate</Table.HeaderCell>,
+			<Table.HeaderCell>Investment Period</Table.HeaderCell>,
+			<Table.HeaderCell>Active</Table.HeaderCell>,
+			<Table.HeaderCell>Date</Table.HeaderCell>,
+			<Table.HeaderCell textAlign='right'>Region</Table.HeaderCell>
+		];
 
-			    <Table.Body>
-			      {tableRows}
-			    </Table.Body>
-		    </Table>
+	    return (
+	        <Container unstackable loading={this.props.investments.loading || this.props.corporations.loading} >
+			    <PaginatedTable headersData={tableHeaders} rowsData={tableRows} />
+		    </Container>
 	    )
     }
 }

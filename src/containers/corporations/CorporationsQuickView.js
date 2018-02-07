@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Segment } from 'semantic-ui-react';
+import PaginatedTable from '../PaginatedTable';
 
 class CorporationsQuickView extends Component{
   constructor(props){
@@ -24,22 +25,16 @@ class CorporationsQuickView extends Component{
 			)
 	    })
 	}
+    
+    const tableHeaders = [ <Table.HeaderCell>ID</Table.HeaderCell>,
+        <Table.HeaderCell>Name</Table.HeaderCell>,
+        <Table.HeaderCell>Title</Table.HeaderCell>,
+        <Table.HeaderCell textAlign="center">Total Investments</Table.HeaderCell>
+    ];
 
     return (
     	<Segment loading={this.props.investments.loading || this.props.corporations.loading } >
-            <Table unstackable>
-			    <Table.Header>
-			      <Table.Row>
-			        <Table.HeaderCell>ID</Table.HeaderCell>
-			        <Table.HeaderCell>Name</Table.HeaderCell>
-			        <Table.HeaderCell>Title</Table.HeaderCell>
-			        <Table.HeaderCell textAlign="center">Total Investments</Table.HeaderCell>
-			      </Table.Row>
-			    </Table.Header>
-			    <Table.Body>
-			      {tableRows}
-			    </Table.Body>
-		    </Table>
+            <PaginatedTable headersData={tableHeaders} rowsData={tableRows} />
 		</Segment>     
     )
   }
