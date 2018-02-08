@@ -19,6 +19,7 @@ class AccountSignupForm extends Component {
             title: '',
             firstName: '',
             lastName: '',
+            region: '',
         }
     }
 
@@ -33,8 +34,8 @@ class AccountSignupForm extends Component {
     }
 
     formValidation = () => {
-        const { password, passwordConfirmation, name, email, accountType, title, firstName, lastName } = this.state; 
-        if(password !== "" && password === passwordConfirmation && email !== "" && accountType !==""){
+        const { password, passwordConfirmation, name, email, accountType, title, firstName, lastName, region } = this.state; 
+        if(password !== "" && password === passwordConfirmation && email !== "" && accountType !=="" & region !==""){
             switch(accountType){
                 case "corporation":
                     return (name !== "" && title !== "");
@@ -59,7 +60,7 @@ class AccountSignupForm extends Component {
     }
 
     render(){
-        const { accountType, email, password, passwordConfirmation, name, title, firstName, lastName } = this.state; 
+        const { accountType, email, password, passwordConfirmation, name, title, firstName, lastName, region } = this.state; 
         const { accountErrors } = this.props;
         return(
             <Container style={{padding: '6em'}}> 
@@ -130,6 +131,17 @@ class AccountSignupForm extends Component {
                                             placeholder='Confirm Password' 
                                             onChange={this.handleInputChange}/>
                                     </Form.Field>
+
+                                    <Form.Field fluid >
+                                        <Input
+                                            name="region" 
+                                            icon='world' 
+                                            iconPosition='left' 
+                                            type='text' 
+                                            value={region} 
+                                            placeholder='Enter Rigion' 
+                                            onChange={this.handleInputChange}/>
+                                    </Form.Field>
                                     
                                     <Segment style={{ display: accountType === 'corporation' ? 'block' : 'none' }}>
                                         <Form.Field fluid >
@@ -177,6 +189,17 @@ class AccountSignupForm extends Component {
                                                 placeholder='Enter Last Name' 
                                                 onChange={this.handleInputChange}/>
                                         </Form.Field>
+
+                                        <Form.Field fluid >
+                                            <Input
+                                                name="region" 
+                                                icon='world' 
+                                                iconPosition='left' 
+                                                type='text' 
+                                                value={region} 
+                                                placeholder='Enter Rigion' 
+                                                onChange={this.handleInputChange}/>
+                                    </Form.Field>
                                     </Segment>
 
                                     <Button color='gray' fluid size='large'>Creat Account</Button>
