@@ -97,7 +97,7 @@ class GenerateInvestmentForm extends Component{
     		return { key: currency.id, value: currency.id, text: `${currency.name} - ${currency.iso_code}` }
     	});
 
-        const regionOptions = account.info.currencies.map(c => {
+        const regionOptions = currencies.all.map(c => {
             const regionName = `${c.region.toLocaleLowerCase()}`;
             return { key: regionName, value: regionName, text: `${c.region}` }
         })
