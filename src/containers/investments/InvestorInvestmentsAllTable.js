@@ -16,7 +16,7 @@ class InvestorInvestmentsAllTable extends Component{
         this.state = {
             pickedTransaction: false,
             open: false,
-            moneyToInvest: this.props.account.info.currency_investors[0].total_amount,
+            moneyToInvest: 0,
             transaction: {
                 investor_id: '',
                 corporation_investment_id: '',
@@ -83,6 +83,9 @@ class InvestorInvestmentsAllTable extends Component{
             <Table.HeaderCell>Date</Table.HeaderCell>,
             <Table.HeaderCell textAlign='right'><Icon name="angle double down"/></Table.HeaderCell>
         ]
+        
+        const moneyToInvest = account.info.currency_investors[0] ? account.info.currency_investors[0].total_amount : 0;
+        this.setState({ moneyToInvest });
 
         this.setState({ 
             tableData: Object.assign({}, this.state.tableData, { tableRows, tableHeaders }) 
@@ -148,7 +151,7 @@ class InvestorInvestmentsAllTable extends Component{
 
     render(){
         const { routerHistory, account, investments, corporations, accountTransaction } = this.props;
-        const { open, dimmer, transaction, pickedTransaction, tableData } = this.state;
+        const { open, dimmer, transaction, pickedTransaction, tableData, moneyToInvest } = this.state;
         const {investmentCurrencyName, investmentCurrencySymbol, investmentDate, corporationName, returnRate, investmentPeriod } = this.state.investment;
         
         let description = "";
@@ -158,7 +161,7 @@ class InvestorInvestmentsAllTable extends Component{
             if(accountTransaction.status === 'error'){
                 description = <ErrorsDiv messages={accountTransaction.response}/>
             }else if(accountTransaction.status === 'success'){
-                const amountCalculated = transaction.total_amount + (transaction.total_amount * returnRate/100);
+                const amountCalculated = transaction.total_amount + (transaction.total_amount * returnRate) / 100;
                 let dueDate = new Date(investmentDate); 
                 dueDate.setMonth(+investmentPeriod);
                 description = <p>you invested in -
@@ -206,7 +209,7 @@ class InvestorInvestmentsAllTable extends Component{
                     </Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <h3>You have {this.state.moneyToInvest.toFixed(4)} money to invest</h3>
+                            <h3>You have {moneyToInvest % 1 !==0 ? moneyToInvest.toFixed(4): moneyToInvest} money to invest</h3>
                             {description}
                         </Modal.Description>
                     </Modal.Content>
