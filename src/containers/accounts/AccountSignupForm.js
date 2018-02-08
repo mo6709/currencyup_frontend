@@ -159,10 +159,10 @@ class AccountSignupForm extends Component {
                                         <Form.Field fluid >
                                             <Input
                                                 name="firstName" 
-                                                icon='lock' 
+                                                icon='user circle outline' 
                                                 iconPosition='left' 
                                                 type='text' 
-                                                value={name} 
+                                                value={firstName} 
                                                 placeholder='Enter First Name' 
                                                 onChange={this.handleInputChange}/>
                                         </Form.Field>
@@ -170,10 +170,10 @@ class AccountSignupForm extends Component {
                                         <Form.Field fluid >
                                             <Input
                                                 name="lastName" 
-                                                icon='lock' 
+                                                icon='user circle outline' 
                                                 iconPosition='left' 
                                                 type='text' 
-                                                value={title} 
+                                                value={lastName} 
                                                 placeholder='Enter Last Name' 
                                                 onChange={this.handleInputChange}/>
                                         </Form.Field>
