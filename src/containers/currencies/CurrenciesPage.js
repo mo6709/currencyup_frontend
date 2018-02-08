@@ -15,7 +15,7 @@ class CurrenciesPage extends Component {
     }
 
     componentDidMount() {
-        if(this.props.currencies.length === 0){
+        if(this.props.currencies.all.length === 0){
             this.props.currencyActions.fetchCurrencies()
         }
     }
@@ -25,7 +25,9 @@ class CurrenciesPage extends Component {
             <div id="currencies-div" className="DottedBox">
                 <Segment style={{ margin: '5em 0em'}}>
                     <Header as="h1" textAlign="center">All Currencies</Header>
-                    <CurrenciesTable/> 
+                    <Segment loading={this.props.currencies.loading}>
+                        <CurrenciesTable/> 
+                    </Segment>
                 </Segment>
            </div>
         )
@@ -34,7 +36,7 @@ class CurrenciesPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        currencies: state.currencies.all
+        currencies: state.currencies
     }
 };
 

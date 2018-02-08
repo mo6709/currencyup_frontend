@@ -25,7 +25,9 @@ class CorporationsPage extends Component {
             <div id="corporations-div" className="DottedBox">
                 <Segment style={{ margin: '5em 0em'}}>
                     <Header as="h1" textAlign="center">All Corporations</Header>
-                    <CorporationsTable/> 
+                    <Segment loading={this.props.corporations.loading}>
+                        <CorporationsTable/>
+                    </Segment> 
                 </Segment>
            </div>
         )

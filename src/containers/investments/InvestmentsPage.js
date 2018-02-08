@@ -21,33 +21,15 @@ class InvestmentsPage extends Component{
 
 	render(){
 		const { investments, corporations, account, session } = this.props;
-        let investmentsSegment = "";
-		if(investments.loading || corporations.loading){
-			
-			investmentsSegment = <Segment>
-			    <h3>Investments Page</h3>
-                <h3>Loading Investments</h3>
-			</Segment>
-
-		}else if(investments.all.length > 0 && corporations.all.length > 0){
-			
-			investmentsSegment = <Segment style={{ margin: '5em 0em'}}>
-			    <Header as="h1" textAlign="center" >All Investments</Header>
-			    {account.accountType === 'investor' ? <h3>You have {account.info.currency_investors[0].total_amount.toFixed(4)} to invest</h3> : ""}
-                <InvestmentsQuickView/>
-            </Segment>
-			
-		}else{
-			
-			investmentsSegment = <Segment>
-			    <h3>Investments Page</h3>
-			    fill up this area
-			</Segment>
-			
-		}
 		return(
-			<div className="DottedBox" id="#investments-info">
-			    {investmentsSegment}
+			<div className="DottedBox" id="investments-info">
+			    <Segment style={{ margin: '5em 0em'}}>
+				    <Header as="h1" textAlign="center" >All Investments</Header>
+				    {account.accountType === 'investor' ? <h3>You have {account.info.currency_investors[0].total_amount.toFixed(4)} to invest</h3> : ""}
+	                <Segment loading={investments.loading || corporations.loading}>
+	                    <InvestmentsQuickView/>
+	                </Segment>
+	            </Segment>
 			</div>
 		)
 	}

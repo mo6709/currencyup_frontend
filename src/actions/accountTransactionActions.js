@@ -13,11 +13,13 @@ export function persistInvestorTransaction(transactionData){
 			body: JSON.stringify(params)
 		})
 		.then(response => response.json())
-		.then( resopnseJSON => {
-			if (resopnseJSON.status === "error" || resopnseJSON.status === 500){
-				dispatcher({ type: 'TRANSACTION_PRESISTED_FAILUR', payload: resopnseJSON.messages })
+		.then( responseJSON => {
+			const { status } = responseJSON;
+			
+			if (status === "error" || status === 500){
+				dispatcher({ type: 'TRANSACTION_PRESISTED_FAILUR', payload: responseJSON.messages || { error: "Somthing went wrong."} })
 			}else {
-				dispatcher({ type: 'TRANSACTION_PRESISTED_SUCCESS', payload: resopnseJSON.data });
+				dispatcher({ type: 'TRANSACTION_PRESISTED_SUCCESS', payload: responseJSON.data });
 				getAndSetAccountInfo(dispatcher, "investor");
 			}
 		})

@@ -38,8 +38,9 @@ export function generateInvestment(investmentInfo, routerHistory){
 		})
 		.then(response => response.json())
 		.then((responseJSON) => { 
-			if(responseJSON.status === 'error'){
-                dispatch({ type: 'GENERATE_CORPORSTION_INVESTMENT_FAILUR', payload: responseJSON.messages || "Somthing went wrong" })
+			const { status } = responseJSON;
+			if(status === "error" || status === 500){
+                dispatch({ type: 'GENERATE_CORPORSTION_INVESTMENT_FAILUR', payload: responseJSON.messages || { error: "Somthing went wrong." } })
 			}else{
 				dispatch({ type: 'GENERATE_CORPORSTION_INVESTMENT_SUCCESS' })
 				dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS', payload: responseJSON.data });

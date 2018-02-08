@@ -69,7 +69,7 @@ class HomepageLayout extends Component {
                   <Header as='h3' style={{ fontSize: '2em' }}>"The New Upcoming Wall Street."</Header>
                   <p style={{ fontSize: '1.33em' }}>
                     <Image avatar src='/assets/images/avatar/large/nan.jpg' />
-                    <b>William Dudley</b> New York Fed leader 
+                    <b>Jaron Wadson</b> New York Fed leader 
                   </p>
                 </Grid.Column>
               </Grid.Row>

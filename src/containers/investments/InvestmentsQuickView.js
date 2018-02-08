@@ -49,8 +49,10 @@ class InvestmentsQuickView extends Component{
 		];
 
 	    return (
-	        <Container unstackable loading={this.props.investments.loading || this.props.corporations.loading} >
+	        <Container unstackable  >
+			    <Segment loading={this.props.investments.loading || this.props.corporations.loading}>
 			    <PaginatedTable headersData={tableHeaders} rowsData={tableRows} />
+			    </Segment>
 		    </Container>
 	    )
     }

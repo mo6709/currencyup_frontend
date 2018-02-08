@@ -36,7 +36,8 @@ export function signupAccount(accountCredentials, routerHistory){
         })
         .then(response => response.json())
         .then(responseJSON => {
-            if( responseJSON.status === "error"){
+            const { status } = responseJSON;
+            if(status === "error" || status === 500){
                 dispatcher({ type: "ACCOUNT_SIGNUP_FAILUR", payload: responseJSON.messages || { error: 'Somthing went wrong.'} })
             }else{
                 localStorage.setItem('token', responseJSON.token);
@@ -68,7 +69,8 @@ export function updateAndSetAccountInfo(accountInfo, routerHistory){
         })
         .then(response => response.json())
         .then(responseJSON => {
-            if(responseJSON.status === "error"){
+            const { status } = responseJSON;
+            if(status === "error" || status === 500){
                 dispatch({ type: "ACCOUNT_UPDATE_FAILUR", payload: responseJSON.messages || { error: 'Somthing went wrong.' } })
             }else{
                 dispatch(setAccount(type, responseJSON));

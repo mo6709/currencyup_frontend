@@ -30,7 +30,7 @@ store.subscribe(throttle(() => {
 	    corporations: { loading: false, all: corporations.all },
         investments: { loading: false, all: investments.all },
         session: { loggedIn: session.loggedIn, loading: false, errors: '' }
-    }
+    };
 	saveState(storeToSave);
 }, 1000));
 

@@ -5,7 +5,7 @@ export default function corporationsReducer(state = {
 		case 'LOADING_CORPORATIONS':
 		  return Object.assign({}, state, { loading: true })
 		case 'FETCH_CORPORATIONS':
-		  return { loading: false, all: action.payload };
+		  return Object.assign({}, state, { loading: false, all: action.payload });
 		default:
 		  return state;
 	}
