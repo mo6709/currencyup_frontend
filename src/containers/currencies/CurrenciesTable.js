@@ -58,7 +58,7 @@ class CurrenciesTable extends Component{
     return (
     	<Container>
     	    <Header as='h3'>Monthly Rate</Header>
-		    <PaginatedTable headersData={tableHeaders} rowsData={tableRows} />
+		      <PaginatedTable headersData={tableHeaders} rowsData={tableRows} />
 		</Container>   
     )
   }

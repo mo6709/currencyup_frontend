@@ -6,7 +6,7 @@ export function persistInvestorTransaction(transactionData){
 		const dispatcher = dispatch;
 		dispatcher({ type: 'TRANSACTION_PRESISTING' });
 		const params = { transaction: transactionData };
-		const uri = `http://localhost:3000/api/v1/investors/${transactionData.investor_id}/transactions`;
+		const uri = `https://currencyup-backend.herokuapp.com/api/v1/investors/${transactionData.investor_id}/transactions`;
 		return fetch(uri, {
 			method: 'POST',
 			headers: { 'AUTHORIZATION': `${localStorage.token}`, 'Content-Type': 'application/json' },

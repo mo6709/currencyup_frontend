@@ -4,7 +4,7 @@ export function fetchCurrencies() {
     return function(dispatch){
         dispatch({ type: 'LOADING_CURRENCIES' });
 
-        return fetch('http://localhost:3000/api/v1/currencies')
+        return fetch('https://currencyup-backend.herokuapp.com/api/v1/currencies')
         .then(response => response.json())
         .then( responseJSON => {
         	const { status } = responseJSON;

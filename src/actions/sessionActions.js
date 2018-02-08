@@ -6,7 +6,7 @@ export function loginAccount(credentials, routerHistory){
     return function(dispatch){
         const dispatcher = dispatch;
         dispatcher({ type: "LOGIN_LOADING" });
-        const uri = `http://localhost:3000/api/v1/${accountType}_login`;
+        const uri = `https://currencyup-backend.herokuapp.com/api/v1/${accountType}_login`;
         return fetch(uri, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
