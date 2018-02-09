@@ -95,7 +95,7 @@ class HomepageLayout extends Component {
                 <a href='#'>More</a>
               </Divider>
 
-              <Header as='h3' style={{ fontSize: '2em' }}>Did We Tell You About Our Generating Investments?</Header>
+              <Header as='h3' style={{ fontSize: '2em' }}>Did We Tell You About Our Investments Generator?</Header>
               <p ref={""} style={{ fontSize: '1.33em' }}>
                 Yes I know you probably disregarded the earlier boasts as non-sequitur filler content, but it's really
                 true.
