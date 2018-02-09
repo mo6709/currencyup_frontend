@@ -131,17 +131,6 @@ class AccountSignupForm extends Component {
                                             placeholder='Confirm Password' 
                                             onChange={this.handleInputChange}/>
                                     </Form.Field>
-
-                                    <Form.Field fluid >
-                                        <Input
-                                            name="region" 
-                                            icon='world' 
-                                            iconPosition='left' 
-                                            type='text' 
-                                            value={region} 
-                                            placeholder='Enter Rigion' 
-                                            onChange={this.handleInputChange}/>
-                                    </Form.Field>
                                     
                                     <Segment style={{ display: accountType === 'corporation' ? 'block' : 'none' }}>
                                         <Form.Field fluid >
