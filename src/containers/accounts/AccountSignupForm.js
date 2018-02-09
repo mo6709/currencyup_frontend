@@ -32,20 +32,30 @@ class AccountSignupForm extends Component {
     componentDidMount(prevProps){
         window.scrollTo(0, 720)
     }
+    
+    setErrors = (type) =>  { 
+        const message = type === "select" ? "Please select account type" : "Please fill out all fields currenctly"; 
+        this.setState({ errors: message });
+        return false;
+    }
 
     formValidation = () => {
         const { password, passwordConfirmation, name, email, accountType, title, firstName, lastName, region } = this.state; 
-        if(password !== "" && password === passwordConfirmation && email !== "" && accountType !=="" & region !==""){
-            switch(accountType){
-                case "corporation":
-                    return (name !== "" && title !== "");
-                case "investor":
-                    return (firstName !== "" && lastName !== "");
-                default:
-                    return false; 
-            }      
-        }else{
-           return false;
+        if(accountType !== ""){
+            if(password !== "" && password === passwordConfirmation && email !== "" && accountType !==""){
+                switch(accountType){
+                    case "corporation":
+                        return (name !== "" && title !== "") ? true : this.setErrors('fields');
+                    case "investor":
+                        return (firstName !== "" && lastName !== "" && region !=="") ? true : this.setErrors('fields');
+                    default:
+                        return this.setErrors('fields'); 
+                }      
+            }else{
+               return this.setErrors('fields'); 
+            }
+        }else{ 
+            return this.setErrors('select'); 
         }
     }
 
@@ -54,8 +64,6 @@ class AccountSignupForm extends Component {
         if (this.formValidation()){
             this.setState({errors: false}); 
             this.props.signupAccount(this.state, this.props.history)
-        }else{
-            this.setState({ errors: "Please fill out all fields currenctly" }); 
         }
     }
 
