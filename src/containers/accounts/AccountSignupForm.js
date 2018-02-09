@@ -136,7 +136,7 @@ class AccountSignupForm extends Component {
                                         <Form.Field fluid >
                                             <Input
                                                 name="name" 
-                                                icon='lock' 
+                                                icon='building' 
                                                 iconPosition='left' 
                                                 type='text' 
                                                 value={name} 
@@ -147,7 +147,7 @@ class AccountSignupForm extends Component {
                                         <Form.Field fluid >
                                             <Input
                                                 name="title" 
-                                                icon='lock' 
+                                                icon='file text outline' 
                                                 iconPosition='left' 
                                                 type='text' 
                                                 value={title} 
