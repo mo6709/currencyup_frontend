@@ -7,6 +7,8 @@ export default class PaginatedTable extends Component {
 		super(props);
 
 		this.state = {
+			tableHeadersData: this.props.headersData,
+            tableRowsData: this.props.rowsData,
             currentTableRows: null,
             rowsPerPage: 7,
             totalPages: null,
@@ -14,10 +16,13 @@ export default class PaginatedTable extends Component {
 	}
 
 	componentWillReceiveProps(nextProps){
-        this.setState({ 
-        	tableHeadersData: nextProps.headersData,  
-        	tableRowsData: nextProps.rowsData
-        })
+		console.log(this.props.rowsData, nextProps.rowsData);
+		if(this.props.rowsData !== nextProps.rowsData){
+			this.setState({ 
+	        	tableHeadersData: nextProps.headersData,  
+	        	tableRowsData: nextProps.rowsData
+	        })
+		}
 	}
 
 	componentWillMount(){
@@ -46,12 +51,12 @@ export default class PaginatedTable extends Component {
 	            <Table unstackable>
 	                <Table.Header>
 	                  <Table.Row>
-	                    {this.props.headersData}
+	                    {tableHeadersData}
 	                  </Table.Row>
 	                </Table.Header>
 
 	                <Table.Body>
-	                  {this.props.rowsData}
+	                  {currentTableRows}
 	                </Table.Body>
 	            </Table>
             </div>
