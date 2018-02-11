@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table } from 'semantic-ui-react';
 import CustomizedPagination from './CustomizedPagination';
 
-export default class PaginatedTable extends Component {
+class PaginatedTable extends Component {
 	constructor(props){
 		super(props);
 
@@ -15,16 +15,6 @@ export default class PaginatedTable extends Component {
 		}
 	}
 
-	componentWillReceiveProps(nextProps){
-		console.log(this.props.rowsData, nextProps.rowsData);
-		if(this.props.rowsData !== nextProps.rowsData){
-			this.setState({ 
-	        	tableHeadersData: nextProps.headersData,  
-	        	tableRowsData: nextProps.rowsData
-	        })
-		}
-	}
-
 	componentWillMount(){
         const { rowsPerPage, tableRowsData } = this.state;
 
@@ -32,6 +22,15 @@ export default class PaginatedTable extends Component {
         const currentTableRows = tableRowsData.slice(0, rowsPerPage);
 
         this.setState({ currentTableRows, totalPages })
+	}
+
+	componentWillReceiveProps(nextProps){
+		alert(this.props.rowsData, nextProps.rowsData);
+		if(this.props.rowsData[0] !== nextProps.rowsData){
+			this.setState({ 
+	        	tableRowsData: nextProps.rowsData
+	        })
+		}
 	}
 
 	handlePageChange = pageNumber => {
@@ -63,3 +62,5 @@ export default class PaginatedTable extends Component {
 		)
 	}
 }
+
+export default PaginatedTable;
