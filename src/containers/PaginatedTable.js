@@ -7,8 +7,6 @@ export default class PaginatedTable extends Component {
 		super(props);
 
 		this.state = {
-			tableHeadersData: this.props.headersData,
-            tableRowsData: this.props.rowsData,
             currentTableRows: null,
             rowsPerPage: 7,
             totalPages: null,
@@ -48,12 +46,12 @@ export default class PaginatedTable extends Component {
 	            <Table unstackable>
 	                <Table.Header>
 	                  <Table.Row>
-	                    {tableHeadersData}
+	                    {this.props.headersData}
 	                  </Table.Row>
 	                </Table.Header>
 
 	                <Table.Body>
-	                  {currentTableRows}
+	                  {this.props.rowsData}
 	                </Table.Body>
 	            </Table>
             </div>
