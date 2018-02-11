@@ -14,18 +14,17 @@ export default function accountReducer(state = {
             return Object.assign({}, state, { errors: action.payload });
         case "ACCOUNT_UPDATE_FAILUR":
             return Object.assign({}, state, { errors: action.payload });
-        case "FETCH_CORPORSTION_INVESTMENTS":
-            var newInfo = Object.assign({}, state.info);
-            newInfo.corporation_investments = action.payload;
-            return Object.assign({}, state,  { info: newInfo });
+        case 'GENERATING_CORPORSTION_INVESTMENT':
+            return state;
         case "GENERATE_CORPORSTION_INVESTMENT_FAILUR":
             return Object.assign({}, state, { errors: action.payload });
         case "GENERATE_CORPORSTION_INVESTMENT_SUCCESS":
-            return Object.assign({}, state, { errors: '' });
+            var newInfo = Object.assign({}, state.info);
+            newInfo.corporation_investments = action.payload;          
+            return Object.assign({}, state, { errors: '', info: newInfo });
         case "ACCOUNT_LOGOUT_SETUP":
             return Object.assign({}, { accountType: '', info: {}, errors: '' });
         default:
           return state;
   }
 }
-

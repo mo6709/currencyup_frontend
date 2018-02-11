@@ -21,12 +21,13 @@ class InvestmentsPage extends Component{
 
 	render(){
 		const { investments, corporations, account, session } = this.props;
-		const firstCurrencyInvestor = account.info.currency_investors[0];
+		const currencyInvestor = account.info.currency_investors;
+		const firstCurrencyInvestor = currencyInvestor ? <h3>You have {currencyInvestor[0].total_amount.toFixed(4)} to invest</h3> : "";
 		return(
 			<div className="DottedBox" id="investments-info">
 			    <Segment style={{ margin: '5em 0em'}}>
 				    <Header as="h1" textAlign="center" >All Investments</Header>
-				    {!!firstCurrencyInvestor ? <h3>You have {firstCurrencyInvestor.total_amount.toFixed(4)} to invest</h3> : ""}
+				    {firstCurrencyInvestor} 
 	                <Segment loading={investments.loading || corporations.loading}>
 	                    <InvestmentsQuickView/>
 	                </Segment>

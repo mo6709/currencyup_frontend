@@ -15,7 +15,7 @@ export function fetchInvestments() {
 
 export function generateInvestment(investmentInfo, routerHistory){
 	return function(dispatch){
-		dispatch({ type: 'GENERATING_INVESTMENT' });
+		dispatch({ type: 'GENERATING_CORPORSTION_INVESTMENT' });
 
 		const id = investmentInfo.corporationId;
         const uri = `https://currencyup-backend.herokuapp.com/api/v1/corporations/${id}/corporation_investments`;
@@ -29,6 +29,7 @@ export function generateInvestment(investmentInfo, routerHistory){
 	            region: region 
 			}
 	    };
+		
 		return fetch(uri ,{
 			method: 'POST',
 			headers: { 
@@ -42,8 +43,8 @@ export function generateInvestment(investmentInfo, routerHistory){
 			if(status === "error" || status === 500){
                 dispatch({ type: 'GENERATE_CORPORSTION_INVESTMENT_FAILUR', payload: responseJSON.messages || { error: "Somthing went wrong." } })
 			}else{
-				dispatch({ type: 'GENERATE_CORPORSTION_INVESTMENT_SUCCESS' })
-				dispatch({ type: 'FETCH_CORPORSTION_INVESTMENTS', payload: responseJSON.data });
+				dispatch({ type: 'GENERATE_CORPORSTION_INVESTMENT_SUCCESS', payload: responseJSON.data });
+				fetchInvestments();
 				routerHistory.replace(`/account/corporations/${id}`);
 			}
 		})

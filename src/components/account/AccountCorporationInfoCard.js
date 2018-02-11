@@ -29,7 +29,7 @@ const AccountCorporationInfoCard = ({ accountInfo }) => {
 						    <b>Regions: </b>{regions_array.join(", ")}
 						</p>
 						<p style={{ fontSize: '1.33em' }}>                
-						    <b>Investment Period: </b>{investment_period}
+						    <b>Investment Period: </b>{investment_period} Months
 						</p>
 						<p style={{ fontSize: '1.33em' }}>                
 						    <b>Updated Info at: </b>{updated_at.slice(0, 10)}
