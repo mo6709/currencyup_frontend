@@ -25,8 +25,8 @@ class PaginatedTable extends Component {
 	}
 
 	componentWillReceiveProps(nextProps){
-		alert(this.props.rowsData, nextProps.rowsData);
 		if(this.props.rowsData[0] !== nextProps.rowsData){
+			alert("hello")
 			this.setState({ 
 	        	tableRowsData: nextProps.rowsData
 	        })
