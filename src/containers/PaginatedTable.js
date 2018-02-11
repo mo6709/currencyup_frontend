@@ -15,6 +15,15 @@ export default class PaginatedTable extends Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps){
+		if(this.props !== nextProps){
+            this.setState({ 
+            	tableHeadersData: nextProps.headersData,  
+            	tableRowsData: nextProps.rowsData
+            })
+		}
+	}
+
 	componentWillMount(){
         const { rowsPerPage, tableRowsData } = this.state;
 
