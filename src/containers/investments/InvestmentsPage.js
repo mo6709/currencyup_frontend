@@ -22,10 +22,11 @@ class InvestmentsPage extends Component{
 	render(){
 		const { investments, corporations, account, session } = this.props;
 		const currencyInvestor = account.info.currency_investors;
-		const firstCurrencyInvestor = "";
-		if( currencyInvestor[0] ){
+		let firstCurrencyInvestor = "";
+		if(currencyInvestor[0]){
 			firstCurrencyInvestor = <h3>You have {currencyInvestor[0].total_amount.toFixed(4)} to invest</h3>;
-		}
+		};
+
 		return(
 			<div className="DottedBox" id="investments-info">
 			    <Segment style={{ margin: '5em 0em'}}>
