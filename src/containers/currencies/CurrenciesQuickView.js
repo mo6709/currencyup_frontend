@@ -44,9 +44,9 @@ class CurrenciesQuickView extends Component{
     }
 
     const tableHeaders = [
-        <Table.HeaderCell>Name</Table.HeaderCell>,
-        <Table.HeaderCell textAlign='center'>Rate Graph</Table.HeaderCell>,
-        <Table.HeaderCell textAlign='right'>Change %</Table.HeaderCell>
+        <Table.HeaderCell key={1}>Name</Table.HeaderCell>,
+        <Table.HeaderCell key={2} textAlign='center'>Rate Graph</Table.HeaderCell>,
+        <Table.HeaderCell key={3} textAlign='right'>Change %</Table.HeaderCell>
     ];
 
     return (

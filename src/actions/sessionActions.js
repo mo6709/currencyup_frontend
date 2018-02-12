@@ -1,12 +1,14 @@
 import fetch from 'isomorphic-fetch';
 import { getAndSetAccountInfo } from './accountActions';
+import { baseURL } from '../api/api';
+
 
 export function loginAccount(credentials, routerHistory){
     const { accountType } = credentials;
     return function(dispatch){
         const dispatcher = dispatch;
         dispatcher({ type: "LOGIN_LOADING" });
-        const uri = `https://currencyup-backend.herokuapp.com/api/v1/${accountType}_login`;
+        const uri = baseURL + `${accountType}_login`;
         return fetch(uri, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

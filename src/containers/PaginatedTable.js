@@ -11,26 +11,30 @@ class PaginatedTable extends Component {
             tableRowsData: this.props.rowsData,
             currentTableRows: null,
             rowsPerPage: 7,
-            totalPages: null,
+            totalPages: 0,
+            someState: "",
 		}
 	}
-
-	componentWillMount(){
+    componentWillMount(){
         const { rowsPerPage, tableRowsData } = this.state;
 
 		const totalPages = Math.ceil(tableRowsData.length / rowsPerPage);
         const currentTableRows = tableRowsData.slice(0, rowsPerPage);
-
-        this.setState({ currentTableRows, totalPages })
-	}
+	   	
+	    this.setState({ currentTableRows, totalPages});
+    }
 
 	componentWillReceiveProps(nextProps){
 		if(this.props.rowsData[0] !== nextProps.rowsData){
-			alert("hello")
-			this.setState({ 
-	        	tableRowsData: nextProps.rowsData
-	        })
-		}
+		    this.setState({ tableRowsData: nextProps.rowsData }, () => {
+		    	const { rowsPerPage, tableRowsData } = this.state;
+
+				const totalPages = Math.ceil(tableRowsData.length / rowsPerPage);
+		        const currentTableRows = tableRowsData.slice(0, rowsPerPage);
+			   	
+			    this.setState({ currentTableRows, totalPages });
+		    });
+	    }
 	}
 
 	handlePageChange = pageNumber => {
@@ -42,18 +46,18 @@ class PaginatedTable extends Component {
     }
 
 	render(){
-		const { tableRowsData, currentTableRows, rowsPerPage, totalPages, tableHeadersData } = this.state; 
+		const { tableRowsData, currentTableRows, rowsPerPage, totalPages, tableHeadersData, someState } = this.state; 
 
 		return(
 			<div>
 				<CustomizedPagination totalPages={totalPages} onActivePageChange={this.handlePageChange} />
+	            <h1>{someState}</h1>
 	            <Table unstackable>
 	                <Table.Header>
 	                  <Table.Row>
 	                    {tableHeadersData}
 	                  </Table.Row>
 	                </Table.Header>
-
 	                <Table.Body>
 	                  {currentTableRows}
 	                </Table.Body>

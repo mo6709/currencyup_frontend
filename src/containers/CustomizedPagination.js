@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Pagination } from 'semantic-ui-react';
 
-export default class CustomizedPagination extends Component {
+class CustomizedPagination extends Component {
 	constructor(props){
         super(props);
 
@@ -14,6 +14,13 @@ export default class CustomizedPagination extends Component {
 		    showPreviousAndNextNav: true,
 		    totalPages: this.props.totalPages,
 		};
+	}
+
+	componentWillReceiveProps(nextProps){
+		const { totalPages } = nextProps;
+		if(this.props.totalPages !== totalPages){
+			this.setState({ totalPages })
+		}
 	}
 
 
@@ -52,3 +59,5 @@ export default class CustomizedPagination extends Component {
 		)
 	}
 }
+
+export default CustomizedPagination;

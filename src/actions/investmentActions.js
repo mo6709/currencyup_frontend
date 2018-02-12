@@ -1,10 +1,11 @@
 import fetch from 'isomorphic-fetch';
+import { baseURL } from '../api/api';
 
 export function fetchInvestments() {
     return function(dispatch){
         dispatch({ type: 'LOADING_INVESTMENTS' });
 
-        return fetch('https://currencyup-backend.herokuapp.com/api/v1/corporation_investments')
+        return fetch(baseURL + 'corporation_investments')
         .then(response => response.json())
         .then( currenciesJSON => {
             dispatch({ type: 'FETCH_INVESTMENTS', payload: currenciesJSON.data })
@@ -18,7 +19,7 @@ export function generateInvestment(investmentInfo, routerHistory){
 		dispatch({ type: 'GENERATING_CORPORSTION_INVESTMENT' });
 
 		const id = investmentInfo.corporationId;
-        const uri = `https://currencyup-backend.herokuapp.com/api/v1/corporations/${id}/corporation_investments`;
+        const uri = baseURL + `corporations/${id}/corporation_investments`;
         const { currencyId, returnRate, investmentDate, active, region } = investmentInfo;
 		const parameters = { 
 			corporation_investment: {

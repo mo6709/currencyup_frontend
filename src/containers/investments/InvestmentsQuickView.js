@@ -39,13 +39,13 @@ class InvestmentsQuickView extends Component{
 	    }
 
 	    const tableHeaders = [
-	        <Table.HeaderCell>ID</Table.HeaderCell>,
-			<Table.HeaderCell>Corporation Name</Table.HeaderCell>,
-			<Table.HeaderCell>Return Rate</Table.HeaderCell>,
-			<Table.HeaderCell>Investment Period</Table.HeaderCell>,
-			<Table.HeaderCell>Active</Table.HeaderCell>,
-			<Table.HeaderCell>Date</Table.HeaderCell>,
-			<Table.HeaderCell textAlign='right'>Region</Table.HeaderCell>
+	        <Table.HeaderCell key={1}>ID</Table.HeaderCell>,
+			<Table.HeaderCell key={2}>Corporation Name</Table.HeaderCell>,
+			<Table.HeaderCell key={3}>Return Rate</Table.HeaderCell>,
+			<Table.HeaderCell key={4}>Investment Period</Table.HeaderCell>,
+			<Table.HeaderCell key={5}>Active</Table.HeaderCell>,
+			<Table.HeaderCell key={6}>Date</Table.HeaderCell>,
+			<Table.HeaderCell key={7}textAlign='right'>Region</Table.HeaderCell>
 		];
 
 	    return (

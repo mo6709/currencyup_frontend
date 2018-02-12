@@ -1,12 +1,14 @@
 import fetch from 'isomorphic-fetch';
 import { getAndSetAccountInfo } from './accountActions';
+import { baseURL } from '../api/api';
+
 
 export function persistInvestorTransaction(transactionData){
 	return (dispatch) => {
 		const dispatcher = dispatch;
 		dispatcher({ type: 'TRANSACTION_PRESISTING' });
 		const params = { transaction: transactionData };
-		const uri = `https://currencyup-backend.herokuapp.com/api/v1/investors/${transactionData.investor_id}/transactions`;
+		const uri = baseURL + `investors/${transactionData.investor_id}/transactions`;
 		return fetch(uri, {
 			method: 'POST',
 			headers: { 'AUTHORIZATION': `${localStorage.token}`, 'Content-Type': 'application/json' },

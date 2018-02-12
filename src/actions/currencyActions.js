@@ -1,10 +1,11 @@
 import fetch from 'isomorphic-fetch';
+import { baseURL } from '../api/api';
 
 export function fetchCurrencies() {
     return function(dispatch){
         dispatch({ type: 'LOADING_CURRENCIES' });
-
-        return fetch('https://currencyup-backend.herokuapp.com/api/v1/currencies')
+        
+        return fetch(baseURL + 'currencies')
         .then(response => response.json())
         .then( responseJSON => {
         	const { status } = responseJSON;

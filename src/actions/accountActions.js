@@ -1,8 +1,10 @@
-import fetch from 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch';
+import { baseURL } from '../api/api';
+
 
 export function getAndSetAccountInfo(dispatchAction, type, routerHistory = null){
     const { account_id, token } = localStorage;
-    const account_uri = `https://currencyup-backend.herokuapp.com/api/v1/${type}s/${account_id}`;
+    const account_uri = baseURL + `${type}s/${account_id}`;
     fetch(account_uri, {
         method: 'GET',
         headers: { 'AUTHORIZATION': `${token}`, 'Content-Type': 'application/json' }
@@ -28,7 +30,7 @@ export function signupAccount(accountCredentials, routerHistory){
         }
         var paramters = { [accountType]: accountInfo };
 
-        const uri = `https://currencyup-backend.herokuapp.com/api/v1/${accountType}_signup`;
+        const uri = baseURL + `${accountType}_signup`;
         return fetch(uri, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -52,7 +54,7 @@ export function signupAccount(accountCredentials, routerHistory){
 export function updateAndSetAccountInfo(accountInfo, routerHistory){
     const { type, id, email, name, title, firstName, lastName, region, regions_array , investment_period } = accountInfo;
     return function(dispatch){
-        const uri = `https://currencyup-backend.herokuapp.com/api/v1/${type}s/${id}`;
+        const uri = baseURL + `${type}s/${id}`;
         
         let paramters = null;
         if(type === "corporation"){

@@ -26,10 +26,10 @@ class CorporationsQuickView extends Component{
 	    })
 	}
     
-    const tableHeaders = [ <Table.HeaderCell>ID</Table.HeaderCell>,
-        <Table.HeaderCell>Name</Table.HeaderCell>,
-        <Table.HeaderCell>Title</Table.HeaderCell>,
-        <Table.HeaderCell textAlign="center">Total Investments</Table.HeaderCell>
+    const tableHeaders = [ <Table.HeaderCell key={1}>ID</Table.HeaderCell>,
+        <Table.HeaderCell key={2}>Name</Table.HeaderCell>,
+        <Table.HeaderCell key={3}>Title</Table.HeaderCell>,
+        <Table.HeaderCell key={4}textAlign="center">Total Investments</Table.HeaderCell>
     ];
 
     return (
