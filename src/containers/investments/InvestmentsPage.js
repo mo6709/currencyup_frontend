@@ -23,18 +23,19 @@ class InvestmentsPage extends Component{
 		const { investments, corporations, account, session } = this.props;
 		const currencyInvestor = account.info.currency_investors;
 		let firstCurrencyInvestor = "";
-		if(currencyInvestor[0]){
+		if(account.accountType === "investor" && currencyInvestor.length > 0){
 			firstCurrencyInvestor = <h3>You have {currencyInvestor[0].total_amount.toFixed(4)} to invest</h3>;
 		};
 
 		return(
+
 			<div className="DottedBox" id="investments-info">
-			    <Segment style={{ margin: '5em 0em'}}>
-				    <Header as="h1" textAlign="center" >All Investments</Header>
+			    <Segment textAlign="center" style={{ margin: '5em 0em'}}>
+				    <Header as="h1">All Investments</Header>
 				    {firstCurrencyInvestor} 
-	                <Segment loading={investments.loading || corporations.loading}>
+	                <div loading={investments.loading || corporations.loading}>
 	                    <InvestmentsQuickView/>
-	                </Segment>
+	                </div>
 	            </Segment>
 			</div>
 		)

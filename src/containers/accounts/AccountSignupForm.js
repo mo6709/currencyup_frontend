@@ -20,17 +20,15 @@ class AccountSignupForm extends Component {
             firstName: '',
             lastName: '',
             region: '',
+            investment_period: 2,
         }
     }
 
     handleInputChange = (event) => {
         event.preventDefault();
         const { name, value } = event.target;
-        this.setState({ [name]: value });
-    }
-
-    componentDidMount(prevProps){
-        window.scrollTo(0, 720)
+        const parsedValue = name === "investment_period" ? parseInt(value) : value
+        this.setState({ [name]: parsedValue });
     }
     
     setErrors = (type) =>  { 
@@ -68,7 +66,7 @@ class AccountSignupForm extends Component {
     }
 
     render(){
-        const { accountType, email, password, passwordConfirmation, name, title, firstName, lastName, region } = this.state; 
+        const { accountType, email, password, passwordConfirmation, name, title, firstName, lastName, region, investment_period } = this.state; 
         const { accountErrors } = this.props;
         return(
             <Container style={{padding: '6em'}}> 
@@ -162,6 +160,28 @@ class AccountSignupForm extends Component {
                                                 placeholder='Enter Title' 
                                                 onChange={this.handleInputChange}/>
                                         </Form.Field>
+
+                                        <Segment >
+                                            <Icon name="time"/>
+                                            <b>Select Investments Period</b><br/>
+                                            <Button.Group>
+                                                <Button name="investment_period"
+                                                    value="2"
+                                                    onClick={this.handleInputChange}>2
+                                                </Button>
+                                                <Button.Or />
+                                                <Button name="investment_period"
+                                                    value="4"
+                                                    onClick={this.handleInputChange}>4
+                                                </Button>
+                                                <Button.Or />
+                                                <Button name="investment_period"
+                                                    value="6"
+                                                    onClick={this.handleInputChange}>6
+                                                </Button>
+                                            </Button.Group><br/>
+                                            <b>Months</b>
+                                        </Segment>
                                     </Segment>
                                     
                                     <Segment style={{ display: accountType === 'investor' ? 'block' : 'none' }}>

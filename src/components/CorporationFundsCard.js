@@ -10,14 +10,12 @@ const CorporationFundsCard = ({ currencyCorporationsData, currenciesData }) => {
 		fundsData.push({ x: currency.iso_code, y: amount });
 		return(<p key={fund.id}>Ammount: {amount} {currency.name}</p>)
 	})
+	const message = <Card.Header>You have no funds</Card.Header>;
+
 	return(
 		<div className="DottedBox">
 		    <Card centered style={{ width: '42em', margin: 10 }}>
-			    <VictoryPie
-			      padAngle={3}
-			      innerRadius={100}
-				  data={fundsData}
-				/>
+			    {fundsData.length > 0 ? <VictoryPie padAngle={3} innerRadius={100} data={fundsData}/> : message }
 				<Card.Content extra>
 				  <a>
 				    <Icon name='money' />

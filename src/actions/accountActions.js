@@ -18,13 +18,13 @@ export function getAndSetAccountInfo(dispatchAction, type, routerHistory = null)
 }
 
 export function signupAccount(accountCredentials, routerHistory){
-    const { name, email, password, accountType, title, firstName, lastName, region } = accountCredentials;
+    const { name, email, password, accountType, title, firstName, lastName, region, investment_period } = accountCredentials;
     return function(dispatch){
         const dispatcher = dispatch;
 
         let accountInfo = null;
         if(accountType === "corporation"){
-            accountInfo = { name: name, title: title , email: email, password: password }
+            accountInfo = { name: name, title: title , email: email, password: password, investment_period: investment_period }
         }else if(accountType === "investor"){
             accountInfo = { first_name: firstName, last_name: lastName, email: email, password: password, region: region }
         }

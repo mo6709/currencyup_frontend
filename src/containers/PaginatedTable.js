@@ -12,7 +12,7 @@ class PaginatedTable extends Component {
             currentTableRows: null,
             rowsPerPage: 7,
             totalPages: 0,
-            someState: "",
+            message: "",
 		}
 	}
     componentWillMount(){
@@ -20,8 +20,9 @@ class PaginatedTable extends Component {
 
 		const totalPages = Math.ceil(tableRowsData.length / rowsPerPage);
         const currentTableRows = tableRowsData.slice(0, rowsPerPage);
-	   	
-	    this.setState({ currentTableRows, totalPages});
+	   	const message =  currentTableRows.length > 0 ? "" : <h3>Nothing to desplay yet.</h3>;
+
+	    this.setState({ currentTableRows, totalPages, message });
     }
 
 	componentWillReceiveProps(nextProps){
@@ -30,15 +31,16 @@ class PaginatedTable extends Component {
 		    	const { rowsPerPage, tableRowsData } = this.state;
 
 				const totalPages = Math.ceil(tableRowsData.length / rowsPerPage);
-		        const currentTableRows = tableRowsData.slice(0, rowsPerPage);
-			   	
-			    this.setState({ currentTableRows, totalPages });
+		        const currentTableRows = tableRowsData.slice(0, rowsPerPage)
+                const message =  currentTableRows.length > 0 ? "" : <h3>Nothing to desplay yet.</h3>;
+
+			    this.setState({ currentTableRows, totalPages, message });
 		    });
 	    }
 	}
 
 	handlePageChange = pageNumber => {
-        const{ tableRowsData, currentTableRows, rowsPerPage } = this.state;
+        const { tableRowsData, currentTableRows, rowsPerPage } = this.state;
         let showedRowsNumber = (pageNumber - 1) * rowsPerPage;
         let rowsToBeShowenNumber = pageNumber * rowsPerPage;
         let parsedRows = tableRowsData.slice(showedRowsNumber, rowsToBeShowenNumber);
@@ -46,12 +48,11 @@ class PaginatedTable extends Component {
     }
 
 	render(){
-		const { tableRowsData, currentTableRows, rowsPerPage, totalPages, tableHeadersData, someState } = this.state; 
+		const { tableRowsData, currentTableRows, rowsPerPage, totalPages, tableHeadersData, message  } = this.state; 
 
 		return(
 			<div>
-				<CustomizedPagination totalPages={totalPages} onActivePageChange={this.handlePageChange} />
-	            <h1>{someState}</h1>
+				{message !== "" ? message: <CustomizedPagination totalPages={totalPages} onActivePageChange={this.handlePageChange} />}
 	            <Table unstackable>
 	                <Table.Header>
 	                  <Table.Row>
