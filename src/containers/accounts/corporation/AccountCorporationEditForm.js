@@ -57,7 +57,7 @@ class AccountCorporationEditForm extends Component{
         });
        
         return( 
-            <div style={{ height: '42em'}} className="DottedBox">
+            <div style={{ height: '42em', margin: '2em 0em 0em 0em'}} className="DottedBox">
                 <Segment>
                     {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
                     <Segment stackable >

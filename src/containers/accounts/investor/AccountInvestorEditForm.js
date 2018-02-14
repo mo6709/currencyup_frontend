@@ -52,60 +52,58 @@ class AccountInvestorEditForm extends Component{
         });
 
     	return(
-    		<div style={{ height: '28em'}} className="DottedBox">
-                <Segment stackable>
-                    {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
-    		        <p><Icon name="info circle"/><b>Edit Info</b></p>
-                    <Form size='large'>
-                        <Form.Field fluid >
-                            <Input
-                                name="email" 
-                                icon='mail' 
-                                iconPosition='left' 
-                                type='email'
-                                placeholder='E-mail address' 
-                                value={email}
-                                onChange={this.handleInputChange}/>
-                        </Form.Field>
-                      
-                        <Form.Field fluid >
-                            <Input
-                                name="firstName" 
-                                icon='user circle outline' 
-                                iconPosition='left' 
-                                type='text'
-                                placeholder='Enter First Name'  
-                                value={firstName}
-                                onChange={this.handleInputChange}/>
-                        </Form.Field>
+            <Segment stackable>
+                {errors === "" ? "" : <ErrorsDiv messages={errors}/>}
+		        <p><Icon name="info circle"/><b>Edit Info</b></p>
+                <Form size='large'>
+                    <Form.Field fluid >
+                        <Input
+                            name="email" 
+                            icon='mail' 
+                            iconPosition='left' 
+                            type='email'
+                            placeholder='E-mail address' 
+                            value={email}
+                            onChange={this.handleInputChange}/>
+                    </Form.Field>
+                  
+                    <Form.Field fluid >
+                        <Input
+                            name="firstName" 
+                            icon='user circle outline' 
+                            iconPosition='left' 
+                            type='text'
+                            placeholder='Enter First Name'  
+                            value={firstName}
+                            onChange={this.handleInputChange}/>
+                    </Form.Field>
 
-                        <Form.Field fluid >
-                            <Input
-                                name="lastName" 
-                                icon='user circle outline' 
-                                iconPosition='left' 
-                                type='text'
-                                placeholder='Enter Last Name'  
-                                value={lastName}
-                                onChange={this.handleInputChange}/>
-                        </Form.Field>
+                    <Form.Field fluid >
+                        <Input
+                            name="lastName" 
+                            icon='user circle outline' 
+                            iconPosition='left' 
+                            type='text'
+                            placeholder='Enter Last Name'  
+                            value={lastName}
+                            onChange={this.handleInputChange}/>
+                    </Form.Field>
 
-                        <Form.Field fluid>                            
-                            <p style={{ float: 'left', margin: '1em', size: '50em' }}><Icon name="world"/><b>Region</b></p>
-                            <Dropdown style={{ width: '12em' }} 
-                                name="region"
-                                placeholder='Select Your Region' 
-                                float
-                                search 
-                                selection 
-                                onChange={this.handleSelectChange}
-                                value={region.toLocaleLowerCase()}
-                                options={regions} />
-                        </Form.Field>
-                        <Button onClick={this.handleUpdateSubmit}><Icon name="send outline"/>Update Info</Button>
-                    </Form>
-                </Segment>
-    		</div>
+                    <Form.Field fluid>                            
+                        <p style={{ float: 'left', margin: '1em', size: '50em' }}><Icon name="world"/><b>Region</b></p>
+                        <Dropdown style={{ width: '12em' }} 
+                            name="region"
+                            placeholder='Select Your Region' 
+                            float
+                            search 
+                            selection 
+                            onChange={this.handleSelectChange}
+                            value={region.toLocaleLowerCase()}
+                            options={regions} />
+                    </Form.Field>
+                    <Button onClick={this.handleUpdateSubmit}><Icon name="send outline"/>Update Info</Button>
+                </Form>
+            </Segment>
     	)
     }	
 }

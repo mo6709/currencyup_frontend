@@ -176,10 +176,14 @@ class GenerateInvestmentForm extends Component{
                                 onChange={this.toggle}/>
                         </Segment>
                         <Button onClick={this.handleInvestmentSubmit}>Submit Investment</Button>
+                        
+                        {this.state.errors}
+                        {account.errors === "" ? "" : <ErrorsDiv messages={account.errors}/>}
                     </Form>
-                </Segment>	 
-                {this.state.errors}
-                {account.errors === "" ? "" : <ErrorsDiv messages={account.errors}/>} 
+                </Segment>
+                	 
+                 
+
             </Container>
             
         )

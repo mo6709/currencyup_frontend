@@ -33,15 +33,19 @@ class AccountInvestorTopSegment extends Component{
             <Grid celled='internally' divided stackable>
                 <span id="investor-info"></span>
                 <Grid.Row textAlign='center'>
-                    <Grid.Column  width={6} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                    <Grid.Column  width={6} style={{ paddingBottom: '1em', paddingTop: '5em' }}>
                         <Header as='h3' style={{ fontSize: '2em' }}>Account Info</Header>
-                        <Switch> 
-                            <Route exact path="/account/investors/:investorId" 
-                                render={() => <AccountInvestorInfoCard accountInfo={account} />} />
-                            <Route exact path="/account/investors/:investorId/Edit" component={AccountInvestorEditForm}/>
-                        </Switch>
-                        <Link to={`/account/investors/${account.info.id}#investor-info`}><Button icon style={{ margin: '1em 2px'}}><Icon name='info circle'/></Button></Link>
-                        <Link to={`/account/investors/${account.info.id}/Edit#investor-info`}><Button style={{ margin: '1em 2px'}}><Icon name='edit'/>Edit Account</Button></Link>
+                        <Segment style={{ background: "#dce2dc" }}>
+                            <Switch> 
+                                <Route exact path="/account/investors/:investorId" 
+                                    render={() => <AccountInvestorInfoCard accountInfo={account} />} />
+                                <Route exact path="/account/investors/:investorId/Edit" component={AccountInvestorEditForm}/>
+                            </Switch>
+                        </Segment>
+                        <Segment>
+                            <Link to={`/account/investors/${account.info.id}#investor-info`}><Button icon style={{ margin: '1em 2px'}}><Icon name='info circle'/></Button></Link>
+                            <Link to={`/account/investors/${account.info.id}/Edit#investor-info`}><Button style={{ margin: '1em 2px'}}><Icon name='edit'/>Edit Account</Button></Link>
+                        </Segment>
                     </Grid.Column>
                     <Grid.Column textAlign='center' width={9} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
                         <Header as='h3' style={{ fontSize: '2em' }}>Funds</Header>

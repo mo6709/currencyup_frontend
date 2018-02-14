@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { signupAccount } from '../../actions/accountActions';
 import ErrorsDiv from '../../components/errors/ErrorsDiv';
-import { Container, Label, Icon, Input, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
+import { Dropdown, Container, Label, Icon, Input, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 class AccountSignupForm extends Component {
     constructor(props){
         super(props);
@@ -21,6 +21,7 @@ class AccountSignupForm extends Component {
             lastName: '',
             region: '',
             investment_period: 2,
+            currency: { id: '', amount: 0 },
         }
     }
 
@@ -30,6 +31,19 @@ class AccountSignupForm extends Component {
         const parsedValue = name === "investment_period" ? parseInt(value) : value
         this.setState({ [name]: parsedValue });
     }
+
+    handleSelectChange = (event, data) => {
+        event.preventDefault();
+        this.setState({ 
+            currency: Object.assign({}, this.state.currency, { id: data.value }) 
+        });
+    }
+
+    handleEnterAmount = (event) => {
+        this.setState({ 
+            currency: Object.assign({}, this.state.currency, { amount: event.target.value }) 
+        })
+    }
     
     setErrors = (type) =>  { 
         const message = type === "select" ? "Please select account type" : "Please fill out all fields currenctly"; 
@@ -38,9 +52,14 @@ class AccountSignupForm extends Component {
     }
 
     formValidation = () => {
-        const { password, passwordConfirmation, name, email, accountType, title, firstName, lastName, region } = this.state; 
+        const { password, passwordConfirmation, name, email, accountType, title, firstName, lastName, region, currency } = this.state; 
         if(accountType !== ""){
-            if(password !== "" && password === passwordConfirmation && email !== "" && accountType !==""){
+            if(password !== "" 
+                && password === passwordConfirmation 
+                && email !== "" 
+                && accountType !=="" 
+                && currency.id !=='' 
+                && currency.id !== 0){
                 switch(accountType){
                     case "corporation":
                         return (name !== "" && title !== "") ? true : this.setErrors('fields');
@@ -67,7 +86,39 @@ class AccountSignupForm extends Component {
 
     render(){
         const { accountType, email, password, passwordConfirmation, name, title, firstName, lastName, region, investment_period } = this.state; 
-        const { accountErrors } = this.props;
+        const { accountErrors, currencies } = this.props;
+        const allCurrencies = this.props.currencies.all.map((currency) => {
+            return { key: currency.id, value: currency.id, text: `${currency.region} - ${currency.iso_code}` }
+        });
+
+        const currencySelection = <Container>
+            <Header>Put money in your account</Header>
+            <Form.Group inline>
+                <Form.Field fluid >
+                    <Dropdown style={{ width: '12em' }} 
+                        label="Currency"
+                        name="currency"
+                        placeholder='Select Currency' 
+                        float
+                        search 
+                        selection 
+                        onChange={this.handleSelectChange}
+                        value={this.state.currency.id}
+                        options={allCurrencies} />
+                </Form.Field>
+
+                <Form.Field fluid >
+                    <Input style={{ width: "8em" }} 
+                        
+                        name="currencyAmount"
+                        type='number' 
+                        value={this.state.currency.amount} 
+                        placeholder='Amount' 
+                        onChange={this.handleEnterAmount}/>
+                </Form.Field>
+            </Form.Group>
+        </Container>;
+
         return(
             <Container style={{padding: '6em'}}> 
                 <div id="signup-sec" className='login-form'>
@@ -182,6 +233,7 @@ class AccountSignupForm extends Component {
                                             </Button.Group><br/>
                                             <b>Months</b>
                                         </Segment>
+                                        {currencySelection}
                                     </Segment>
                                     
                                     <Segment style={{ display: accountType === 'investor' ? 'block' : 'none' }}>
@@ -216,7 +268,8 @@ class AccountSignupForm extends Component {
                                                 value={region} 
                                                 placeholder='Enter Rigion' 
                                                 onChange={this.handleInputChange}/>
-                                    </Form.Field>
+                                        </Form.Field>
+                                        {currencySelection}
                                     </Segment>
 
                                     <Button color='gray' fluid size='large'>Creat Account</Button>
@@ -237,6 +290,7 @@ class AccountSignupForm extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        currencies: state.currencies,
         accountErrors: state.account.errors
     }
 }
@@ -245,4 +299,4 @@ const mapDispatchToProps = (dispatch) => {
   return { signupAccount: bindActionCreators(signupAccount, dispatch) }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountSignupForm)
+export default connect(mapStateToProps, mapDispatchToProps)(AccountSignupForm);
