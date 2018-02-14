@@ -50,7 +50,7 @@ class AccountCorporationShow extends Component{
             </Container>
         }else if(account.accountType === "corporation"){
             
-            accountContainer = <Container >
+            accountContainer = <Container>
                 <Switch> 
                     <Route exact path={`${url}`} component={AccountCorporationInfoTopSegment} />
                     <Route exact path={`${url}/Edit`} component={AccountCorporationTopSegment}/>
@@ -58,7 +58,7 @@ class AccountCorporationShow extends Component{
                 </Switch>
 
                 <Segment style={{ padding: '3em 0em' }} vertical>
-                    <Grid  container stackable Segmentided >
+                    <Grid container stackable>
                         <Grid.Row>
                             <Grid.Column width={4} >
                                 <Header as='h3' style={{ textAlign: 'center', padding: '0em 1em', fontSize: '2em' }}>Investors</Header> 

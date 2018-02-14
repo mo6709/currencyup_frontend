@@ -32,7 +32,7 @@ class AccountInvestorEditForm extends Component{
     }
 
     handleSelectChange = (event, data) => {
-        const newAccount = Object.assign({}, this.state.account);
+        let newAccount = Object.assign({}, this.state.account);
         newAccount.region = data.value
         this.setState({ account: newAccount });
     }
