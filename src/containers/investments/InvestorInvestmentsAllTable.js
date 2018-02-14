@@ -103,7 +103,7 @@ class InvestorInvestmentsAllTable extends Component{
     showModal = params => (event) => {
         const { account, investments } = this.props;
         const dimmer = params[0];
-        const investmentShow = investments.all.find(i => i.id == params[1]);
+        const investmentShow = investments.all.find(i => i.id === params[1]);
         const { id, currency_id, corporation_id, return_rate, investment_date } = investmentShow;
         const investmentCurrency = this.props.currencies.all.find(c => c.id === currency_id);
         const transaction = {
@@ -130,7 +130,7 @@ class InvestorInvestmentsAllTable extends Component{
             open: true,
         });
 
-    };
+    }
     
     open = () => this.setState({ open: true });
     close = () => {

@@ -49,6 +49,38 @@ export function generateInvestment(investmentInfo, routerHistory){
 				routerHistory.replace(`/account/corporations/${id}`);
 			}
 		})
-		.catch( error => { throw(error) })
+		.catch(error => { throw(error) })
 	}
 }
+
+export function deleteCorporationInvestment(investmentId){
+    return function(dispatch){
+    	dispatch({ type: 'DELETING_CORPORSTION_INVESTMENT' });
+
+    	const corporationId = localStorage.account_id;
+        const uri = baseURL + `corporations/${corporationId}/corporation_investments/${investmentId}`;
+    	return fetch(uri, { 
+    		method: 'DELETE',
+    		headers: { 
+    			'AUTHORIZATION': `${localStorage.token}`,
+                'Content-Type': 'application/json' 
+            }
+    	})
+    	.then(response => response.json())
+        .then(responseJSON => {
+        	const { status } = responseJSON;
+			if(status === "error" || status === 500){
+                dispatch({ type: 'DELETE_CORPORSTION_INVESTMENT_FAILUR', payload: responseJSON.messages || { error: "Somthing went wrong." } })
+			}else{
+				dispatch({ type: 'DELETE_CORPORSTION_INVESTMENT_SUCCESS', payload: responseJSON.data });
+				fetchInvestments();
+			}
+        })
+        .catch(error => { throw(error) })
+    }   
+}
+
+
+
+
+

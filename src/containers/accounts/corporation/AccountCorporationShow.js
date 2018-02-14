@@ -17,7 +17,7 @@ import {
 } from 'semantic-ui-react';
 
 import CorporationInvestorsTable from '../../../components/investors/CorporationInvestorsTable';
-import CorporationInvestmentsTable from '../../../components/investments/CorporationInvestmentsTable';
+import CorporationInvestmentsTable from '../../investments/CorporationInvestmentsTable';
 import CorporationTransactionsTable from '../../../components/transactions/CorporationTransactionsTable';
 import AccountCorporationInfoTopSegment from './AccountCorporationInfoTopSegment';
 import AccountCorporationTopSegment from './AccountCorporationTopSegment';
@@ -66,7 +66,7 @@ class AccountCorporationShow extends Component{
                             </Grid.Column>
                             <Grid.Column width={10} >
                                 <Header as='h3' style={{ textAlign: 'center', padding: '0em 1em', fontSize: '2em' }}>Active Investments</Header>
-                                <CorporationInvestmentsTable investmentsData={corporation_investments} currenciesData={this.props.currencies}/>
+                                <CorporationInvestmentsTable/>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
