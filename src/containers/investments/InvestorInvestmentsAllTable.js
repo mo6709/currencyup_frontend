@@ -149,7 +149,7 @@ class InvestorInvestmentsAllTable extends Component{
         this.setState({ transaction: newTransaction, moneyToInvest: newMoneyToInvest });
     }
 
-    handleInvestSubmition = (event) => { src="/faivicon."
+    handleInvestSubmition = (event) => {
         this.setState({ pickedTransaction: true });
         this.props.accountTransactionActions.persistInvestorTransaction(this.state.transaction)
     }
