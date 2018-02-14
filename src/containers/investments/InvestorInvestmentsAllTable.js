@@ -45,8 +45,9 @@ class InvestorInvestmentsAllTable extends Component{
         const { investments, account, corporations } = this.props;
         const { rowsPerPage } = this.state.tableData;
         let investmentsData = null;
+        const currencyInvestorId = account.info.currency_investors[0].currency_id;
         if(account.accountType === "investor"){
-            investmentsData = investments.all.filter(i => i.currency_id === account.info.currency_investors[0].id)
+            investmentsData = investments.all.filter(i => i.currency_id === currencyInvestorId)
         }else{
             investmentsData = investments.all
         }
