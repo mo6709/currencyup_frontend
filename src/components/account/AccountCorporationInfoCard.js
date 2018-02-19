@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Icon } from 'semantic-ui-react';
+import LikeButton from '../../containers/LikeButton';
 
 const AccountCorporationInfoCard = ({ accountInfo }) => {
     const { id, name, title, email, created_at, updated_at, regions_array, investment_period } = accountInfo.info;
@@ -41,6 +42,7 @@ const AccountCorporationInfoCard = ({ accountInfo }) => {
 						<Icon name='building' />
 						Corporation
 					</a>
+					<LikeButton />
 				</Card.Content>
 			</Card>
         </div>
