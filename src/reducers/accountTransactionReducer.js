@@ -14,7 +14,7 @@ export default function accountTransactionReducer(state = {
 		    return Object.assign({}, state, {   
 		    	loading: false, 
 		  		status: 'success', 
-		  		response: action.payload 
+		  		response: "success" 
 		    })
 		default:
 		  return state;
