@@ -135,7 +135,8 @@ class InvestorInvestmentsAllTable extends Component{
     
     open = () => this.setState({ open: true });
     close = () => {
-        this.setState({ open: false, pickedTransaction: false })
+        const funds = this.props.account.info.currency_investors[0].total_amount;
+        this.setState({ open: false, pickedTransaction: false, moneyToInvest: { total_amount: funds } })
     }
     
     handelIputChange = (event) => {
