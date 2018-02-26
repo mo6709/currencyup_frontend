@@ -17,7 +17,7 @@ import {
   Visibility,
 } from 'semantic-ui-react';
 
-import { logoutAccount } from '../actions/sessionActions';
+import { logout } from '../actions/sessionActions';
 
 
 class MenuBar extends Component {
@@ -26,9 +26,9 @@ class MenuBar extends Component {
     }
 
     logOut = (event) => {
-        const { logoutAccount, history } = this.props; 
+        const { logout, history } = this.props; 
         event.preventDefault();
-        logoutAccount(history);
+        logout(history);
     }
 
     render(){
@@ -85,7 +85,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logoutAccount: bindActionCreators(logoutAccount, dispatch) 
+    logout: bindActionCreators(logout, dispatch) 
   }
 }
 
