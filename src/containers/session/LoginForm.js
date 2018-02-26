@@ -36,7 +36,7 @@ class LoginForm extends Component{
         event.preventDefault();
         if(accountType !== '' && email !== '' && password !== ''){
             this.setState({ errors: '' });
-            this.props.sessionActions.loginAccount(this.state.credentials, this.props.history);
+            this.props.sessionActions.login(this.state.credentials, this.props.history);
         }else{
             this.setState({ errors: 'Please fill out the form currectly, and choose account type' })
         }

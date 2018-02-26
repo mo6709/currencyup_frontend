@@ -26,3 +26,4 @@ state = {
 7)redux localstorage middleware: redux hot loader, redux-localstorage-simple 
 8)implement sort algorthem for currencies data in currency.update_all
 9)fix all errors to cutch status === 500
+10)add currrencies yearly and weekly rates
