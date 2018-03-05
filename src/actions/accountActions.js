@@ -1,8 +1,49 @@
 import fetch from 'isomorphic-fetch';
 import { baseURL } from '../api/api';
+import api from '../api/api';
+import { setLocalStorage } from './storageSetup';
+import { ACCOUNT_SIGNUP_LOADING, ACCOUNT_SIGNUP_FAILUR, ACCOUNT_SIGNUP_SUCCESS, LOGIN_SUCCESS } from '../types';
+
+export const paramsFormating = params => { 
+    const { name, 
+            email, 
+            password, 
+            accountType, 
+            title, 
+            firstName, 
+            lastName, 
+            region, 
+            investment_period, 
+            currency } = params;
+
+    let accountInfo = null;
+    if(accountType === "corporation"){
+        accountInfo = { name, title , email, password, investment_period, currency, accountType }
+    }else if(accountType === "investor"){
+        accountInfo = { first_name: firstName, last_name: lastName, email, password, region, currency, accountType }
+    }
+    return { [accountType]: accountInfo };
+}
+
+export const setAccount = (type, response) => 
+    ({ type: "ACCOUNT_SETUP", payload: { 
+            accountType: type, 
+            info: response 
+        }
+    })
+
+export const signupLoading = () => 
+    ({ type: ACCOUNT_SIGNUP_LOADING })
+
+export const signupFailur = response => 
+    ({ type: ACCOUNT_SIGNUP_FAILUR, payload: response.messages || { error: 'Somthing went wrong.'} })
+
+export const loginSuccess = () =>
+    ({ type: LOGIN_SUCCESS })
 
 
-export function getAndSetAccountInfo(dispatchAction, type, routerHistory = null){
+//Actions
+export const getAndSetAccountInfo = (dispatchAction, type, routerHistory = null) => {
     const { account_id, token } = localStorage;
     const account_uri = baseURL + `${type}s/${account_id}`;
     fetch(account_uri, {
@@ -14,42 +55,24 @@ export function getAndSetAccountInfo(dispatchAction, type, routerHistory = null)
         dispatchAction(setAccount(type, responseJSON));
         !!routerHistory ? routerHistory.replace(`/account/${type}s/${account_id}`) : null
     })
-    .catch(error => { throw(error)} )           
+    .catch(error => { throw(error) })           
 }
 
-export function signupAccount(accountCredentials, routerHistory){
-    const { name, email, password, accountType, title, firstName, lastName, region, investment_period, currency } = accountCredentials;
-    return function(dispatch){
-        const dispatcher = dispatch;
-
-        let accountInfo = null;
-        if(accountType === "corporation"){
-            accountInfo = { name: name, title: title , email: email, password: password, investment_period: investment_period, currency: currency  }
-        }else if(accountType === "investor"){
-            accountInfo = { first_name: firstName, last_name: lastName, email: email, password: password, region: region, currency: currency }
+export const signupAccount = (accountCredentials, routerHistory) => dispatch => {
+    dispatch(signupLoading());
+    const params = paramsFormating(accountCredentials);
+    api.account.signup(params).then(response => {
+        const { status } = response;
+        if(status === "error" || status === 500){
+            dispatch(signupFailur(response))
+        }else{
+            setLocalStorage(response);
+            dispatch(loginSuccess());
+            getAndSetAccountInfo(dispatch, accountCredentials.accountType, routerHistory);
         }
-        var paramters = { [accountType]: accountInfo };
-
-        const uri = baseURL + `${accountType}_signup`;
-        return fetch(uri, { 
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(paramters) 
-        })
-        .then(response => response.json())
-        .then(responseJSON => {
-            const { status } = responseJSON;
-            if(status === "error" || status === 500){
-                dispatcher({ type: "ACCOUNT_SIGNUP_FAILUR", payload: responseJSON.messages || { error: 'Somthing went wrong.'} })
-            }else{
-                localStorage.setItem('token', responseJSON.token);
-                localStorage.setItem('account_id', responseJSON.account_id);
-                dispatcher({ type: "LOGIN_SUCCESS" });
-                getAndSetAccountInfo(dispatcher, accountType, routerHistory);
-            }
-        }).catch(error => { throw(error) })
-    }
+    }).catch(error => { throw(error) })
 }
+
 
 export function updateAndSetAccountInfo(accountInfo, routerHistory){
     const { type, id, email, name, title, firstName, lastName, region, regions_array , investment_period } = accountInfo;
@@ -58,18 +81,20 @@ export function updateAndSetAccountInfo(accountInfo, routerHistory){
         
         let paramters = null;
         if(type === "corporation"){
-            paramters = { email, name, title, regions_array, investment_period }
+            paramters = { id, email, name, title, regions_array, investment_period }
         }else if(type === "investor"){
-            paramters = { email: email, first_name: firstName, last_name: lastName, region: region }
+            paramters = { id, email, first_name: firstName, last_name: lastName, region }
         }
         var accountParamters = { [type]: paramters };
 
-        return fetch(uri, {
+        return fetch(baseURL + `${type}s/${id}`, {
             method: 'PUT',
             headers: { 'AUTHORIZATION': `${localStorage.token}`, 'Content-Type': 'application/json' },
             body: JSON.stringify(accountParamters)
         })
         .then(response => response.json())
+
+        api.account.update(accountInfo)
         .then(responseJSON => {
             const { status } = responseJSON;
             if(status === "error" || status === 500){
@@ -83,10 +108,3 @@ export function updateAndSetAccountInfo(accountInfo, routerHistory){
     }
 }
 
-function setAccount(type, response) {
-    return { type: "ACCOUNT_SETUP", payload: { 
-            accountType: type, 
-            info: response 
-        }
-    } 
-}

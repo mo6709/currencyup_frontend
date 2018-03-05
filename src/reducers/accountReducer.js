@@ -10,6 +10,8 @@ export default function accountReducer(state = {
                 info: action.payload.info,
                 errors: ''
             });
+        case "ACCOUNT_SIGNUP_LOADING":
+            return state;
         case "ACCOUNT_SIGNUP_FAILUR":
             return Object.assign({}, state, { errors: action.payload });
         case "ACCOUNT_UPDATE_FAILUR":

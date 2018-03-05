@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
-import { getAndSetAccountInfo } from './accountActions';
 import api from '../api/api';
+import { getAndSetAccountInfo } from './accountActions';
 import { LOGIN_LOADING, LOGIN_FAILUR, LOGIN_SUCCESS, LOGOUT_SUCCESS } from '../types';
 
 export const loginLoading = () => ({ type: LOGIN_LOADING })
@@ -9,14 +9,14 @@ export const loginFailur = account => ({ type: LOGIN_FAILUR, payload: account.me
 
 export const loginSuccess = () => ({ type: LOGIN_SUCCESS })
 
-export const cleanLocalStorage = (state = null) => { 
+export const cleanLocalStorage = state => { 
     ['token', 'account_id', state].forEach(item => {
         localStorage.removeItem(item)
     })
 }
 
-export const setLocalStorage = account => {
-    cleanLocalStorage();
+export const setLocalStorage = (account, state = null) => {
+    cleanLocalStorage(state);
     localStorage.setItem('token', account.token);
     localStorage.setItem('account_id', account.account_id);
 }
