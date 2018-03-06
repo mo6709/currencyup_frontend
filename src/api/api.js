@@ -6,18 +6,39 @@ const herokuBackendUrl = "https://currencyup-backend.herokuapp.com/api/v1/";
 export const baseURL = herokuBackendUrl;
 
 const headers = { 'Content-Type': 'application/json', 'AUTHORIZATION': `${localStorage.token}` };
+
 const jsonStrinify = content => JSON.stringify(content);
 
-//apis
+const uriCreator = (path, accounytInfo) => {
+	let uri = baseURL;
+	switch (path){
+		case 'login':
+		    uri += accounytInfo.accountType + '_' + path
+		    return;
+		case 'signup':
+		    uri += accounytInfo[Object.keys(accounytInfo)[0]].accountType + '_' + path
+		    return;
+		case 'update':
+            const type = !!accounytInfo['first_name'] ? 'investors' : 'corporations'
+		    uri += type +'/' + accounytInfo.id
+		    return;
+	}
+	return uri;
+}
+
+const auth = path => accounytInfo => {
+	return fetch(uriCreator(path, accounytInfo), {
+    method: 'POST',
+    headers: headers,
+    body: jsonStrinify(accounytInfo)  
+    }).then(response => response.json());
+}
+
+//api
 export default {
 	account: {
-		login: credentials => 
-			fetch(baseURL + `${credentials.accountType}_login`, {
-            method: 'POST',
-            headers: headers,
-            body: jsonStrinify(credentials)  
-            }).then(response => response.json()),
-
-        signup: {}
+		login: auth('login'),
+        signup: auth('signup'),
+        update: auth('update')
 	},
 };
