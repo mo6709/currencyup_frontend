@@ -1,27 +1,47 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Icon, Container, Header } from 'semantic-ui-react';
+import { Button, Table, Icon, Container, Header } from 'semantic-ui-react';
 import RateGraph from '../../components/currencies/RateGraph';
 import PaginatedTable from '../PaginatedTable';
 
 class CurrenciesTable extends Component{
-  constructor(props){
-    super(props);
+    constructor(props){
+        super(props);
 
-    this.state = {
-    	graphTime: 'month'
+        this.state = {
+        	graphTime: 'Monthly'
+        }
     }
-  }
 
-  render(){
-    
+    hadleClick = event => {
+        event.preventDefault();
+        this.setState({ graphTime: event.target.name })
+    }
+
+  render(){   
   	const tableRows = this.props.currencies.all.map(currency => {
-  		const data = currency.monthly_rates.map((rate, index) => {
+        let rates;
+        switch(this.state.graphTime){
+            case 'Weekly':
+                rates = currency.monthly_rates.slice(0, 7);
+                break;
+            case 'Monthly':
+                rates = currency.monthly_rates;
+                break;
+            case 'Yearly':
+                rates = currency.yearlly_rates;
+                break;
+            default:
+                rates = currency.monthlly_rates;
+                break;
+        }
+
+  		const data = rates.map((rate, index) => {
         return { x: index, y: rate }
   		})
         
-        const startVal = currency.monthly_rates[currency.monthly_rates.length -1];
-        const currentVal = currency.monthly_rates[0];
+        const startVal = rates[rates.length -1];
+        const currentVal = rates[0];
         const wholeValue = 100;
         let currentRate = (currentVal / startVal) * wholeValue;
         let finalRate = currentRate - (currentRate * 2);
@@ -57,8 +77,12 @@ class CurrenciesTable extends Component{
 
     return (
     	<Container>
-    	    <Header as='h3'>Monthly Rate</Header>
-		      <PaginatedTable headersData={tableHeaders} rowsData={tableRows} />
+            <Button name="Weekly" onClick={this.hadleClick}>Weekly</Button> 
+            <Button name="Monthly" onClick={this.hadleClick}>Monthly</Button> 
+            <Button name="Yearly" onClick={this.hadleClick}>Yearly</Button>
+
+    	    <Header as='h3'>{this.state.graphTime} Rate</Header>
+		    <PaginatedTable headersData={tableHeaders} rowsData={tableRows} />
 		</Container>   
     )
   }
