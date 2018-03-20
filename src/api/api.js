@@ -3,34 +3,34 @@ import fetch from 'isomorphic-fetch';
 const localBackendURL = "http://localhost:3000/api/v1/";
 const herokuBackendUrl = "https://currencyup-backend.herokuapp.com/api/v1/";
 // process.env.NODE_ENV === "development" ?  localBackendURL : herokuBackendUrl;
-export const baseURL = herokuBackendUrl;
+export const baseURL = localBackendURL;
 
 const headers = { 'Content-Type': 'application/json', 'AUTHORIZATION': `${localStorage.token}` };
 
 const jsonStrinify = content => JSON.stringify(content);
 
-const uriCreator = (path, accounytInfo) => {
+const uriCreator = (path, accountInfo) => {
 	let uri = baseURL;
 	switch (path){
 		case 'login':
-		    uri += accounytInfo.accountType + '_' + path
-		    return;
+		    uri += accountInfo.accountType + '_' + path;
+		    break;
 		case 'signup':
-		    uri += accounytInfo[Object.keys(accounytInfo)[0]].accountType + '_' + path
-		    return;
+		    uri += accountInfo[Object.keys(accountInfo)[0]].accountType + '_' + path;
+		    break;
 		case 'update':
-            const type = !!accounytInfo['first_name'] ? 'investors' : 'corporations'
-		    uri += type +'/' + accounytInfo.id
-		    return;
+            const type = !!accountInfo['first_name'] ? 'investors' : 'corporations'
+		    uri += type +'/' + accountInfo.id;
+		    break;
 	}
 	return uri;
 }
 
-const auth = path => accounytInfo => {
-	return fetch(uriCreator(path, accounytInfo), {
+const auth = path => accountInfo => {
+	return fetch(uriCreator(path, accountInfo), {
     method: 'POST',
     headers: headers,
-    body: jsonStrinify(accounytInfo)  
+    body: jsonStrinify(accountInfo)  
     }).then(response => response.json());
 }
 
