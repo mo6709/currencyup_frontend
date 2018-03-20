@@ -17,12 +17,13 @@ class CorporationInvestmentsTable extends Component{
     }
     
     render(){
-        const { corporation_investments, currency_corporations } = this.props.account.info;
+        const { corporation_investments } = this.props.account.info;
+        const { currencies } = this.props;
 
     	const tableRows = corporation_investments.map((investment) => {
 			if(investment.active){
 				const { region, currency_id, return_rate, investment_date, created_at } = investment;
-				const currency = currency_corporations.find(c => c.id === currency_id)
+				const currency = currencies.find(c => c.id === currency_id)
 				let currencyName = "";
 				if(currency){
 					currencyName = currency.name;
@@ -63,7 +64,8 @@ class CorporationInvestmentsTable extends Component{
 
 const mapStateToProps = (state) => {
     return {
-        account: state.account
+        account: state.account,
+        currencies: state.currencies.all
     }
 }
 
