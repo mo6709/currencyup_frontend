@@ -52,7 +52,18 @@ export function signupAccount(accountCredentials, routerHistory){
 }
 
 export function updateAndSetAccountInfo(accountInfo, routerHistory){
-    const { type, id, email, name, title, firstName, lastName, region, regions_array , investment_period } = accountInfo;
+    const { type, 
+            id, 
+            email, 
+            name, 
+            title, 
+            firstName, 
+            lastName, 
+            region, 
+            regions_array, 
+            investment_period,
+            avatar } = accountInfo;
+
     return function(dispatch){
         const uri = baseURL + `${type}s/${id}`;
         
@@ -60,14 +71,17 @@ export function updateAndSetAccountInfo(accountInfo, routerHistory){
         if(type === "corporation"){
             paramters = { email, name, title, regions_array, investment_period }
         }else if(type === "investor"){
-            paramters = { email: email, first_name: firstName, last_name: lastName, region: region }
+            paramters = { email: email, first_name: firstName, last_name: lastName, region: region, avatar: avatar }
         }
         var accountParamters = { [type]: paramters };
-
+        debugger;
         return fetch(uri, {
             method: 'PUT',
-            headers: { 'AUTHORIZATION': `${localStorage.token}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify(accountParamters)
+            headers: { 
+                'AUTHORIZATION': `${localStorage.token}`, 
+                'Content-Type': 'application/json, multipart/form-data' 
+            },
+            body: JSON.stringify(accountParamters) //buildFormData(accountParamters);
         })
         .then(response => response.json())
         .then(responseJSON => {
@@ -81,6 +95,15 @@ export function updateAndSetAccountInfo(accountInfo, routerHistory){
         })
         .catch( error => { throw(error) })
     }
+}
+
+function buildFormData(data) {
+    let formData = new FormData();
+    let accountTpe = !!data['investor'] ? 'investor' : 'corporation';
+    for(key in data[accountTpe]){
+        formData.appand(data[accountTpe][key], data[key])
+    }
+    return formData
 }
 
 function setAccount(type, response) {

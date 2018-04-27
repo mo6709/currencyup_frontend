@@ -3,7 +3,7 @@ import fetch from 'isomorphic-fetch';
 const localBackendURL = "http://localhost:3000/api/v1/";
 const herokuBackendUrl = "https://currencyup-backend.herokuapp.com/api/v1/";
 // process.env.NODE_ENV === "development" ?  localBackendURL : herokuBackendUrl;
-export const baseURL = herokuBackendUrl;
+export const baseURL = localBackendURL;
 
 const headers = { 'Content-Type': 'application/json', 'AUTHORIZATION': `${localStorage.token}` };
 

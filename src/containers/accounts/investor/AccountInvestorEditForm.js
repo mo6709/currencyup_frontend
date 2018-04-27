@@ -10,7 +10,7 @@ class AccountInvestorEditForm extends Component{
     constructor(props){
     	super(props);
         
-        const { id, email, first_name, last_name, region } = this.props.account.info;
+        const { id, email, first_name, last_name, region, avatar } = this.props.account.info;
 
     	this.state = {
             account: {
@@ -19,7 +19,8 @@ class AccountInvestorEditForm extends Component{
             	email: email,
             	firstName: first_name,
 	    		lastName: last_name,
-	    		region: region 
+	    		region: region,
+                avatar: avatar
 	    	}	
     	}
     }
@@ -35,13 +36,20 @@ class AccountInvestorEditForm extends Component{
         let newAccount = Object.assign({}, this.state.account);
         newAccount.region = data.value
         this.setState({ account: newAccount });
+    } 
+
+    handleAvatarChange = (event) => {
+        event.preventDefault();
+        let file = event.target.files[0]
+        let newAccount = Object.assign({}, this.state.account);
+        newAccount.avatar = file;
+        this.setState({ account: newAccount }, console.log(this.state))
     }
 
     handleUpdateSubmit = (event) => {
     	event.preventDefault();
     	this.props.updateAccount(this.state.account, this.props.history)
     }
-
 
     render(){
     	const { email, firstName, lastName, region } = this.state.account;
@@ -101,6 +109,18 @@ class AccountInvestorEditForm extends Component{
                             value={region.toLocaleLowerCase()}
                             options={regions} />
                     </Form.Field>
+
+                    <Form.Field fluid>                            
+                        <p style={{ float: 'left', margin: '1em', size: '50em' }}><Icon name="world"/><b>Avatar</b></p>
+                        <Input
+                            name="avatar" 
+                            icon='user circle outline' 
+                            iconPosition='left' 
+                            accept="image/*"
+                            type='file'
+                            onChange={this.handleAvatarChange}/>
+                    </Form.Field>
+
                     <Button onClick={this.handleUpdateSubmit}><Icon name="send outline"/>Update Info</Button>
                 </Form>
             </Segment>

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Container, Card, Icon } from 'semantic-ui-react';
+import { Image, Container, Card, Icon } from 'semantic-ui-react';
 
 const AccountInvestorInfoCard = ({ accountInfo }) => {
-    const { id, email, first_name, last_name, region, created_at, updated_at } = accountInfo.info;
+    const { id, email, first_name, last_name, region, avatar, created_at, updated_at } = accountInfo.info;
     return(
     	<div className="DottedBox">
 	        <Card  style={{ margin: 10 }}>
+	            <Image src={avatar.url} />
 				<Card.Content>
 				  <Card.Header>
 				    {first_name} {last_name}
